@@ -12,4 +12,6 @@ module com.kxw959.programmingapplication {
 
     opens com.kxw959.programmingapplication to javafx.fxml;
     exports com.kxw959.programmingapplication;
+    exports com.kxw959.programmingapplication.controllers;
+    opens com.kxw959.programmingapplication.controllers to javafx.fxml;
 }
