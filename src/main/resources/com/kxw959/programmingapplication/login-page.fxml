@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kxw959.programmingapplication.controllers.LoginController">
    <children>
       <GridPane layoutX="200.0" layoutY="125.0">
         <columnConstraints>
@@ -30,7 +30,7 @@
                         <Font name="Arial" size="12.0" />
                      </font>
                   </Text>
-                  <TextField alignment="BOTTOM_CENTER" layoutX="26.0" layoutY="42.0" />
+                  <TextField alignment="BOTTOM_CENTER" layoutX="26.0" layoutY="42.0" fx:id="usernameField"/>
                </children>
             </Pane>
             <Pane prefHeight="83.0" prefWidth="200.0" GridPane.rowIndex="1">
@@ -43,7 +43,7 @@
                   <TextField alignment="BOTTOM_CENTER" layoutX="26.0" layoutY="42.0" />
                </children>
             </Pane>
-            <Button mnemonicParsing="false" text="Login" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" text="Login" GridPane.halignment="CENTER" GridPane.rowIndex="2" onAction="#onClickLogin"/>
          </children>
       </GridPane>
       <Text layoutX="249.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login">

@@ -1,4 +1,4 @@
-package com.kxw959.programmingapplication;
+package com.kxw959.programmingapplication.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

@@ -9,7 +9,8 @@
 <?import javafx.scene.text.Text?>
 
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.control.Label?>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kxw959.programmingapplication.controllers.MainMenuController">
    <children>
       <Button layoutX="14.0" layoutY="361.0" mnemonicParsing="false" text="Options" />
       <Text layoutX="24.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Java Application Name">
@@ -28,10 +29,10 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" text="Login as Teacher" GridPane.halignment="CENTER" />
-            <Button mnemonicParsing="false" text="Login as Student" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-            <Button mnemonicParsing="false" text="Register as Teacher" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-            <Button mnemonicParsing="false" text="Exit" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+            <Button mnemonicParsing="false" text="Login as Teacher" GridPane.halignment="CENTER" onAction="#onClickTeacherLogin"/>
+            <Button mnemonicParsing="false" text="Login as Student" GridPane.halignment="CENTER" GridPane.rowIndex="1" onAction="#onClickStudentLogin"/>
+            <Button mnemonicParsing="false" text="Register as Teacher" GridPane.halignment="CENTER" GridPane.rowIndex="2" onAction="#onClickRegisterTeacher"/>
+            <Button mnemonicParsing="false" text="Exit" GridPane.halignment="CENTER" GridPane.rowIndex="3" onAction="#onClickExit"/>
          </children>
       </GridPane>
    </children>
