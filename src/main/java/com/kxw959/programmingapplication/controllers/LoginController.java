@@ -5,11 +5,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextInputControl;
 
 public class LoginController {
-    @FXML
-    TextInputControl usernameField;
 
     @FXML
+    TextInputControl usernameField;
+    @FXML
     void onClickLogin(){
+        //get username from database
+        //if it matches username in the textfield then let them in
         if (usernameField.getText().equals("student")){
             SceneManager.switchScene("student-homepage.fxml");
         }
