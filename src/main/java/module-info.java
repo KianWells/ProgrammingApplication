@@ -3,6 +3,11 @@ module com.kxw959.programmingapplication {
     requires javafx.fxml;
     requires javafx.web;
 
+    requires aws.java.sdk.dynamodb;
+    requires aws.java.sdk.core;
+    requires aws.java.sdk.kms;
+    requires aws.java.sdk.s3;
+
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
     requires validatorfx;
