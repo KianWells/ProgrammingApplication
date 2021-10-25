@@ -1,0 +1,24 @@
+package com.kxw959.ServerManager.entity;
+
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@DynamoDBTable(tableName = "LoginTable")
+public class User {
+
+    @DynamoDBHashKey
+    private String username;
+
+    @DynamoDBAttribute
+    private String passHash;
+
+    @DynamoDBAttribute
+    private boolean teacher;
+}
