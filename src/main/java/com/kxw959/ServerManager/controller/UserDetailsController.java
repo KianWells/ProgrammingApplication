@@ -12,6 +12,11 @@ public class UserDetailsController {
     @Autowired
     UserDetailsRepo userDetailsRepo;
 
+    @GetMapping("/")
+    public String health() {
+        return "Everything OK";
+    }
+
     @PostMapping("/user")
     public User saveUser(@RequestBody User user){
         return userDetailsRepo.save(user);
