@@ -4,33 +4,33 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
+import com.kxw959.ServerManager.entity.Student;
 import com.kxw959.ServerManager.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserDetailsRepo {
-
+public class StudentDetailsRepo {
     @Autowired
     DynamoDBMapper dynamoDBMapper;
 
 
-    public User save(User user){
-        dynamoDBMapper.save(user);
-        return user;
+    public Student save(Student student){
+        dynamoDBMapper.save(student);
+        return student;
     }
 
-    public User getUserByUsername(String username){
-        return dynamoDBMapper.load(User.class, username);
+    public Student getStudentByUsername(String username){
+        return dynamoDBMapper.load(Student.class, username);
     }
 
     public String delete(String username){
-        dynamoDBMapper.delete(getUserByUsername(username));
-        return "User deleted";
+        dynamoDBMapper.delete(getStudentByUsername(username));
+        return "Student deleted";
     }
 
-    public String update(String username, User user){
-        dynamoDBMapper.save(user,
+    public String update(String username, Student student){
+        dynamoDBMapper.save(student,
                 new DynamoDBSaveExpression()
                         .withExpectedEntry("username",
                                 new ExpectedAttributeValue(

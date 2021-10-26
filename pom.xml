@@ -8,6 +8,7 @@
 		<version>2.5.6</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+	<packaging>war</packaging>
 	<groupId>com.kxw959</groupId>
 	<artifactId>ServerManager</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
