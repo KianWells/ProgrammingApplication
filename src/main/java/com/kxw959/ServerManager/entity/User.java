@@ -17,7 +17,7 @@ public class User {
     private String username;
 
     @DynamoDBAttribute
-    private String passHash;
+    private String password;
 
     @DynamoDBAttribute
     private boolean teacher;
