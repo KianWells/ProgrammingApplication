@@ -1,5 +1,6 @@
 package com.kxw959.programmingapplication.controllers;
 
+import com.kxw959.programmingapplication.User;
 import com.kxw959.programmingapplication.network.NetworkManager;
 import com.kxw959.programmingapplication.sceneManager.SceneManager;
 import javafx.fxml.FXML;
@@ -7,6 +8,7 @@ import javafx.scene.control.TextInputControl;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
+import java.net.URL;
 
 public class LoginController {
 
@@ -35,6 +37,9 @@ public class LoginController {
                 break;
             case 2:
                 SceneManager.switchScene("teacher-homepage.fxml");
+                User.isTeacher = true;
+                User.username = usernameField.getText();
+                User.url = new URL(NetworkManager.TEACHER+usernameField.getText());
                 break;
         }
     }

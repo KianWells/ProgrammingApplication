@@ -13,4 +13,10 @@ public class TeacherHomepageController {
     void onClickProgress(){
         SceneManager.switchScene("see-progress.fxml");
     }
+
+    @FXML
+    void onClickRegister(){
+        SceneManager.switchScene("register-students.fxml");
+    }
+
 }
