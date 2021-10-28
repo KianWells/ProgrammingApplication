@@ -40,7 +40,7 @@
                         <Font name="Arial" size="12.0" />
                      </font>
                   </Text>
-                  <TextField alignment="BOTTOM_CENTER" layoutX="26.0" layoutY="42.0" />
+                  <TextField alignment="BOTTOM_CENTER" layoutX="26.0" layoutY="42.0" fx:id="passwordField"/>
                </children>
             </Pane>
             <Button mnemonicParsing="false" text="Login" GridPane.halignment="CENTER" GridPane.rowIndex="2" onAction="#onClickLogin"/>
@@ -51,5 +51,6 @@
             <Font name="Arial" size="42.0" />
          </font>
       </Text>
+       <Text layoutX="249.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" fx:id="responseText" />
    </children>
 </AnchorPane>

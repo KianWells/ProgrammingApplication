@@ -1,22 +1,41 @@
 package com.kxw959.programmingapplication.controllers;
 
+import com.kxw959.programmingapplication.network.NetworkManager;
 import com.kxw959.programmingapplication.sceneManager.SceneManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextInputControl;
+import javafx.scene.text.Text;
+
+import java.io.IOException;
 
 public class LoginController {
 
     @FXML
     TextInputControl usernameField;
+
     @FXML
-    void onClickLogin(){
+    TextInputControl passwordField;
+
+    @FXML
+    Text responseText;
+
+    @FXML
+    void onClickLogin() throws IOException {
         //get username from database
         //if it matches username in the textfield then let them in
-        if (usernameField.getText().equals("student")){
-            SceneManager.switchScene("student-homepage.fxml");
-        }
-        if(usernameField.getText().equals("teacher")){
-            SceneManager.switchScene("teacher-homepage.fxml");
+        switch(NetworkManager.checkLogin(usernameField.getText(), passwordField.getText())){
+            case -1:
+                SceneManager.switchScene("register-page.fxml");
+                break;
+            case 0:
+                responseText.setText("Password Incorrect");
+                break;
+            case 1:
+                SceneManager.switchScene("student-homepage.fxml");
+                break;
+            case 2:
+                SceneManager.switchScene("teacher-homepage.fxml");
+                break;
         }
     }
 }
