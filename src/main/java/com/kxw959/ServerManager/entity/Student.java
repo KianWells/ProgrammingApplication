@@ -24,5 +24,8 @@ public class Student {
     private boolean teacher = false;
 
     @DynamoDBAttribute
+    private String className;
+
+    @DynamoDBAttribute
     private List<StudentTask> tasks;
 }
