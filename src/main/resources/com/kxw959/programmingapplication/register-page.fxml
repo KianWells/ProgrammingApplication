@@ -30,7 +30,7 @@
                         <Font name="Arial" size="12.0" />
                      </font>
                   </Text>
-                  <TextField alignment="BOTTOM_CENTER" layoutX="26.0" layoutY="42.0" />
+                  <TextField alignment="BOTTOM_CENTER" layoutX="26.0" layoutY="42.0" fx:id="username"/>
                </children>
             </Pane>
             <Pane prefHeight="83.0" prefWidth="200.0" GridPane.rowIndex="2">
@@ -40,7 +40,7 @@
                         <Font name="Arial" size="12.0" />
                      </font>
                   </Text>
-                  <TextField alignment="BOTTOM_CENTER" layoutX="26.0" layoutY="42.0" />
+                  <TextField alignment="BOTTOM_CENTER" layoutX="26.0" layoutY="42.0" fx:id="password"/>
                </children>
             </Pane>
             <Button mnemonicParsing="false" text="Register" GridPane.halignment="CENTER" GridPane.rowIndex="3" onAction="#onClickRegister"/>
@@ -51,7 +51,7 @@
                         <Font name="Arial" size="12.0" />
                      </font>
                   </Text>
-                  <TextField alignment="BOTTOM_CENTER" layoutX="26.0" layoutY="42.0" />
+                  <TextField alignment="BOTTOM_CENTER" layoutX="26.0" layoutY="42.0" fx:id = "email"/>
                </children>
             </Pane>
          </children>
