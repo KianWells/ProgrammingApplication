@@ -21,6 +21,9 @@ public class Student {
     private String password;
 
     @DynamoDBAttribute
+    private String name;
+
+    @DynamoDBAttribute
     private boolean teacher = false;
 
     @DynamoDBAttribute
