@@ -5,6 +5,8 @@ import com.kxw959.ServerManager.repository.StudentDetailsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class StudentController {
     @Autowired
@@ -28,5 +30,10 @@ public class StudentController {
     @PutMapping("/student/{username}")
     public String updateStudent(@PathVariable("username") String username, @RequestBody Student student){
         return studentDetailsRepo.update(username, student);
+    }
+
+    @GetMapping("/student/class/{className}")
+    public List<Student> getStudentsByClass(@PathVariable("className") String className){
+        return studentDetailsRepo.getUsersByClass(className);
     }
 }

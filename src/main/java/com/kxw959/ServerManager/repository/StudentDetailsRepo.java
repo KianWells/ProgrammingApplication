@@ -2,12 +2,17 @@ package com.kxw959.ServerManager.repository;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.kxw959.ServerManager.entity.Student;
 import com.kxw959.ServerManager.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Repository
 public class StudentDetailsRepo {
@@ -37,5 +42,16 @@ public class StudentDetailsRepo {
                                         new AttributeValue().withS(username)
                                 )));
         return username;
+    }
+
+    public List<Student> getUsersByClass(String className){
+        Map<String, AttributeValue> eav = new HashMap<>();
+        eav.put(":className", new AttributeValue().withS(className));
+
+        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression()
+                .withFilterExpression("className = :className")
+                .withExpressionAttributeValues(eav);
+        List<Student> students = dynamoDBMapper.scan(Student.class, scanExpression);
+        return students;
     }
 }
