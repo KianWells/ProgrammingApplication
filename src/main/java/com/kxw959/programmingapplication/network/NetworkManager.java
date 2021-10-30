@@ -4,6 +4,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
+import com.kxw959.programmingapplication.utils.JSONUtil;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import java.io.*;
@@ -11,10 +13,7 @@ import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
+import java.util.*;
 
 public class NetworkManager {
     public final String HOST = "http://servermanagerclassic-env.eba-mri23ppg.eu-west-2.elasticbeanstalk.com/";
@@ -112,6 +111,7 @@ public class NetworkManager {
         user.addProperty("username", username);
         user.addProperty("password", password);
         user.addProperty("className", className);
+        user.addProperty("name", name);
         assert con != null;
         postJSON(con, user);
         System.out.println("DONE");
@@ -172,6 +172,22 @@ public class NetworkManager {
         }
     }
 
+    public static List<JsonObject> getStudentsInClass(String className) throws IOException {
+        HttpURLConnection con = setConnection(new URL(STUDENT+"class/"+className), "GET");
+        try{
+            assert con != null;
+            InputStream is = con.getInputStream();
+            JSONUtil jsonUtil = new JSONUtil();
+            List<JsonObject> details = jsonUtil.getStudents(is);
+            System.out.println(details);
+            return details;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static JsonElement getJSONElementFromURL(URL url, String field) throws IOException {
         return Objects.requireNonNull(getJSONObjectFromURL(url)).get(field);
     }
@@ -182,6 +198,7 @@ public class NetworkManager {
         //use PUT to update it
         URL url = new URL(TEACHER+username);
         JsonObject originalTeacher = getJSONObjectFromURL(url);
+        System.out.println(originalTeacher);
         JsonArray newClasses = new JsonArray();
         try{
             JsonArray arr = originalTeacher.get("classes").getAsJsonArray();
