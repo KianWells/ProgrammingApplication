@@ -1,7 +1,9 @@
 package com.kxw959.programmingapplication.user;
 
+import java.net.URL;
+
 public class User {
-    public String username;
-    public boolean teacher;
-    public String className;
+    public static boolean isTeacher;
+    public static String username;
+    public static URL url;
 }

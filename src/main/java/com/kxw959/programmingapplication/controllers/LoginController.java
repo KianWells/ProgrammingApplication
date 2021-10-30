@@ -1,6 +1,6 @@
 package com.kxw959.programmingapplication.controllers;
 
-import com.kxw959.programmingapplication.User;
+import com.kxw959.programmingapplication.user.User;
 import com.kxw959.programmingapplication.network.NetworkManager;
 import com.kxw959.programmingapplication.sceneManager.SceneManager;
 import javafx.fxml.FXML;

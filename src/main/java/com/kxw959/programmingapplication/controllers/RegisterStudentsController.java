@@ -2,8 +2,10 @@ package com.kxw959.programmingapplication.controllers;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.kxw959.programmingapplication.User;
+import com.kxw959.programmingapplication.user.User;
 import com.kxw959.programmingapplication.network.NetworkManager;
+import com.kxw959.programmingapplication.sceneManager.SceneManager;
+import com.kxw959.programmingapplication.utils.JSONUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,11 +13,19 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,7 +45,7 @@ public class RegisterStudentsController {
     @FXML
     Button registerIndividual;
 
-    String selectedClass;
+    String selectedClass = "";
 
     @FXML
     public void initialize() throws IOException {
@@ -45,6 +55,7 @@ public class RegisterStudentsController {
             for (int i = 0; i<jsonArray.size(); i++){
                 classList.getItems().add(jsonArray.get(i).getAsString());
             }
+            selectedClass = classList.getItems().get(0);
         }
         catch(Exception e){
             e.printStackTrace();
@@ -58,20 +69,29 @@ public class RegisterStudentsController {
         }
     }
     @FXML
-    public void onClickCSV(ActionEvent actionEvent) throws IOException {
-        JsonElement classesAsJSON = NetworkManager.getJSONElementFromURL(new URL(NetworkManager.TEACHER + User.username), "classes");
-        try {
-            JsonArray classesAsJArr = classesAsJSON.getAsJsonArray();
-            for(int i = 0; i < classesAsJArr.size(); i++){
-                System.out.println(classesAsJArr.get(i).getAsString());
+    public void onClickCSV(ActionEvent actionEvent) throws IOException, NoSuchAlgorithmException {
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Choose a .csv File");
+        File file = fc.showOpenDialog(SceneManager.stage);
+        if(file != null){
+            List<List<String>> records = new ArrayList<>();
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] values = line.split(",");
+                    records.add(Arrays.asList(values));
+                }
             }
-        }
-        catch(IllegalStateException e){
-            System.out.println("No Classes");
+            System.out.println(records);
+            for(List<String> person: records){
+                NetworkManager.registerStudent(person.get(0), person.get(1)==null ? selectedClass : person.get(1));
+            }
         }
     }
     @FXML
     public void onClickPDF(ActionEvent actionEvent) {
+        //Get Students names, usernames, password, class
+        //put it into a table on a pdf
     }
     @FXML
     public void onClickAddClass(ActionEvent actionEvent) throws IOException {

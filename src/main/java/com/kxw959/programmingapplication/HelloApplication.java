@@ -1,5 +1,6 @@
 package com.kxw959.programmingapplication;
 
+import com.kxw959.programmingapplication.network.NetworkManager;
 import com.kxw959.programmingapplication.sceneManager.SceneManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +19,7 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
         stage.show();
         SceneManager.initialise(stage, scene);
+        NetworkManager.getStudentsInClass("Class_B");
     }
 
     public static void main(String[] args) {

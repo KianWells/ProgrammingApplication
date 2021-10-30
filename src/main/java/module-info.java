@@ -12,6 +12,7 @@ module com.kxw959.programmingapplication {
     requires org.json;
     requires com.google.gson;
     requires org.apache.commons.lang3;
+    requires commons.csv;
 
     opens com.kxw959.programmingapplication to javafx.fxml;
     exports com.kxw959.programmingapplication;
@@ -19,4 +20,6 @@ module com.kxw959.programmingapplication {
     opens com.kxw959.programmingapplication.controllers to javafx.fxml;
     exports com.kxw959.programmingapplication.network;
     opens com.kxw959.programmingapplication.network to javafx.fxml;
+    exports com.kxw959.programmingapplication.user;
+    opens com.kxw959.programmingapplication.user to javafx.fxml;
 }
