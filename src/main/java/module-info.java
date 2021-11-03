@@ -13,6 +13,8 @@ module com.kxw959.programmingapplication {
     requires com.google.gson;
     requires org.apache.commons.lang3;
     requires commons.csv;
+    requires org.apache.pdfbox;
+    requires itextpdf;
 
     opens com.kxw959.programmingapplication to javafx.fxml;
     exports com.kxw959.programmingapplication;
