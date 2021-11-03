@@ -6,12 +6,10 @@ import com.kxw959.programmingapplication.user.User;
 import com.kxw959.programmingapplication.network.NetworkManager;
 import com.kxw959.programmingapplication.sceneManager.SceneManager;
 import com.kxw959.programmingapplication.utils.JSONUtil;
+import com.kxw959.programmingapplication.utils.PDFUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputControl;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import org.apache.commons.csv.CSVFormat;
@@ -30,6 +28,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class RegisterStudentsController {
+    @FXML
+    Label errorMsg;
     @FXML
     ListView<String> classList;
     @FXML
@@ -89,9 +89,16 @@ public class RegisterStudentsController {
         }
     }
     @FXML
-    public void onClickPDF(ActionEvent actionEvent) {
-        //Get Students names, usernames, password, class
-        //put it into a table on a pdf
+    public void onClickPDF(ActionEvent actionEvent) throws IOException {
+        PDFUtil pdfUtil = new PDFUtil();
+        if(Objects.equals(selectedClass, "")){
+            errorMsg.setText("Select a Class");
+        }
+        else{
+            String fileName = selectedClass+" Login Details.pdf";
+            pdfUtil.makePDFFromListJSON(NetworkManager.getStudentsInClass(selectedClass), fileName);
+            errorMsg.setText("");
+        }
     }
     @FXML
     public void onClickAddClass(ActionEvent actionEvent) throws IOException {

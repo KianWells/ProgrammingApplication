@@ -13,11 +13,12 @@
       <Label layoutX="14.0" layoutY="22.0" text="Student Name" />
       <Label layoutX="14.0" layoutY="135.0" prefHeight="116.0" prefWidth="278.0" text="Multiple students can be registered at once by uploading a .csv file containing all of the students' names seperated by commas." wrapText="true" />
       <Button fx:id="registerCSV" layoutX="14.0" layoutY="239.0" mnemonicParsing="false" onAction="#onClickCSV" prefHeight="25.0" prefWidth="189.0" text="Register Students by .csv" />
-      <Button fx:id="getPDF" layoutX="14.0" layoutY="353.0" mnemonicParsing="false" onAction="#onClickPDF" prefHeight="25.0" prefWidth="189.0" text="Get .pdf of Student Login Details" />
+      <Button fx:id="getPDF" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#onClickPDF" prefHeight="25.0" prefWidth="189.0" text="Get .pdf of Student Login Details" />
       <Label layoutX="14.0" layoutY="275.0" prefHeight="71.0" prefWidth="278.0" text="Select the class you want and click the button below to download a .pdf file with students' login details." wrapText="true" />
       <Button fx:id="addClass" layoutX="498.0" layoutY="354.0" mnemonicParsing="false" onAction="#onClickAddClass" text="Add New Class" />
       <TextField fx:id="className" layoutX="341.0" layoutY="354.0" />
       <Label layoutX="342.0" layoutY="329.0" text="Class Name" />
       <ListView fx:id="classList" layoutX="308.0" layoutY="14.0" onMouseClicked="#onClickItem" prefHeight="307.0" prefWidth="278.0" />
+      <Label layoutX="14.0" layoutY="329.0" prefHeight="17.0" prefWidth="189.0" textFill="RED" fx:id="errorMsg"/>
    </children>
 </AnchorPane>

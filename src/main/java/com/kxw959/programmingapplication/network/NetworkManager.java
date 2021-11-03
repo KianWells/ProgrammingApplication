@@ -173,6 +173,7 @@ public class NetworkManager {
     }
 
     public static List<JsonObject> getStudentsInClass(String className) throws IOException {
+        className = className.replaceAll(" ", "%20");
         HttpURLConnection con = setConnection(new URL(STUDENT+"class/"+className), "GET");
         try{
             assert con != null;
@@ -184,7 +185,7 @@ public class NetworkManager {
         }
         catch(Exception e){
             e.printStackTrace();
-            return null;
+            return new ArrayList<>();
         }
     }
 
