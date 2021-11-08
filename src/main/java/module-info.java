@@ -15,6 +15,9 @@ module com.kxw959.programmingapplication {
     requires commons.csv;
     requires org.apache.pdfbox;
     requires itextpdf;
+    requires org.apache.httpcomponents.httpclient;
+    requires org.apache.httpcomponents.httpcore;
+    requires org.apache.httpcomponents.httpmime;
 
     opens com.kxw959.programmingapplication to javafx.fxml;
     exports com.kxw959.programmingapplication;
