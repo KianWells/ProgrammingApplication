@@ -24,4 +24,6 @@ module com.kxw959.programmingapplication {
     opens com.kxw959.programmingapplication.network to javafx.fxml;
     exports com.kxw959.programmingapplication.user;
     opens com.kxw959.programmingapplication.user to javafx.fxml;
+    exports com.kxw959.programmingapplication.utils;
+    opens com.kxw959.programmingapplication.utils to javafx.fxml;
 }
