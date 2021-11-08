@@ -3,49 +3,137 @@ package com.kxw959.programmingapplication.controllers;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.kxw959.programmingapplication.network.NetworkManager;
+import com.kxw959.programmingapplication.sceneManager.SceneManager;
 import com.kxw959.programmingapplication.user.User;
 import com.kxw959.programmingapplication.utils.ClassTableItem;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.util.Callback;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
 
 public class UploadTasksController {
 
+    public Pane namePane;
+    public TextField nameField;
+    public Pane typePane;
+    public Label infoLabel;
+    public ListView<CheckBox> taskList;
+    public Label errorLabel;
+    public Pane classPane;
+    public ListView<CheckBox> classList;
+    public Pane filePane;
 
-    @FXML
-    public Button browseButton;
-    @FXML
-    public Button uploadButton;
-    @FXML
-    public ListView<String> taskList;
-    @FXML
-    public TableView<ClassTableItem> classTable;
-    @FXML
-    public TableColumn<ClassTableItem, String> classColumn;
-    @FXML
-    public TableColumn<ClassTableItem, CheckBox> selectColumn;
-
-    private List<String> selectedClasses = new ArrayList<>();
+    private List<String> selectedFiles = new ArrayList<>();
+    private List<File> files = new ArrayList<>();
+    private Map<String, ObservableValue<BooleanProperty>> taskListItems = new HashMap<>();
+    private String taskName;
+    private int taskType;
 
     @FXML
     public void initialize(){
-        classColumn.setCellValueFactory(new PropertyValueFactory<>("className"));
-        selectColumn.setCellValueFactory(new PropertyValueFactory<>("select"));
+
+    }
+
+    public void onClickConfirmName(ActionEvent actionEvent) {
+        taskName = nameField.getText();
+        namePane.setVisible(false);
+        typePane.setVisible(true);
+    }
+
+    public void onClickConfirmQuiz(ActionEvent actionEvent) {
+        taskType = 0;
+        typePane.setVisible(false);
+        filePane.setVisible(true);
+    }
+
+    public void onClickConfirmProgrammingTask(ActionEvent actionEvent) {
+        taskType = 1;
+        typePane.setVisible(false);
+        filePane.setVisible(true);
+    }
+
+    public void onClickConfirmBoth(ActionEvent actionEvent) {
+        taskType = 2;
+        typePane.setVisible(false);
+        filePane.setVisible(true);
+    }
+
+    public void onClickBrowse(ActionEvent actionEvent) {
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Choose a folder");
+        switch (taskType) {
+            case 0 -> fc.getExtensionFilters().add(new FileChooser.ExtensionFilter(".csv type", "*.csv"));
+            case 1 -> fc.getExtensionFilters().add(new FileChooser.ExtensionFilter(".java type and .pdf", "*.java", "*.pdf"));
+            case 2 -> fc.getExtensionFilters().add(new FileChooser.ExtensionFilter(".java type, .pdf, .csv", "*.java", "*.pdf", "*.csv"));
+        }
+        List<File> tempFiles = fc.showOpenMultipleDialog(SceneManager.stage);
+        if(tempFiles != null && !tempFiles.isEmpty()){
+            for(File f : tempFiles){
+                if(!files.contains(f)) {
+                    files.add(f);
+                    CheckBox cb = new CheckBox();
+                    cb.setText(f.getName());
+                    cb.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                        @Override
+                        public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                            if (newValue) {
+                                selectedFiles.add(cb.getText());
+                            } else {
+                                selectedFiles.removeIf(s -> s.equals(cb.getText()));
+                            }
+                        }
+                    });
+                    taskList.getItems().add(cb);
+                }
+            }
+        }
+    }
+
+    public void onClickDelete(ActionEvent actionEvent) {
+        files.removeIf(f -> selectedFiles.contains(f.getName()));
+        taskList.getItems().removeIf(i -> selectedFiles.contains(i.getText()));
+        selectedFiles.clear();
+
+        System.out.println(files);
+    }
+
+    public void onClickContinue(ActionEvent actionEvent) {
+        filePane.setVisible(false);
+        classPane.setVisible(true);
+        initClasses();
+    }
+
+    private void initClasses(){
         try {
-            JsonElement jsonElement = NetworkManager.getJSONElementFromURL(new URL(NetworkManager.TEACHER+ User.username), "classes");
+            JsonElement jsonElement = NetworkManager.getJSONElementFromURL(new URL(NetworkManager.TEACHER+User.username), "classes");
             JsonArray jsonArray = jsonElement.getAsJsonArray();
             for (int i = 0; i<jsonArray.size(); i++){
-                classTable.getItems().add(new ClassTableItem(jsonArray.get(i).getAsString()));
-                System.out.println(jsonArray.get(i).getAsString());
+                CheckBox cb = new CheckBox();
+                cb.setText(jsonArray.get(i).getAsString());
+                classList.getItems().add(cb);
             }
         }
         catch(Exception e){
@@ -53,23 +141,8 @@ public class UploadTasksController {
         }
     }
 
-    @FXML
-    public void onClickBrowse(ActionEvent actionEvent) {
-
-    }
-
-    @FXML
-    public void onClickUpload(ActionEvent actionEvent) {
-        FilteredList<ClassTableItem> selected = classTable.getItems().filtered(new Predicate<ClassTableItem>() {
-            @Override
-            public boolean test(ClassTableItem classTableItem) {
-                return classTableItem.getSelect().isSelected();
-            }
-        });
-        selectedClasses.clear();
-        for(ClassTableItem i : selected){
-            selectedClasses.add(i.getClassName());
-        }
-        System.out.println(selectedClasses);
+    public void onClickFinish(ActionEvent actionEvent) throws IOException {
+        NetworkManager.uploadFiles(files);
+        SceneManager.switchScene("teacher-homepage.fxml");
     }
 }

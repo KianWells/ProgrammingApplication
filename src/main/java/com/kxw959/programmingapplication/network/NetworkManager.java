@@ -7,6 +7,13 @@ import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import com.kxw959.programmingapplication.utils.JSONUtil;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 
 import java.io.*;
 import java.net.*;
@@ -16,7 +23,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 public class NetworkManager {
-    public final String HOST = "http://servermanagerclassic-env.eba-mri23ppg.eu-west-2.elasticbeanstalk.com/";
+    public final static String HOST = "http://servermanagerclassic-env.eba-mri23ppg.eu-west-2.elasticbeanstalk.com/";
     public final static String LOCALHOST = "http://localhost:5000/user/";
     public final static String USER = "http://servermanagerclassic-env.eba-mri23ppg.eu-west-2.elasticbeanstalk.com/user/";
     public final static String TEACHER = "http://servermanagerclassic-env.eba-mri23ppg.eu-west-2.elasticbeanstalk.com/teacher/";
@@ -24,6 +31,10 @@ public class NetworkManager {
 
 
     public static int checkLogin(String username, String password) throws IOException {
+        if(Objects.equals(username, "offline")){
+            return 2;
+        }
+
 
         URL url = new URL(USER+username);
         HttpURLConnection request = setConnection(url, "GET");
@@ -31,7 +42,7 @@ public class NetworkManager {
         try{
             JsonElement root = JsonParser.parseReader(new InputStreamReader((InputStream) request.getContent()));
             JsonObject user = root.getAsJsonObject(); //May be an array, may be an object
-
+            request.disconnect();
             if(user.get("password").getAsString().equals(password)) {
                 System.out.println(user.get("password").getAsString());
                 if(user.get("teacher").getAsBoolean()){
@@ -67,7 +78,7 @@ public class NetworkManager {
         System.out.println(user.toString());
         assert con != null;
         postJSON(con, user);
-
+        con.disconnect();
         System.out.println("DONE");
 
         return 1;
@@ -82,8 +93,10 @@ public class NetworkManager {
             System.out.println("user found!");
         }
         catch (Exception e){
+            con.disconnect();
             return false;
         }
+        con.disconnect();
         return true;
     }
 
@@ -114,6 +127,7 @@ public class NetworkManager {
         user.addProperty("name", name);
         assert con != null;
         postJSON(con, user);
+        con.disconnect();
         System.out.println("DONE");
         return 1;
     }
@@ -164,10 +178,12 @@ public class NetworkManager {
         try{
             JsonElement root = JsonParser.parseReader(new InputStreamReader((InputStream) con.getContent()));
             JsonObject user = root.getAsJsonObject(); //May be an array, may be an object
+            con.disconnect();
             return user;
         }
         catch(Exception e){
             System.out.println("No Record");
+            con.disconnect();
             return null;
         }
     }
@@ -181,10 +197,12 @@ public class NetworkManager {
             JSONUtil jsonUtil = new JSONUtil();
             List<JsonObject> details = jsonUtil.getStudents(is);
             System.out.println(details);
+            con.disconnect();
             return details;
         }
         catch(Exception e){
             e.printStackTrace();
+            con.disconnect();
             return new ArrayList<>();
         }
     }
@@ -229,6 +247,28 @@ public class NetworkManager {
         http.getResponseCode();
         http.getResponseMessage();
         http.disconnect();
+    }
+
+    public static void uploadFiles(List<File> files) throws IOException {
+        for(File f : files){
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            HttpPost uploadFile = new HttpPost(HOST+"file/upload/");
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.addTextBody("field1", "yes", ContentType.TEXT_PLAIN);
+            builder.addBinaryBody(
+                    "file",
+                    new FileInputStream(f),
+                    ContentType.APPLICATION_OCTET_STREAM,
+                    f.getName()
+            );
+
+            HttpEntity multipart = builder.build();
+            uploadFile.setEntity(multipart);
+            CloseableHttpResponse response = httpClient.execute(uploadFile);
+            HttpEntity responseEntity = response.getEntity();
+            response.close();
+        }
+
     }
 
 }
