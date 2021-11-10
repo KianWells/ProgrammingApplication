@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,6 +15,9 @@ import lombok.NoArgsConstructor;
 public class StudentTask {
     @DynamoDBAttribute
     String taskID;
+
+    @DynamoDBAttribute
+    List<String> fileNames;
 
     @DynamoDBAttribute
     int score;

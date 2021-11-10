@@ -1,6 +1,7 @@
 package com.kxw959.ServerManager.controller;
 
 import com.kxw959.ServerManager.entity.Student;
+import com.kxw959.ServerManager.entity.StudentTask;
 import com.kxw959.ServerManager.repository.StudentDetailsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -35,5 +36,10 @@ public class StudentController {
     @GetMapping("/student/class/{className}")
     public List<Student> getStudentsByClass(@PathVariable("className") String className){
         return studentDetailsRepo.getUsersByClass(className);
+    }
+
+    @PostMapping("student/class/{className}")
+    public String uploadTask(@PathVariable("className") String className, @RequestBody StudentTask task){
+        return studentDetailsRepo.addTask(className, task);
     }
 }
