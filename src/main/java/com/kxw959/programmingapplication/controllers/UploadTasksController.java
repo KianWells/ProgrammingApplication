@@ -5,34 +5,19 @@ import com.google.gson.JsonElement;
 import com.kxw959.programmingapplication.network.NetworkManager;
 import com.kxw959.programmingapplication.sceneManager.SceneManager;
 import com.kxw959.programmingapplication.user.User;
-import com.kxw959.programmingapplication.utils.ClassTableItem;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.CheckBoxListCell;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import javafx.util.Callback;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
-import java.util.function.Predicate;
 
 public class UploadTasksController {
 
