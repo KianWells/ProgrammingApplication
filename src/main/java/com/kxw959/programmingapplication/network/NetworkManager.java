@@ -271,4 +271,21 @@ public class NetworkManager {
 
     }
 
+    public static void addTaskToClass(String className, String taskName, List<File> files) throws IOException {
+        className = className.replaceAll(" ","%20");
+        HttpURLConnection con = setConnection(new URL(STUDENT+"class/"+className), "POST");
+        JsonObject task = new JsonObject();
+        task.addProperty("taskID", taskName);
+        JsonArray fileNames = new JsonArray();
+        for(File f: files){
+            fileNames.add("jpa2021_"+f.getName());
+        }
+        task.add("fileNames", fileNames);
+        task.addProperty("score", 0);
+        task.addProperty("completed", false);
+        assert con != null;
+        postJSON(con, task);
+        con.disconnect();
+    }
+
 }
