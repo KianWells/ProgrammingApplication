@@ -33,7 +33,6 @@ public class UploadTasksController {
 
     private List<String> selectedFiles = new ArrayList<>();
     private List<File> files = new ArrayList<>();
-    private Map<String, ObservableValue<BooleanProperty>> taskListItems = new HashMap<>();
     private String taskName;
     private int taskType;
 
@@ -117,7 +116,7 @@ public class UploadTasksController {
             JsonArray jsonArray = jsonElement.getAsJsonArray();
             for (int i = 0; i<jsonArray.size(); i++){
                 CheckBox cb = new CheckBox();
-                cb.setText(jsonArray.get(i).getAsString());
+                cb.setText(jsonArray.get(i).getAsString().replaceAll("_", "__"));
                 classList.getItems().add(cb);
             }
         }
@@ -128,6 +127,11 @@ public class UploadTasksController {
 
     public void onClickFinish(ActionEvent actionEvent) throws IOException {
         NetworkManager.uploadFiles(files);
+        for(CheckBox cb: classList.getItems()){
+            if(cb.isSelected()){
+                NetworkManager.addTaskToClass(cb.getText(), taskName, files);
+            }
+        }
         SceneManager.switchScene("teacher-homepage.fxml");
     }
 }
