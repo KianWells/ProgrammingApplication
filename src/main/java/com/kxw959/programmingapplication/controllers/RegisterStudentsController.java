@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.transform.Scale;
 import javafx.stage.FileChooser;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -110,5 +111,10 @@ public class RegisterStudentsController {
     @FXML
     public void onClickItem(MouseEvent mouseEvent) {
         selectedClass = classList.getSelectionModel().getSelectedItem();
+    }
+
+    @FXML
+    public void onClickBack(ActionEvent actionEvent) {
+        SceneManager.switchScene("teacher-homepage.fxml");
     }
 }

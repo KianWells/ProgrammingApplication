@@ -1,8 +1,14 @@
 package com.kxw959.programmingapplication.sceneManager;
 
 import com.kxw959.programmingapplication.HelloApplication;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -19,7 +25,8 @@ public class SceneManager {
     public static void switchScene(String url){
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource(url));
         try{
-            currentScene = new Scene(fxmlLoader.load(), 800, 600);
+            currentScene = new Scene(fxmlLoader.load(), 400, 400);
+            currentScene.getStylesheets().add(HelloApplication.class.getResource("DarkTheme.css").toString());
         } catch (IOException e) {
             e.printStackTrace();
         }

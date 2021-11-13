@@ -1,4 +1,4 @@
-module com.kxw959.programmingapplication {
+module ProgrammingApplication {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
