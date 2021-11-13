@@ -9,22 +9,15 @@ public class MainMenuController {
     private Label label;
 
     @FXML
-    void onClickStudentLogin(){
-        SceneManager.switchScene("login-page.fxml");
-    }
+    void onClickLogin(){SceneManager.switchScene("login-page.fxml");}
 
     @FXML
-    void onClickTeacherLogin(){
-        SceneManager.switchScene("login-page.fxml");
-    }
-
-    @FXML
-    void onClickRegisterTeacher(){
+    void onClickRegister(){
         SceneManager.switchScene("register-page.fxml");
     }
 
     @FXML
-    void onClickExit() {
+    void onClickOptions() {
         SceneManager.exit();
     }
 }
