@@ -4,12 +4,15 @@ import com.kxw959.programmingapplication.network.NetworkManager;
 import com.kxw959.programmingapplication.sceneManager.SceneManager;
 import com.kxw959.programmingapplication.user.User;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextInputControl;
 
 import java.io.IOException;
 import java.net.URL;
 
 public class RegisterController {
+    @FXML
+    Label responseText;
     @FXML
     TextInputControl email;
 
