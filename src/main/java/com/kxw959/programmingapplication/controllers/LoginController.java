@@ -4,6 +4,7 @@ import com.kxw959.programmingapplication.user.User;
 import com.kxw959.programmingapplication.network.NetworkManager;
 import com.kxw959.programmingapplication.sceneManager.SceneManager;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.text.Text;
 
@@ -19,7 +20,7 @@ public class LoginController {
     TextInputControl passwordField;
 
     @FXML
-    Text responseText;
+    Label responseText;
 
     @FXML
     void onClickLogin() throws IOException {
@@ -33,13 +34,16 @@ public class LoginController {
                 responseText.setText("Password Incorrect");
                 break;
             case 1:
+                User.isTeacher = false;
+                User.username = usernameField.getText();
+                User.url = new URL(NetworkManager.STUDENT+usernameField.getText());
                 SceneManager.switchScene("student-homepage.fxml");
                 break;
             case 2:
-                SceneManager.switchScene("teacher-homepage.fxml");
                 User.isTeacher = true;
                 User.username = usernameField.getText();
                 User.url = new URL(NetworkManager.TEACHER+usernameField.getText());
+                SceneManager.switchScene("teacher-homepage.fxml");
                 break;
         }
     }

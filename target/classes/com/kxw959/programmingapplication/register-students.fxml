@@ -1,25 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kxw959.programmingapplication.controllers.RegisterStudentsController">
+<TilePane alignment="CENTER" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kxw959.programmingapplication.controllers.RegisterStudentsController">
    <children>
-      <Button fx:id="registerIndividual" layoutX="14.0" layoutY="110.0" mnemonicParsing="false" onAction="#onClickIndividual" prefHeight="25.0" prefWidth="189.0" text="Register Individual Student" />
-      <TextField fx:id="nameText" layoutX="14.0" layoutY="56.0" />
-      <Label layoutX="14.0" layoutY="22.0" text="Student Name" />
-      <Label layoutX="14.0" layoutY="135.0" prefHeight="116.0" prefWidth="278.0" text="Multiple students can be registered at once by uploading a .csv file containing all of the students' names seperated by commas." wrapText="true" />
-      <Button fx:id="registerCSV" layoutX="14.0" layoutY="239.0" mnemonicParsing="false" onAction="#onClickCSV" prefHeight="25.0" prefWidth="189.0" text="Register Students by .csv" />
-      <Button fx:id="getPDF" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#onClickPDF" prefHeight="25.0" prefWidth="189.0" text="Get .pdf of Student Login Details" />
-      <Label layoutX="14.0" layoutY="275.0" prefHeight="71.0" prefWidth="278.0" text="Select the class you want and click the button below to download a .pdf file with students' login details." wrapText="true" />
-      <Button fx:id="addClass" layoutX="498.0" layoutY="354.0" mnemonicParsing="false" onAction="#onClickAddClass" text="Add New Class" />
-      <TextField fx:id="className" layoutX="341.0" layoutY="354.0" />
-      <Label layoutX="342.0" layoutY="329.0" text="Class Name" />
-      <ListView fx:id="classList" layoutX="308.0" layoutY="14.0" onMouseClicked="#onClickItem" prefHeight="307.0" prefWidth="278.0" />
-      <Label fx:id="errorMsg" layoutX="14.0" layoutY="329.0" prefHeight="17.0" prefWidth="189.0" textFill="RED" />
-      <Button layoutX="242.0" layoutY="18.0" mnemonicParsing="false" onAction="#onClickBack" prefHeight="25.0" prefWidth="50.0" text="Back" />
+      <HBox alignment="CENTER" prefHeight="720.0" prefWidth="1280.0" TilePane.alignment="CENTER">
+         <children>
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" prefWidth="695.0" spacing="20.0">
+               <children>
+                  <VBox spacing="20.0">
+                     <children>
+                        <Label text="Student Name" />
+                        <TextField fx:id="nameText" maxWidth="-Infinity" prefHeight="25.0" prefWidth="247.0">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <Button fx:id="registerIndividual" mnemonicParsing="false" onAction="#onClickIndividual" prefHeight="25.0" prefWidth="189.0" text="Register Individual Student">
+                     <VBox.margin>
+                        <Insets bottom="40.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Label prefHeight="60.0" prefWidth="278.0" text="Multiple students can be registered at once by uploading a .csv file containing all of the students' names seperated by commas." wrapText="true" />
+                  <Button fx:id="registerCSV" mnemonicParsing="false" onAction="#onClickCSV" prefHeight="25.0" prefWidth="189.0" text="Register Students by .csv">
+                     <VBox.margin>
+                        <Insets bottom="40.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Label text="Select the class you want and click the button below to download a .pdf file with students' login details." wrapText="true" />
+                  <Button fx:id="getPDF" mnemonicParsing="false" onAction="#onClickPDF" prefHeight="25.0" prefWidth="189.0" text="Get .pdf of Student Login Details" />
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </VBox>
+            <Pane prefHeight="539.0" prefWidth="58.0" />
+            <VBox prefHeight="720.0" prefWidth="494.0" spacing="20.0">
+               <children>
+                  <ListView fx:id="classList" onMouseClicked="#onClickItem" prefHeight="361.0" prefWidth="295.0" />
+                  <VBox spacing="20.0">
+                     <children>
+                        <Label text="Class Name" />
+                        <TextField fx:id="className" maxWidth="-Infinity" prefHeight="25.0" prefWidth="215.0" />
+                     </children>
+                  </VBox>
+                  <Button fx:id="addClass" mnemonicParsing="false" onAction="#onClickAddClass" text="Add New Class" />
+                  <AnchorPane>
+                     <children>
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onClickBack" prefHeight="25.0" prefWidth="50.0" text="Back" textAlignment="CENTER" AnchorPane.rightAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </VBox>
+         </children>
+         <TilePane.margin>
+            <Insets />
+         </TilePane.margin>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </HBox>
    </children>
-</AnchorPane>
+</TilePane>

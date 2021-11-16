@@ -34,6 +34,9 @@ public class NetworkManager {
         if(Objects.equals(username, "offline")){
             return 2;
         }
+        if(Objects.equals(username, "s")){
+            return 1;
+        }
 
 
         URL url = new URL(USER+username);
