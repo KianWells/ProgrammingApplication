@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="jeliot">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../../Program Files (x86)/Jeliot3/jeliot.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../../../Program Files (x86)/Jeliot3/jeliot.jar!/examples" />
+    </SOURCES>
+  </library>
+</component>

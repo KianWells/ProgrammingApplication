@@ -6,25 +6,25 @@ import com.google.gson.JsonObject;
 import com.kxw959.programmingapplication.network.NetworkManager;
 import com.kxw959.programmingapplication.sceneManager.SceneManager;
 import com.kxw959.programmingapplication.user.User;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 
 public class StudentHomepageController {
+
     @FXML
     public VBox taskList;
+
+    @FXML
+    public VBox leaderboard;
     int numCards = 2;
 
     @FXML
@@ -32,10 +32,15 @@ public class StudentHomepageController {
         try {
             JsonObject student = NetworkManager.getJSONObjectFromURL(User.url);
             assert student != null;
+            initLeaderboard(student.get("className").getAsString());
             JsonArray tasks = (JsonArray) student.get("tasks");
             for(JsonElement j : tasks){
                 JsonObject obj = (JsonObject) j;
                 addTask(obj.get("taskID").getAsString());
+                JsonArray fileNames = obj.get("fileNames").getAsJsonArray();
+                for(JsonElement s: fileNames){
+                    NetworkManager.getFile(s.getAsString());
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -68,6 +73,23 @@ public class StudentHomepageController {
         taskBtn.setPrefWidth(300);
         taskBtn.setOnAction(event -> onCLickEditor());
         hbox.getChildren().add(taskBtn);
+    }
+
+    private void initLeaderboard(String className){
+        try {
+            List<JsonObject> students = NetworkManager.getStudentsInClass(className);
+            int i=0;
+            for(JsonObject s : students){
+                if(i<10){
+                    GridPane gp = (GridPane) leaderboard.getChildren().get(i);
+                    gp.add(new Label(s.get("name").getAsString()), 1, 0);
+                    gp.add(new Label("0"), 2, 0);
+                }
+                i++;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
