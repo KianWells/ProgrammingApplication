@@ -291,4 +291,43 @@ public class NetworkManager {
         con.disconnect();
     }
 
+    // Method which write the bytes into a file
+    private static void writeByte(byte[] bytes, String fileName)
+    {
+        File file = new File(fileName);
+        try {
+
+            // Initialize a pointer
+            // in file using OutputStream
+            OutputStream
+                    os
+                    = new FileOutputStream(file);
+
+            // Starts writing the bytes in it
+            os.write(bytes);
+            System.out.println("Successfully"
+                    + " byte inserted");
+
+            // Close the file
+            os.close();
+        }
+
+        catch (Exception e) {
+            System.out.println("Exception: " + e);
+        }
+    }
+
+    public static void getFile(String fileName){
+        try{
+            URL fileURL = new URL(HOST+"file/download/"+fileName);
+            HttpURLConnection con = setConnection(fileURL, "GET");
+            InputStream is = con.getInputStream();
+            byte[] bytes = is.readAllBytes();
+            writeByte(bytes, fileName);
+            con.disconnect();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 }

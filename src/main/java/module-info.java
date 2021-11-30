@@ -2,6 +2,10 @@ module ProgrammingApplication {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
+    requires javafx.graphics;
+    requires javafx.media;
+    requires javafx.base;
+    requires javafx.swing;
 
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
@@ -18,6 +22,8 @@ module ProgrammingApplication {
     requires org.apache.httpcomponents.httpclient;
     requires org.apache.httpcomponents.httpcore;
     requires org.apache.httpcomponents.httpmime;
+    requires net.sf.cssbox.pdf2dom;
+    requires jeliot;
 
     opens com.kxw959.programmingapplication to javafx.fxml;
     exports com.kxw959.programmingapplication;

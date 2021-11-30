@@ -1,43 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ContextMenu?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.web.WebView?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <ScrollPane prefHeight="400.0" prefWidth="167.0">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-        </content>
+<SplitPane dividerPositions="0.3, 0.65" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kxw959.programmingapplication.controllers.CodeEditorController">
+  <items>
+      <WebView fx:id="instructionView" contextMenuEnabled="false" minHeight="-1.0" minWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" />
+      <TextArea fx:id="codeArea" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="695.0" prefWidth="441.0" wrapText="true" />
+      <ScrollPane prefHeight="398.0" prefWidth="174.0">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+         </content>
       </ScrollPane>
-      <ScrollPane layoutX="380.0" prefHeight="400.0" prefWidth="221.0">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <MenuBar prefHeight="25.0" prefWidth="221.0">
-                    <menus>
-                      <Menu mnemonicParsing="false" text="Start" />
-                      <Menu mnemonicParsing="false" text="Step" />
-                      <Menu mnemonicParsing="false" text="Stop" />
-                    </menus>
-                     <contextMenu>
-                        <ContextMenu>
-                          <items>
-                            <MenuItem mnemonicParsing="false" text="Method 1" />
-                          </items>
-                        </ContextMenu>
-                     </contextMenu>
-                  </MenuBar>
-               </children>
-            </AnchorPane>
-        </content>
-      </ScrollPane>
-      <TextArea layoutX="167.0" prefHeight="400.0" prefWidth="214.0" />
-   </children>
-</AnchorPane>
+  </items>
+</SplitPane>

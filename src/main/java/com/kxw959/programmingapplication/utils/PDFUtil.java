@@ -6,9 +6,16 @@ import com.itextpdf.text.pdf.PdfDocument;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.kxw959.programmingapplication.HelloApplication;
+import javafx.scene.Parent;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.fit.pdfdom.PDFDomTree;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.*;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class PDFUtil {
@@ -45,5 +52,25 @@ public class PDFUtil {
             e.printStackTrace();
         }
         document.close();
+    }
+
+    public void loadPDF(WebView view, String fileName){
+        convertPDFtoHTML(fileName);
+        WebEngine engine = view.getEngine();
+        System.out.println(fileName);
+        File file = new File(fileName+".html");
+        engine.load(file.toURI().toString());
+    }
+
+    private void convertPDFtoHTML(String fileName){
+        try {
+            PDDocument pdf = PDDocument.load(new File(fileName));
+            Writer output = new PrintWriter(fileName+".html", StandardCharsets.UTF_8);
+            new PDFDomTree().writeText(pdf, output);
+
+            output.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
