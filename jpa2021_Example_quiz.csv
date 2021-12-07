@@ -1,0 +1,2 @@
+﻿What is the last index of an array of length 9,9,8,10,11,B
+"How do you access the item at index ""i"" in an array called ""numbers""",numbers[i],numbers.at(i),i[numbers],"[numbers,i]",A

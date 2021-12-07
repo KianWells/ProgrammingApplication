@@ -39,7 +39,14 @@ public class StudentHomepageController {
                 addTask(obj.get("taskID").getAsString());
                 JsonArray fileNames = obj.get("fileNames").getAsJsonArray();
                 for(JsonElement s: fileNames){
-                    NetworkManager.getFile(s.getAsString());
+                    String name = s.getAsString();
+                    NetworkManager.getFile(name);
+                    if(name.contains("start")){
+                        User.start = name;
+                    }
+                    if(name.contains(".pdf")){
+                        User.instructions = name;
+                    }
                 }
             }
         } catch (IOException e) {
@@ -48,6 +55,8 @@ public class StudentHomepageController {
         for(int i=0; i<19; i++){
             addTask("New Task "+i);
         }
+        System.out.println(User.start);
+        System.out.println(User.instructions);
     }
 
     private void addTask(String name){

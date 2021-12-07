@@ -8,11 +8,14 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.kxw959.programmingapplication.HelloApplication;
 import javafx.scene.Parent;
+import javafx.scene.control.TextArea;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.fit.pdfdom.PDFDomTree;
 
+import java.awt.*;
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -54,12 +57,18 @@ public class PDFUtil {
         document.close();
     }
 
-    public void loadPDF(WebView view, String fileName){
+    public void loadPDFAsWeb(WebView view, String fileName){
         convertPDFtoHTML(fileName);
         WebEngine engine = view.getEngine();
         System.out.println(fileName);
         File file = new File(fileName+".html");
         engine.load(file.toURI().toString());
+    }
+
+    public void loadPDFAsText(TextArea area, String fileName){
+        area.setWrapText(true);
+        area.setWrapText(true);
+        area.setText(convertPDFtoText(fileName));
     }
 
     private void convertPDFtoHTML(String fileName){
@@ -72,5 +81,18 @@ public class PDFUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    private String convertPDFtoText(String fileName){
+        try{
+            PDDocument pdf = PDDocument.load(new File(fileName));
+            String parsedText;
+            PDFTextStripper stripper = new PDFTextStripper();
+            parsedText = stripper.getText(pdf);
+            pdf.close();
+            return parsedText;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return "";
     }
 }
