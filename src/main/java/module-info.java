@@ -23,7 +23,9 @@ module ProgrammingApplication {
     requires org.apache.httpcomponents.httpcore;
     requires org.apache.httpcomponents.httpmime;
     requires net.sf.cssbox.pdf2dom;
-    requires jeliot;
+    requires org.junit.jupiter.engine;
+    requires junit;
+    requires jeliotmod;
 
     opens com.kxw959.programmingapplication to javafx.fxml;
     exports com.kxw959.programmingapplication;
@@ -35,4 +37,5 @@ module ProgrammingApplication {
     opens com.kxw959.programmingapplication.user to javafx.fxml;
     exports com.kxw959.programmingapplication.utils;
     opens com.kxw959.programmingapplication.utils to javafx.fxml;
+    exports com.kxw959.programmingapplication.JUNITSTUFF;
 }
