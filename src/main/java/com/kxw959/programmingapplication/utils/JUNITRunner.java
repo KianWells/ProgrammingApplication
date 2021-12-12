@@ -14,12 +14,13 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 
 import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.net.URLClassLoader;
 
 import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass;
 
 public class JUNITRunner {
-    public String runJunit(String className){
-        ClassLoader loader = HelloApplication.class.getClassLoader();
+    public String runJunit(String className, URLClassLoader loader){
         try {
             Class<?> testClass = Class.forName("com.kxw959.programmingapplication.tasks."+ className, true, loader);
             if(User.JunitVersion == 4){
@@ -32,7 +33,10 @@ public class JUNITRunner {
             }
             else if(User.JunitVersion == 5){
                 TestExecutionSummary summary = runJunit5(testClass);
-                summary.printTo(new PrintWriter(System.out));
+                StringWriter out    = new StringWriter();
+                PrintWriter  writer = new PrintWriter(out);
+                summary.printTo(writer);
+                return out.toString();
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

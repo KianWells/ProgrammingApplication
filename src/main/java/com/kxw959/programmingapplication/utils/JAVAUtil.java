@@ -52,7 +52,6 @@ public class JAVAUtil {
         String content = null;
         try {
             content = Arrays.toString(Files.readAllBytes(Paths.get(fileName)));
-            //content = content.replaceFirst("\n", "import com.kxw959.programmingapplication.tasks.Example_start;");
         } catch (IOException e) {
             e.printStackTrace();
         }

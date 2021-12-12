@@ -10,8 +10,8 @@ public class CompilerUtil {
     private File classesDir;
     private File sourceDir;
 
-    public void loadClassesFromCompiledDirectory() throws Exception {
-        new URLClassLoader(new URL[]{classesDir.toURI().toURL()});
+    public URLClassLoader loadClassesFromCompiledDirectory() throws Exception {
+        return new URLClassLoader(new URL[]{classesDir.toURI().toURL()});
     }
 
     public void compile() throws Exception {
