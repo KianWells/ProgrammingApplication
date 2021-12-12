@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.kxw959.programmingapplication.network.NetworkManager;
 import com.kxw959.programmingapplication.sceneManager.SceneManager;
 import com.kxw959.programmingapplication.user.User;
+import com.kxw959.programmingapplication.utils.JAVAUtil;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -29,6 +30,7 @@ public class StudentHomepageController {
 
     @FXML
     void initialize(){
+        JAVAUtil javaUtil = new JAVAUtil();
         try {
             JsonObject student = NetworkManager.getJSONObjectFromURL(User.url);
             assert student != null;
@@ -40,21 +42,29 @@ public class StudentHomepageController {
                 JsonArray fileNames = obj.get("fileNames").getAsJsonArray();
                 for(JsonElement s: fileNames){
                     String name = s.getAsString();
-                    NetworkManager.getFile(name);
+                    String fileName = name.replaceAll("jpa2021_", "");
+                    System.out.println(fileName);
+                    NetworkManager.getFile(name, fileName);
                     if(name.contains("start")){
-                        User.start = name;
+                        User.startPath = "src/main/java/com/kxw959/programmingapplication/tasks/"+fileName;
+                        User.start = fileName.replaceAll("[.]java", "");
+                        //javaUtil.changePackageName(User.startPath, "package com.kxw959.programmingapplication.tasks;");
                     }
-                    if(name.contains(".pdf")){
-                        User.instructions = name;
+                    if(name.contains("instructions")){
+                        User.instructions = fileName;
+                        User.instructionsPath = "src/main/java/com/kxw959/programmingapplication/tasks/"+fileName;
+                    }
+                    if(name.contains("test")){
+                        User.test = fileName.replaceAll("[.]java", "");
+                        User.testPath = "src/main/java/com/kxw959/programmingapplication/tasks/"+fileName;
                     }
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        for(int i=0; i<19; i++){
-            addTask("New Task "+i);
-        }
+        //javaUtil.updateImports(User.testPath, "import com.kxw959.programmingapplication.tasks."+User.start, User.start);
+        //javaUtil.changePackageName(User.testPath, "package com.kxw959.programmingapplication.tasks;");
         System.out.println(User.start);
         System.out.println(User.instructions);
     }

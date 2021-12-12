@@ -74,7 +74,7 @@ public class PDFUtil {
     private void convertPDFtoHTML(String fileName){
         try {
             PDDocument pdf = PDDocument.load(new File(fileName));
-            Writer output = new PrintWriter(fileName+".html", StandardCharsets.UTF_8);
+            Writer output = new PrintWriter(fileName+".html", String.valueOf(StandardCharsets.UTF_8));
             new PDFDomTree().writeText(pdf, output);
 
             output.close();

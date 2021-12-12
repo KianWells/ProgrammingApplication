@@ -14,6 +14,7 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.pdfbox.io.IOUtils;
 
 import java.io.*;
 import java.net.*;
@@ -317,13 +318,13 @@ public class NetworkManager {
         }
     }
 
-    public static void getFile(String fileName){
+    public static void getFile(String hostFileName, String fileName){
         try{
-            URL fileURL = new URL(HOST+"file/download/"+fileName);
+            URL fileURL = new URL(HOST+"file/download/"+hostFileName);
             HttpURLConnection con = setConnection(fileURL, "GET");
             InputStream is = con.getInputStream();
-            byte[] bytes = is.readAllBytes();
-            writeByte(bytes, fileName);
+            byte[] bytes = IOUtils.toByteArray(is);
+            writeByte(bytes, "src/main/java/com/kxw959/programmingapplication/tasks/"+fileName);
             con.disconnect();
         }catch (Exception e){
             e.printStackTrace();

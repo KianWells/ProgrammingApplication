@@ -1,15 +1,19 @@
 package com.kxw959.programmingapplication;
 
 import com.itextpdf.text.DocumentException;
-import com.kxw959.programmingapplication.JUNITSTUFF.jpa2021_Example_test;
 import com.kxw959.programmingapplication.sceneManager.SceneManager;
+import com.kxw959.programmingapplication.user.User;
+import com.kxw959.programmingapplication.utils.JAVAUtil;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.junit.internal.TextListener;
-import org.junit.runner.JUnitCore;
+
+import javax.tools.JavaCompiler;
+import javax.tools.ToolProvider;
 import java.io.IOException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.security.NoSuchAlgorithmException;
 
 public class HelloApplication extends Application {
@@ -23,6 +27,12 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
         stage.show();
         SceneManager.initialise(stage, scene);
+
+        System.out.println(System.getProperty("java.class.path"));
+        System.out.println(System.getProperty("java.class.path").contains("junit"));
+
+        //JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        //compiler.run(null, null, null, "C:\\Users\\kianr\\IdeaProjects\\ProgrammingApplication\\src\\main\\java\\com\\kxw959\\programmingapplication\\tasks\\Example_test.java");
     }
 
     public static void main(String[] args) {
