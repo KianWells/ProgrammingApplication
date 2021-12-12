@@ -9,6 +9,7 @@ import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -33,6 +34,11 @@ public class CodeEditorController {
     public TextArea instructionArea;
     @FXML
     public Button testButton;
+    @FXML
+    public Label junitOutput;
+
+    public TextArea output = new TextArea();
+    public Thread outputThread;
     JTextArea outputConsole = new JTextArea();
 
     @FXML
@@ -64,8 +70,6 @@ public class CodeEditorController {
             }
         });
 
-        TextArea ocfx = new TextArea();
-
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -74,53 +78,47 @@ public class CodeEditorController {
         });
         final String[] ocText = {outputConsole.getText()};
 
-        Thread outputThread = new Thread(
+        outputThread = new Thread(
                 new Runnable() {
                     @Override
                     public void run() {
                         while(true){
                             if(!Objects.equals(ocText[0], outputConsole.getText())){
-                                ocfx.setText(outputConsole.getText());
-                                ocText[0] =ocfx.getText();
+                                output.setText(outputConsole.getText());
+                                ocText[0] =output.getText();
                             }
                         }
                     }
                 }
         );
         HBox bottom = new HBox();
-        ocfx.setMaxWidth(1000);
-        ocfx.setPrefWidth(1000);
+        output.setMaxWidth(1000);
+        output.setPrefWidth(1000);
         bottom.getChildren().add(conPan);
-        bottom.getChildren().add(ocfx);
+        bottom.getChildren().add(output);
         jeliotWindow.setBottom(bottom);
         outputThread.start();
-/*
-        SwingNode theatre = new SwingNode();
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                theatre.setContent(jeliot.getGUI().getTheater());
-            }
-        });
-        jeliotTheatre.getChildren().add(theatre);*/
     }
 
     @FXML
     public void onCLickTest(ActionEvent actionEvent) {
+        outputThread.interrupt();
         try {
             CompilerUtil compilerUtil = new CompilerUtil();
             compilerUtil.setSourceDir(new File("src/main/java/com/kxw959/programmingapplication/tasks"));
-            compilerUtil.setClassesDir(new File("target/classes/"));
+            compilerUtil.setClassesDir(new File("classes/"));
 
             try {
                 compilerUtil.compile();
+                JUNITRunner runner = new JUNITRunner();
+                output.setText(runner.runJunit(User.test, compilerUtil.loadClassesFromCompiledDirectory()));
+
+                System.out.println(System.getProperty("java.class.path"));
             }catch (Exception e){
                 e.printStackTrace();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        JUNITRunner runner = new JUNITRunner();
-        System.out.println(runner.runJunit(User.test));
     }
 }

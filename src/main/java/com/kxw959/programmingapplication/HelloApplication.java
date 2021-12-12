@@ -31,8 +31,6 @@ public class HelloApplication extends Application {
         System.out.println(System.getProperty("java.class.path"));
         System.out.println(System.getProperty("java.class.path").contains("junit"));
 
-        //JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        //compiler.run(null, null, null, "C:\\Users\\kianr\\IdeaProjects\\ProgrammingApplication\\src\\main\\java\\com\\kxw959\\programmingapplication\\tasks\\Example_test.java");
     }
 
     public static void main(String[] args) {
