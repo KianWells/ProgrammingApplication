@@ -69,9 +69,12 @@ public class UploadTasksController {
         FileChooser fc = new FileChooser();
         fc.setTitle("Choose a folder");
         switch (taskType) {
-            case 0 -> fc.getExtensionFilters().add(new FileChooser.ExtensionFilter(".csv type", "*.csv"));
-            case 1 -> fc.getExtensionFilters().add(new FileChooser.ExtensionFilter(".java type and .pdf", "*.java", "*.pdf"));
-            case 2 -> fc.getExtensionFilters().add(new FileChooser.ExtensionFilter(".java type, .pdf, .csv", "*.java", "*.pdf", "*.csv"));
+            case 0:
+                fc.getExtensionFilters().add(new FileChooser.ExtensionFilter(".csv type", "*.csv"));
+            case 1:
+                fc.getExtensionFilters().add(new FileChooser.ExtensionFilter(".java type and .pdf", "*.java", "*.pdf"));
+            case 2:
+                fc.getExtensionFilters().add(new FileChooser.ExtensionFilter(".java type, .pdf, .csv", "*.java", "*.pdf", "*.csv"));
         }
         List<File> tempFiles = fc.showOpenMultipleDialog(SceneManager.stage);
         if(tempFiles != null && !tempFiles.isEmpty()){
