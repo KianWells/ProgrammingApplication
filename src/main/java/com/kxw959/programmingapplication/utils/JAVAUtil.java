@@ -1,11 +1,10 @@
 package com.kxw959.programmingapplication.utils;
 
+import com.kxw959.programmingapplication.user.User;
 import javafx.scene.control.TextArea;
+import org.apache.commons.io.FileUtils;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.net.URI;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -23,7 +22,10 @@ public class JAVAUtil {
 
         String content = null;
         try {
-            content = Arrays.toString(Files.readAllBytes(Paths.get(fileName)));
+            ClassLoader classLoader = getClass().getClassLoader();
+            File file = new File(fileName);
+            content = FileUtils.readFileToString(file, "UTF-8");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -32,6 +34,10 @@ public class JAVAUtil {
         }
         else{
             content = packageName+"\n"+content;
+        }
+        if(content.contains("jupiter")){
+            User.JunitVersion = 5;
+            System.out.println("YE");
         }
         try {
             Files.write(Paths.get(fileName), content.getBytes(StandardCharsets.UTF_8));
@@ -56,5 +62,17 @@ public class JAVAUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    private String readFromInputStream(InputStream inputStream)
+            throws IOException {
+        StringBuilder resultStringBuilder = new StringBuilder();
+        try (BufferedReader br
+                     = new BufferedReader(new InputStreamReader(inputStream))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                resultStringBuilder.append(line).append("\n");
+            }
+        }
+        return resultStringBuilder.toString();
     }
 }

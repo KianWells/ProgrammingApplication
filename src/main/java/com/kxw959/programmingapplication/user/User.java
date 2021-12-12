@@ -14,4 +14,5 @@ public class User {
     public static String start;
     public static String instructions;
     public static String test;
+    public static int JunitVersion = 4;
 }

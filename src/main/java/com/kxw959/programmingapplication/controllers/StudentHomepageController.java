@@ -64,7 +64,7 @@ public class StudentHomepageController {
             e.printStackTrace();
         }
         //javaUtil.updateImports(User.testPath, "import com.kxw959.programmingapplication.tasks."+User.start, User.start);
-        //javaUtil.changePackageName(User.testPath, "package com.kxw959.programmingapplication.tasks;");
+        javaUtil.changePackageName(User.testPath, "package com.kxw959.programmingapplication.tasks;");
         System.out.println(User.start);
         System.out.println(User.instructions);
     }

@@ -3,6 +3,7 @@ package com.kxw959.programmingapplication.controllers;
 import com.kxw959.programmingapplication.HelloApplication;
 import com.kxw959.programmingapplication.user.User;
 import com.kxw959.programmingapplication.utils.CompilerUtil;
+import com.kxw959.programmingapplication.utils.JUNITRunner;
 import com.kxw959.programmingapplication.utils.PDFUtil;
 import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
@@ -116,15 +117,10 @@ public class CodeEditorController {
             }catch (Exception e){
                 e.printStackTrace();
             }
-            //load class from url
-            ClassLoader loader = HelloApplication.class.getClassLoader();
-            Class<?> testClass = Class.forName("com.kxw959.programmingapplication.tasks.Example_test", true, loader);
-            JUnitCore junit = new JUnitCore();
-            junit.addListener(new TextListener(System.out));
-            junit.run(testClass);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        JUNITRunner runner = new JUNITRunner();
+        System.out.println(runner.runJunit(User.test));
     }
 }
