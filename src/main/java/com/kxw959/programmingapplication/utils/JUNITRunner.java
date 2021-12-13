@@ -12,6 +12,7 @@ import org.junit.platform.launcher.listeners.SummaryGeneratingListener;
 import org.junit.platform.launcher.listeners.TestExecutionSummary;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
+import org.junit.runner.notification.RunListener;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -24,15 +25,14 @@ public class JUNITRunner {
         try {
             Class<?> testClass = Class.forName("com.kxw959.programmingapplication.tasks."+ className, true, loader);
             if(User.JunitVersion == 4){
-                Result result = runJunit4(testClass);
-                return "Finished. Result: Failures: " +
-                        result.getFailureCount() + ". Ignored: " +
-                        result.getIgnoreCount() + ". Tests run: " +
-                        result.getRunCount() + ". Time: " +
-                        result.getRunTime() + "ms.";
+                CustomListener listener = new CustomListener();
+                Result result = runJunit4(testClass, listener);
+                System.out.println(result.getRunCount()-result.getFailureCount());
+                return listener.output;
             }
             else if(User.JunitVersion == 5){
                 TestExecutionSummary summary = runJunit5(testClass);
+                System.out.println(summary.getTestsSucceededCount());
                 StringWriter out    = new StringWriter();
                 PrintWriter  writer = new PrintWriter(out);
                 summary.printTo(writer);
@@ -44,8 +44,9 @@ public class JUNITRunner {
         return "";
     }
 
-    public Result runJunit4(Class<?> junitClass){
+    public Result runJunit4(Class<?> junitClass, RunListener listener){
         JUnitCore junit = new JUnitCore();
+        junit.addListener(listener);
         return junit.run(junitClass);
     }
 
