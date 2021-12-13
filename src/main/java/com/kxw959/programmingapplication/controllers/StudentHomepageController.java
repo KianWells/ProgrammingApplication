@@ -41,29 +41,31 @@ public class StudentHomepageController {
                 addTask(obj.get("taskID").getAsString());
                 JsonArray fileNames = obj.get("fileNames").getAsJsonArray();
                 for(JsonElement s: fileNames){
-                    String name = s.getAsString();
-                    String fileName = name.replaceAll("jpa2021_", "");
+                    JsonObject taskFiles = (JsonObject) s;
+                    String name = taskFiles.get("fileName").getAsString();
+                    String type = taskFiles.get("type").getAsString();
+                    String fileName = "jpa2021_"+name;
                     System.out.println(fileName);
-                    NetworkManager.getFile(name, fileName);
-                    if(name.contains("start")){
-                        User.startPath = "src/main/java/com/kxw959/programmingapplication/tasks/"+fileName;
-                        User.start = fileName.replaceAll("[.]java", "");
-                        //javaUtil.changePackageName(User.startPath, "package com.kxw959.programmingapplication.tasks;");
+                    NetworkManager.getFile(fileName, name);
+                    if(type.equals("start")){
+                        User.startPath = "src/main/java/com/kxw959/programmingapplication/tasks/"+name;
+                        User.start = name.replaceAll("[.]java", "");
+                        javaUtil.changePackageName(User.startPath, "package com.kxw959.programmingapplication.tasks;");
                     }
-                    if(name.contains("instructions")){
-                        User.instructions = fileName;
-                        User.instructionsPath = "src/main/java/com/kxw959/programmingapplication/tasks/"+fileName;
+                    if(type.equals("instructions")){
+                        User.instructions = name;
+                        User.instructionsPath = "src/main/java/com/kxw959/programmingapplication/tasks/"+name;
                     }
-                    if(name.contains("test")){
-                        User.test = fileName.replaceAll("[.]java", "");
-                        User.testPath = "src/main/java/com/kxw959/programmingapplication/tasks/"+fileName;
+                    if(type.equals("test")){
+                        User.test = name.replaceAll("[.]java", "");
+                        User.testPath = "src/main/java/com/kxw959/programmingapplication/tasks/"+name;
                     }
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //javaUtil.updateImports(User.testPath, "import com.kxw959.programmingapplication.tasks."+User.start, User.start);
+        javaUtil.updateImports(User.testPath, "import com.kxw959.programmingapplication.tasks."+User.start, User.start);
         javaUtil.changePackageName(User.testPath, "package com.kxw959.programmingapplication.tasks;");
         System.out.println(User.start);
         System.out.println(User.instructions);

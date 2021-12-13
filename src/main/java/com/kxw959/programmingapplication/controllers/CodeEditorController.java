@@ -103,6 +103,10 @@ public class CodeEditorController {
     @FXML
     public void onCLickTest(ActionEvent actionEvent) {
         outputThread.interrupt();
+        File classDir = new File("classes/com/");
+        if(classDir.exists()){
+            System.out.println(classDir.delete());
+        }
         try {
             CompilerUtil compilerUtil = new CompilerUtil();
             compilerUtil.setSourceDir(new File("src/main/java/com/kxw959/programmingapplication/tasks"));

@@ -22,7 +22,6 @@ public class JAVAUtil {
 
         String content = null;
         try {
-            ClassLoader classLoader = getClass().getClassLoader();
             File file = new File(fileName);
             content = FileUtils.readFileToString(file, "UTF-8");
 
@@ -51,7 +50,8 @@ public class JAVAUtil {
 
         String content = null;
         try {
-            content = Arrays.toString(Files.readAllBytes(Paths.get(fileName)));
+            File file = new File(fileName);
+            content = FileUtils.readFileToString(file, "UTF-8");
         } catch (IOException e) {
             e.printStackTrace();
         }

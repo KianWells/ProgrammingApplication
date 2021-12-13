@@ -30,9 +30,15 @@ public class UploadTasksController {
     public Pane classPane;
     public ListView<CheckBox> classList;
     public Pane filePane;
+    public MenuItem registerTest;
+    public MenuItem registerStart;
+    public MenuItem registerInstruction;
+    public MenuItem registerQuiz;
+    public MenuButton registerAs;
 
     private List<String> selectedFiles = new ArrayList<>();
     private List<File> files = new ArrayList<>();
+    private Map<String, String> taskMap = new HashMap<>();
     private String taskName;
     private int taskType;
 
@@ -111,6 +117,7 @@ public class UploadTasksController {
         filePane.setVisible(false);
         classPane.setVisible(true);
         initClasses();
+        System.out.println(taskMap.toString());
     }
 
     private void initClasses(){
@@ -132,9 +139,42 @@ public class UploadTasksController {
         NetworkManager.uploadFiles(files);
         for(CheckBox cb: classList.getItems()){
             if(cb.isSelected()){
-                NetworkManager.addTaskToClass(cb.getText(), taskName, files);
+                NetworkManager.addTaskToClass(cb.getText(), taskName, taskMap);
             }
         }
         SceneManager.switchScene("teacher-homepage.fxml");
+    }
+
+    @FXML
+    public void onClickRegisterAs(ActionEvent actionEvent) {
+        MenuItem item = (MenuItem) actionEvent.getSource();
+        String key = "";
+        switch (item.getId()){
+            case "registerTest":
+                key = "test";
+                break;
+            case "registerStart":
+                key = "start";
+                break;
+            case "registerInstruction":
+                key = "instructions";
+                break;
+            case "registerQuiz":
+                key = "quiz";
+                break;
+        }
+        if(selectedFiles.size()>1){
+            selectedFiles.clear();
+            errorLabel.setText("Cannot register more than 1 file as "+key);
+        }
+        else if(selectedFiles.size() == 0){
+            errorLabel.setText("Select a file to register as "+key);
+        }
+        else{
+            String fileName = selectedFiles.get(0);
+            taskMap.put(key, fileName);
+            infoLabel.setText(fileName+" selected as the "+key);
+            selectedFiles.clear();
+        }
     }
 }
