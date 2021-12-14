@@ -19,7 +19,7 @@
     -fx-border-radius: 8;
     -fx-background-radius: 8;
 }
-.button{
+.button, .menu-item, .menu-button{
     -fx-font-weight: bold;
     -fx-border-width: 1;
     -fx-border-color: dodgerblue;
@@ -28,6 +28,15 @@
     -fx-background-color: ghostwhite;
     -fx-text-fill: dodgerblue;
 }
+
+.menu-button > .label{
+    -fx-text-fill: dodgerblue;
+}
+
+.menu-item > .label{
+    -fx-text-fill: dodgerblue;
+}
+
 .label{
     -fx-text-fill: ghostwhite;
 }

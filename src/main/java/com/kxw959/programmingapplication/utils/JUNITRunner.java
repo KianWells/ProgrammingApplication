@@ -36,12 +36,13 @@ public class JUNITRunner {
                 StringWriter out    = new StringWriter();
                 PrintWriter  writer = new PrintWriter(out);
                 summary.printTo(writer);
+                summary.printFailuresTo(writer);
                 return out.toString();
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return "";
+        return "ERROR";
     }
 
     public Result runJunit4(Class<?> junitClass, RunListener listener){
