@@ -7,6 +7,7 @@ import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.kxw959.ServerManager.entity.Student;
 import com.kxw959.ServerManager.entity.StudentTask;
+import com.kxw959.ServerManager.entity.Students;
 import com.kxw959.ServerManager.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -43,19 +44,21 @@ public class StudentDetailsRepo {
         return username;
     }
 
-    public List<Student> getUsersByClass(String className){
+    public Students getUsersByClass(String className){
+        Students students = new Students();
         Map<String, AttributeValue> eav = new HashMap<>();
         eav.put(":className", new AttributeValue().withS(className));
 
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression()
                 .withFilterExpression("className = :className")
                 .withExpressionAttributeValues(eav);
-        List<Student> students = dynamoDBMapper.scan(Student.class, scanExpression);
+        List<Student> ls = dynamoDBMapper.scan(Student.class, scanExpression);
+        students.setListOfStudents(ls);
         return students;
     }
 
     public String addTask(String className, StudentTask task){
-        List<Student> students = getUsersByClass(className);
+        List<Student> students = getUsersByClass(className).getListOfStudents();
         for (Student student : students) {
             List<StudentTask> tasks = new ArrayList<>();
             if(student.getTasks()!=null){

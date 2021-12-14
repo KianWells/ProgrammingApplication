@@ -6,22 +6,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @DynamoDBDocument
-public class StudentTask {
+public class TaskFiles {
     @DynamoDBAttribute
-    String taskID;
+    String type;
 
     @DynamoDBAttribute
-    List<TaskFiles> fileNames;
-
-    @DynamoDBAttribute
-    int score;
-
-    @DynamoDBAttribute
-    boolean completed;
+    String fileName;
 }
