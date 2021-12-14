@@ -1,6 +1,7 @@
 package com.kxw959.programmingapplication;
 
 import com.itextpdf.text.DocumentException;
+import com.kxw959.programmingapplication.network.NetworkManager;
 import com.kxw959.programmingapplication.sceneManager.SceneManager;
 import com.kxw959.programmingapplication.user.User;
 import com.kxw959.programmingapplication.utils.JAVAUtil;
@@ -8,6 +9,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import sun.nio.ch.Net;
 
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
@@ -31,6 +33,7 @@ public class HelloApplication extends Application {
         System.out.println(System.getProperty("java.class.path"));
         System.out.println(System.getProperty("java.class.path").contains("junit"));
 
+        NetworkManager.getClassData("Class A");
     }
 
     public static void main(String[] args) {

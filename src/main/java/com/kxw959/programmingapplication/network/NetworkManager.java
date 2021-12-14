@@ -192,6 +192,20 @@ public class NetworkManager {
         }
     }
 
+    public static List<JsonObject> getClassData(String className) throws IOException {
+        className = className.replaceAll(" ", "%20");
+        JsonObject students = getJSONObjectFromURL(new URL(STUDENT+"class/"+className));
+        JsonArray jsonArray = (JsonArray) students.get("listOfStudents");
+        List<JsonObject> listStudents = new ArrayList<>();
+        for(JsonElement e: jsonArray){
+            JsonObject j = (JsonObject) e;
+            listStudents.add(j);
+        }
+        return listStudents;
+
+    }
+
+
     public static List<JsonObject> getStudentsInClass(String className) throws IOException {
         className = className.replaceAll(" ", "%20");
         HttpURLConnection con = setConnection(new URL(STUDENT+"class/"+className), "GET");

@@ -36,6 +36,7 @@ public class StudentHomepageController {
             assert student != null;
             initLeaderboard(student.get("className").getAsString());
             JsonArray tasks = (JsonArray) student.get("tasks");
+            System.out.println(tasks);
             for(JsonElement j : tasks){
                 JsonObject obj = (JsonObject) j;
                 addTask(obj.get("taskID").getAsString());
@@ -98,19 +99,32 @@ public class StudentHomepageController {
 
     private void initLeaderboard(String className){
         try {
-            List<JsonObject> students = NetworkManager.getStudentsInClass(className);
+            List<JsonObject> students = NetworkManager.getClassData(className);
             int i=0;
+            System.out.println(students);
             for(JsonObject s : students){
                 if(i<10){
                     GridPane gp = (GridPane) leaderboard.getChildren().get(i);
                     gp.add(new Label(s.get("name").getAsString()), 1, 0);
-                    gp.add(new Label("0"), 2, 0);
+                    gp.add(new Label(Integer.toString(addUpScores(s))), 2, 0);
                 }
                 i++;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private int addUpScores(JsonObject student){
+        JsonArray tasks = (JsonArray) student.get("tasks");
+        System.out.println(tasks);
+        int finalScore = 0;
+        for(JsonElement t: tasks){
+            JsonObject task = (JsonObject) t;
+            int score = task.get("score").getAsInt();
+            finalScore+=score;
+        }
+        return finalScore;
     }
 
     @FXML
