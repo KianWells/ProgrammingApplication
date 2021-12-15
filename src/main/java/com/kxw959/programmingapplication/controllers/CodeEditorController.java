@@ -1,6 +1,5 @@
 package com.kxw959.programmingapplication.controllers;
 
-import com.kxw959.programmingapplication.HelloApplication;
 import com.kxw959.programmingapplication.user.User;
 import com.kxw959.programmingapplication.utils.CompilerUtil;
 import com.kxw959.programmingapplication.utils.JUNITRunner;
@@ -13,17 +12,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.util.Pair;
 import jeliot.Jeliot;
 import jeliot.gui.JeliotWindow;
-import org.codehaus.janino.JavaSourceClassLoader;
-import org.junit.internal.TextListener;
-import org.junit.runner.JUnitCore;
 
 import javax.swing.*;
 import java.io.File;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.Arrays;
 import java.util.Objects;
 
 public class CodeEditorController {
@@ -44,14 +38,14 @@ public class CodeEditorController {
     @FXML
     void initialize(){
         PDFUtil util = new PDFUtil();
-        util.loadPDFAsText(instructionArea, User.instructionsPath);
+        util.loadPDFAsText(instructionArea, User.selectedTask.instructions.getValue());
 
         Jeliot jeliot = Jeliot.start(new String[0]);
 
         jeliot.getGUI().getFrame().dispose();
 
         JeliotWindow gui = jeliot.getGUI();
-        gui.setProgram(new File(User.startPath));
+        gui.setProgram(new File(User.selectedTask.start.getValue()));
 
         SwingNode codePane = new SwingNode();
         SwingUtilities.invokeLater(new Runnable() {
@@ -115,9 +109,11 @@ public class CodeEditorController {
             try {
                 compilerUtil.compile();
                 JUNITRunner runner = new JUNITRunner();
-                output.setText(runner.runJunit(User.test, compilerUtil.loadClassesFromCompiledDirectory()));
+                Pair<Integer, String> result = runner.runJunit(User.selectedTask.test.getKey(), compilerUtil.loadClassesFromCompiledDirectory());
+                output.setText(result.getValue());
+                if(result.getKey() > 0){
 
-                System.out.println(System.getProperty("java.class.path"));
+                }
             }catch (Exception e){
                 e.printStackTrace();
             }
