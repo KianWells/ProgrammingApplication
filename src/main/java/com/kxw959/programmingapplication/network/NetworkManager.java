@@ -348,4 +348,44 @@ public class NetworkManager {
         }
     }
 
+    public static void increaseScore(String username, int score, String taskName){
+        try {
+            URL url = new URL(STUDENT+username);
+            JsonObject student = getJSONObjectFromURL(url);
+            //get the task list
+            JsonArray tasks = (JsonArray) student.get("tasks");
+            //get the task with the taskName
+            for(JsonElement t : tasks){
+                JsonObject task = (JsonObject) t;
+                if(Objects.equals(task.get("taskID").getAsString(), taskName)){
+                    int newScore = task.get("score").getAsInt() + score;
+                    task.addProperty("score", newScore);
+                    tasks.remove(t);
+                    tasks.add(task);
+                }
+            }
+            student.add("tasks", tasks);
+            //update the score
+            //post it
+            HttpURLConnection http = (HttpURLConnection)url.openConnection();
+            http.setRequestMethod("PUT");
+            http.setDoOutput(true);
+            http.setRequestProperty("Accept", "application/json");
+            http.setRequestProperty("Content-Type", "application/json");
+
+            String data = student.toString();
+
+            byte[] out = data.getBytes(StandardCharsets.UTF_8);
+
+            OutputStream stream = http.getOutputStream();
+            stream.write(out);
+
+            http.getResponseCode();
+            http.getResponseMessage();
+            http.disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

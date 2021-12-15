@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.kxw959.programmingapplication.network.NetworkManager;
 import com.kxw959.programmingapplication.sceneManager.SceneManager;
+import com.kxw959.programmingapplication.user.Task;
 import com.kxw959.programmingapplication.user.User;
 import com.kxw959.programmingapplication.utils.JAVAUtil;
 import javafx.fxml.FXML;
@@ -12,10 +13,11 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.util.Pair;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -27,6 +29,7 @@ public class StudentHomepageController {
     @FXML
     public VBox leaderboard;
     int numCards = 2;
+    String selectedTask = "";
 
     @FXML
     void initialize(){
@@ -38,7 +41,9 @@ public class StudentHomepageController {
             JsonArray tasks = (JsonArray) student.get("tasks");
             System.out.println(tasks);
             for(JsonElement j : tasks){
+                Task task = new Task();
                 JsonObject obj = (JsonObject) j;
+                task.taskID = obj.get("taskID").getAsString();
                 addTask(obj.get("taskID").getAsString());
                 JsonArray fileNames = obj.get("fileNames").getAsJsonArray();
                 for(JsonElement s: fileNames){
@@ -49,27 +54,31 @@ public class StudentHomepageController {
                     System.out.println(fileName);
                     NetworkManager.getFile(fileName, name);
                     if(type.equals("start")){
-                        User.startPath = "src/main/java/com/kxw959/programmingapplication/tasks/"+name;
-                        User.start = name.replaceAll("[.]java", "");
-                        javaUtil.changePackageName(User.startPath, "package com.kxw959.programmingapplication.tasks;");
+                        String startPath = "src/main/java/com/kxw959/programmingapplication/tasks/"+name;
+                        String startName = name.replaceAll("[.]java", "");
+                        javaUtil.changePackageName(startPath, "package com.kxw959.programmingapplication.tasks;");
+                        task.start = new Pair<>(startName, startPath);
                     }
                     if(type.equals("instructions")){
-                        User.instructions = name;
-                        User.instructionsPath = "src/main/java/com/kxw959/programmingapplication/tasks/"+name;
+                        String instructionsName = name.replaceAll("[.]pdf", "");
+                        String instructionsPath = "src/main/java/com/kxw959/programmingapplication/tasks/"+name;
+                        task.instructions = new Pair<>(instructionsName, instructionsPath);
                     }
                     if(type.equals("test")){
-                        User.test = name.replaceAll("[.]java", "");
-                        User.testPath = "src/main/java/com/kxw959/programmingapplication/tasks/"+name;
+                        String testName = name.replaceAll("[.]java", "");
+                        String testPath = "src/main/java/com/kxw959/programmingapplication/tasks/"+name;
+                        task.test = new Pair<>(testName, testPath);
                     }
                 }
+                User.taskList.add(task);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        javaUtil.updateImports(User.testPath, "import com.kxw959.programmingapplication.tasks."+User.start, User.start);
-        javaUtil.changePackageName(User.testPath, "package com.kxw959.programmingapplication.tasks;");
-        System.out.println(User.start);
-        System.out.println(User.instructions);
+        for(Task task : User.taskList){
+            javaUtil.updateImports(task.test.getValue(), "import com.kxw959.programmingapplication.tasks."+task.start.getKey(), task.start.getKey());
+            task.junitVersion = javaUtil.changePackageName(task.test.getValue(), "package com.kxw959.programmingapplication.tasks;");
+        }
     }
 
     private void addTask(String name){
@@ -93,7 +102,10 @@ public class StudentHomepageController {
         Button taskBtn = new Button(name);
         taskBtn.setMaxSize(30000000, 3000000);
         taskBtn.setPrefWidth(300);
-        taskBtn.setOnAction(event -> onCLickEditor());
+        taskBtn.setOnAction(event -> {
+            selectedTask = taskBtn.getText();
+            onCLickEditor();
+        });
         hbox.getChildren().add(taskBtn);
     }
 
@@ -129,6 +141,11 @@ public class StudentHomepageController {
 
     @FXML
     void onCLickEditor(){
+        for(Task task: User.taskList){
+            if(task.taskID.equals(selectedTask)){
+                User.selectedTask = task;
+            }
+        }
         SceneManager.switchScene("code-editor.fxml");
     }
 }

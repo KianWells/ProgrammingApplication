@@ -1,5 +1,6 @@
 package com.kxw959.programmingapplication.utils;
 
+import com.kxw959.programmingapplication.user.Task;
 import com.kxw959.programmingapplication.user.User;
 import javafx.scene.control.TextArea;
 import org.apache.commons.io.FileUtils;
@@ -17,7 +18,7 @@ import java.util.stream.Stream;
 public class JAVAUtil {
     public JAVAUtil(){}
 
-    public void changePackageName(String fileName, String packageName){
+    public int changePackageName(String fileName, String packageName){
         Charset charset = StandardCharsets.UTF_8;
 
         String content = null;
@@ -35,14 +36,15 @@ public class JAVAUtil {
             content = packageName+"\n"+content;
         }
         if(content.contains("jupiter")){
-            User.JunitVersion = 5;
             System.out.println("YE");
+            return 5;
         }
         try {
             Files.write(Paths.get(fileName), content.getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return 4;
     }
 
     public void updateImports(String fileName, String newPath, String className){

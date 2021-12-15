@@ -2,6 +2,7 @@ package com.kxw959.programmingapplication.utils;
 
 import com.kxw959.programmingapplication.HelloApplication;
 import com.kxw959.programmingapplication.user.User;
+import javafx.util.Pair;
 import org.junit.internal.TextListener;
 import org.junit.platform.launcher.Launcher;
 import org.junit.platform.launcher.LauncherDiscoveryRequest;
@@ -21,28 +22,28 @@ import java.net.URLClassLoader;
 import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass;
 
 public class JUNITRunner {
-    public String runJunit(String className, URLClassLoader loader){
+    public Pair<Integer, String> runJunit(String className, URLClassLoader loader){
         try {
             Class<?> testClass = Class.forName("com.kxw959.programmingapplication.tasks."+ className, true, loader);
-            if(User.JunitVersion == 4){
+            if(User.selectedTask.junitVersion == 4){
                 CustomListener listener = new CustomListener();
                 Result result = runJunit4(testClass, listener);
                 System.out.println(result.getRunCount()-result.getFailureCount());
-                return listener.output;
+                return new Pair<>(result.getRunCount(), listener.output);
             }
-            else if(User.JunitVersion == 5){
+            else if(User.selectedTask.junitVersion == 5){
                 TestExecutionSummary summary = runJunit5(testClass);
                 System.out.println(summary.getTestsSucceededCount());
                 StringWriter out    = new StringWriter();
                 PrintWriter  writer = new PrintWriter(out);
                 summary.printTo(writer);
                 summary.printFailuresTo(writer);
-                return out.toString();
+                new Pair<>(summary.getTestsSucceededCount(), out.toString());
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return "ERROR";
+        return new Pair<>(0, "ERROR");
     }
 
     public Result runJunit4(Class<?> junitClass, RunListener listener){
