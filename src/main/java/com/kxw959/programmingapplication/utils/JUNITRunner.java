@@ -29,7 +29,7 @@ public class JUNITRunner {
                 CustomListener listener = new CustomListener();
                 Result result = runJunit4(testClass, listener);
                 System.out.println(result.getRunCount()-result.getFailureCount());
-                return new Pair<>(result.getRunCount(), listener.output);
+                return new Pair<>(result.getRunCount()-result.getFailureCount(), listener.output);
             }
             else if(User.selectedTask.junitVersion == 5){
                 TestExecutionSummary summary = runJunit5(testClass);

@@ -358,7 +358,7 @@ public class NetworkManager {
             for(JsonElement t : tasks){
                 JsonObject task = (JsonObject) t;
                 if(Objects.equals(task.get("taskID").getAsString(), taskName)){
-                    int newScore = task.get("score").getAsInt() + score;
+                    int newScore = score;
                     task.addProperty("score", newScore);
                     tasks.remove(t);
                     tasks.add(task);

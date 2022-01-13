@@ -1,5 +1,6 @@
 package com.kxw959.programmingapplication.controllers;
 
+import com.kxw959.programmingapplication.network.NetworkManager;
 import com.kxw959.programmingapplication.user.User;
 import com.kxw959.programmingapplication.utils.CompilerUtil;
 import com.kxw959.programmingapplication.utils.JUNITRunner;
@@ -16,6 +17,7 @@ import javafx.util.Pair;
 import jeliot.Jeliot;
 import jeliot.gui.JeliotWindow;
 
+import javax.jws.soap.SOAPBinding;
 import javax.swing.*;
 import java.io.File;
 import java.util.Objects;
@@ -112,7 +114,10 @@ public class CodeEditorController {
                 Pair<Integer, String> result = runner.runJunit(User.selectedTask.test.getKey(), compilerUtil.loadClassesFromCompiledDirectory());
                 output.setText(result.getValue());
                 if(result.getKey() > 0){
-
+                    if(result.getKey() > User.selectedTask.testsPassed){
+                        User.selectedTask.testsPassed = result.getKey();
+                        NetworkManager.increaseScore(User.username, User.selectedTask.testsPassed * 10, User.selectedTask.taskID);
+                    }
                 }
             }catch (Exception e){
                 e.printStackTrace();
