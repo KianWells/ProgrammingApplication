@@ -9,4 +9,5 @@ public class Task {
     public Pair<String, String> instructions;
     public Pair<String, String> quiz;
     public int junitVersion = 4;
+    public int testsPassed = 0;
 }
