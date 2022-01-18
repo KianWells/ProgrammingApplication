@@ -3,16 +3,30 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kxw959.programmingapplication.controllers.UploadTasksController">
    <children>
-      <Pane fx:id="namePane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="359.0" prefWidth="548.0" visible="true" StackPane.alignment="CENTER">
+      <Pane fx:id="createOrUploadPane" prefHeight="200.0" prefWidth="200.0" visible="false">
+         <children>
+            <Button layoutX="347.0" layoutY="227.0" mnemonicParsing="false" onAction="#onClickCreateTask" prefHeight="25.0" prefWidth="149.0" text="Create Task" />
+            <Button layoutX="714.0" layoutY="227.0" mnemonicParsing="false" onAction="#onClickUploadTask" prefHeight="25.0" prefWidth="149.0" text="Upload Task" />
+            <Label alignment="TOP_CENTER" layoutX="291.0" layoutY="294.0" prefHeight="213.0" prefWidth="261.0" text="Create a programming task using the code editor. Make a starting program from the template, add the instruction text, and select the expected outputs for the given inputs" textAlignment="CENTER" wrapText="true" />
+            <Label alignment="TOP_CENTER" layoutX="658.0" layoutY="294.0" prefHeight="213.0" prefWidth="261.0" text="Upload a programming task by uploading a starting file (.java), a pdf or text instructions, and a testing file (either a junit test or expected outputs from given inputs)" textAlignment="CENTER" wrapText="true" />
+         </children>
+      </Pane>
+      <Pane fx:id="namePane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="745.0" prefWidth="1317.0" StackPane.alignment="CENTER">
          <children>
             <Label layoutX="34.0" layoutY="35.0" text="Enter a name for the new task">
                <font>
@@ -50,10 +64,10 @@
             <Label fx:id="errorLabel" alignment="TOP_LEFT" layoutX="274.0" layoutY="246.0" prefHeight="50.0" prefWidth="258.0" text="Label" />
             <MenuButton fx:id="registerAs" layoutX="397.0" layoutY="94.0" mnemonicParsing="false" text="Register Selected As">
               <items>
-                <MenuItem fx:id="registerTest" mnemonicParsing="false" text="Test File (.java with JUNIT)" onAction="#onClickRegisterAs" />
-                <MenuItem fx:id="registerStart" mnemonicParsing="false" text="Start File (.java)" onAction="#onClickRegisterAs"/>
-                  <MenuItem fx:id="registerInstruction" mnemonicParsing="false" text="Instructions File (.pdf)" onAction="#onClickRegisterAs"/>
-                  <MenuItem fx:id="registerQuiz" mnemonicParsing="false" text="Quiz File (.csv)" onAction="#onClickRegisterAs"/>
+                <MenuItem fx:id="registerTest" mnemonicParsing="false" onAction="#onClickRegisterAs" text="Test File (.java with JUNIT)" />
+                <MenuItem fx:id="registerStart" mnemonicParsing="false" onAction="#onClickRegisterAs" text="Start File (.java)" />
+                  <MenuItem fx:id="registerInstruction" mnemonicParsing="false" onAction="#onClickRegisterAs" text="Instructions File (.pdf)" />
+                  <MenuItem fx:id="registerQuiz" mnemonicParsing="false" onAction="#onClickRegisterAs" text="Quiz File (.csv)" />
               </items>
             </MenuButton>
          </children>
@@ -69,5 +83,34 @@
             <Button layoutX="469.0" layoutY="320.0" mnemonicParsing="false" onAction="#onClickFinish" text="Continue" />
          </children>
       </Pane>
+      <SplitPane fx:id="createPane" dividerPositions="0.33, 0.66" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" visible="false">
+         <items>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <MenuBar fx:id="menuBar">
+                     <menus>
+                        <Menu fx:id="saveFiles" mnemonicParsing="false" onAction="#onClickSave" text="Save Files">
+                           <items>
+                              <MenuItem mnemonicParsing="false" text="save" />
+                           </items>
+                        </Menu>
+                        <Menu fx:id="uploadFiles" mnemonicParsing="false" onAction="#onClickUpload" text="Upload &amp; Save Files">
+                           <items>
+                              <MenuItem mnemonicParsing="false" text="upload" />
+                           </items>
+                        </Menu>
+                     </menus>
+                  </MenuBar>
+                  <TextArea fx:id="instructionArea" prefHeight="718.0" prefWidth="378.0" text="Enter Instructions:" wrapText="true">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </TextArea>
+               </children>
+            </VBox>
+            <BorderPane fx:id="codeArea" prefHeight="718.0" prefWidth="844.0" />
+            <BorderPane fx:id="testArea" prefHeight="718.0" prefWidth="844.0" />
+         </items>
+      </SplitPane>
    </children>
 </StackPane>
