@@ -76,4 +76,21 @@ public class JAVAUtil {
         }
         return resultStringBuilder.toString();
     }
+
+    public File createJavaFile(String content) throws IOException {
+        String[] words = content.split(" ");
+        String fileName = "bad";
+        for(int i=0; i<words.length; i++){
+            if(words[i].equals("class")){
+                fileName = words[i+1];
+                i = words.length;
+            }
+        }
+
+        fileName = fileName.replaceAll("\\{", "")+".java";
+        File file = new File(fileName);
+        Files.write(Paths.get(fileName), content.getBytes(StandardCharsets.UTF_8));
+
+        return file;
+    }
 }
