@@ -210,11 +210,17 @@ public class UploadTasksController {
     public void onClickUpload(ActionEvent actionEvent) {
         createPane.setVisible(false);
         uploadAll(saveAll());
+
+        for(File f : files){
+            CheckBox cb = new CheckBox(f.getName());
+            taskList.getItems().add(cb);
+        }
+
         filePane.setVisible(true);
     }
 
     void startCreate(){
-
+        JAVAUtil javaUtil = new JAVAUtil();
         jeliot1 = Jeliot.start(new String[0]);
 
         jeliot1.getGUI().getFrame().dispose();
