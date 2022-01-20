@@ -1,5 +1,8 @@
 package com.kxw959.programmingapplication.utils;
 
+import com.kxw959.programmingapplication.user.User;
+import org.codehaus.janino.Java;
+
 import javax.tools.*;
 import java.io.File;
 import java.net.URL;
@@ -19,10 +22,19 @@ public class CompilerUtil {
         DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<JavaFileObject>();
         StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostics, Locale.getDefault(), null);
         List<JavaFileObject> javaObjects = scanRecursivelyForJavaObjects(sourceDir, fileManager);
-
         if (javaObjects.size() == 0) {
             throw new Exception("There are no source files to compile in " + sourceDir.getAbsolutePath());
         }
+
+        javaObjects.removeIf(j -> !Objects.equals(j.getName(), User.selectedTask.start.getValue().replace("/", "\\"))
+        && !Objects.equals(j.getName(), User.selectedTask.test.getValue().replace("/", "\\")));
+
+        for(JavaFileObject j : javaObjects){
+            System.out.println(j.getName());
+            System.out.println(User.selectedTask.test.getValue().replace("/", "\\"));
+            System.out.println(User.selectedTask.start.getValue().replace("/", "\\"));
+        }
+
         System.out.println(classesDir.getAbsolutePath());
         System.out.println(sourceDir.getAbsolutePath());
         String[] compileOptions = new String[]{"-d", classesDir.getAbsolutePath()} ;
