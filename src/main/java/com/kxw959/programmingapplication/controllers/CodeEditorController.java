@@ -37,6 +37,7 @@ public class CodeEditorController {
     @FXML
     public Label junitOutput;
 
+    private JeliotWindow gui;
     public TextArea output = new TextArea();
     public Thread outputThread;
     JTextArea outputConsole = new JTextArea();
@@ -50,7 +51,7 @@ public class CodeEditorController {
 
         jeliot.getGUI().getFrame().dispose();
 
-        JeliotWindow gui = jeliot.getGUI();
+        gui = jeliot.getGUI();
         gui.setProgram(new File(User.selectedTask.start.getValue()));
 
         SwingNode codePane = new SwingNode();
@@ -103,6 +104,7 @@ public class CodeEditorController {
     @FXML
     public void onCLickTest(ActionEvent actionEvent) throws IOException {
         outputThread.interrupt();
+        gui.getEditor().saveProgram();
         File classDir = new File("classes/com/");
         if(classDir.exists()){
             System.out.println(classDir.delete());
