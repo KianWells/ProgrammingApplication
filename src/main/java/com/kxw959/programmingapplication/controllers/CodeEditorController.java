@@ -20,6 +20,10 @@ import jeliot.gui.JeliotWindow;
 import javax.jws.soap.SOAPBinding;
 import javax.swing.*;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class CodeEditorController {
@@ -97,7 +101,7 @@ public class CodeEditorController {
     }
 
     @FXML
-    public void onCLickTest(ActionEvent actionEvent) {
+    public void onCLickTest(ActionEvent actionEvent) throws IOException {
         outputThread.interrupt();
         File classDir = new File("classes/com/");
         if(classDir.exists()){
@@ -125,5 +129,9 @@ public class CodeEditorController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        List<File> fileToUpload = new ArrayList<>();
+        fileToUpload.add(new File(User.selectedTask.start.getValue()));
+        NetworkManager.uploadFiles(fileToUpload, User.username);
     }
 }
