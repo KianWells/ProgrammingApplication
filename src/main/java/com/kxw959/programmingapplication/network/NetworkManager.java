@@ -267,10 +267,10 @@ public class NetworkManager {
         http.disconnect();
     }
 
-    public static void uploadFiles(List<File> files) throws IOException {
+    public static void uploadFiles(List<File> files, String username) throws IOException {
         for(File f : files){
             CloseableHttpClient httpClient = HttpClients.createDefault();
-            HttpPost uploadFile = new HttpPost(HOST+"file/upload/");
+            HttpPost uploadFile = new HttpPost(HOST+"file/upload/" + (username == null ? "" : username));
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.addTextBody("field1", "yes", ContentType.TEXT_PLAIN);
             builder.addBinaryBody(
@@ -286,6 +286,14 @@ public class NetworkManager {
             HttpEntity responseEntity = response.getEntity();
             response.close();
         }
+
+    }
+
+    public static void uploadFiles(List<File> files) throws IOException {
+        uploadFiles(files, null);
+    }
+
+    public static void uploadStudentFile(File file, String username){
 
     }
 
