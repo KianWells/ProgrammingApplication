@@ -343,7 +343,7 @@ public class NetworkManager {
         }
     }
 
-    public static void getFile(String hostFileName, String fileName){
+    public static boolean getFile(String hostFileName, String fileName){
         try{
             URL fileURL = new URL(HOST+"file/download/"+hostFileName);
             HttpURLConnection con = setConnection(fileURL, "GET");
@@ -351,8 +351,9 @@ public class NetworkManager {
             byte[] bytes = IOUtils.toByteArray(is);
             writeByte(bytes, "src/main/java/com/kxw959/programmingapplication/tasks/"+fileName);
             con.disconnect();
+            return true;
         }catch (Exception e){
-            e.printStackTrace();
+            return false;
         }
     }
 
