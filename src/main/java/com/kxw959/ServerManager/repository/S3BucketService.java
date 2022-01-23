@@ -19,9 +19,9 @@ public class S3BucketService {
     @Autowired
     private AmazonS3 s3Client;
 
-    public String uploadFile(MultipartFile file){
+    public String uploadFile(MultipartFile file, String prefix){
         File fileObject = convertMultipartToFile(file);
-        String fileName = "jpa2021_"+file.getOriginalFilename();
+        String fileName = prefix+file.getOriginalFilename();
         s3Client.putObject(bucketName, fileName, fileObject);
         fileObject.delete();
         return fileName;

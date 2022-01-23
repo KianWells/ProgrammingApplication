@@ -15,12 +15,29 @@ public class S3Controller {
 
     @PostMapping("/file/upload")
     private ResponseEntity<String> uploadFile(@RequestBody MultipartFile file){
-        return new ResponseEntity<String>(service.uploadFile(file), HttpStatus.OK);
+        return new ResponseEntity<String>(service.uploadFile(file, "jpa2021_"), HttpStatus.OK);
+    }
+
+    @PostMapping("/file/upload/{username}")
+    private ResponseEntity<String> uploadStudentFile(@RequestBody MultipartFile file, @PathVariable String username){
+        return new ResponseEntity<String>(service.uploadFile(file, username+"/jpa2021_"), HttpStatus.OK);
     }
 
     @GetMapping("/file/download/{fileName}")
     private ResponseEntity<ByteArrayResource> downloadFile(@PathVariable String fileName){
         byte[] data = service.downloadFile(fileName);
+        ByteArrayResource resource = new ByteArrayResource(data);
+        return ResponseEntity
+                .ok()
+                .contentLength(data.length)
+                .header("Content-type", "application/octet-stream")
+                .header("Content-disposition", "attachment; filename=\"" + fileName + "\"")
+                .body(resource);
+    }
+
+    @GetMapping("/file/download/{username}/{fileName}")
+    private ResponseEntity<ByteArrayResource> downloadUsernameFile(@PathVariable String username, @PathVariable String fileName){
+        byte[] data = service.downloadFile(username+"/"+fileName);
         ByteArrayResource resource = new ByteArrayResource(data);
         return ResponseEntity
                 .ok()
