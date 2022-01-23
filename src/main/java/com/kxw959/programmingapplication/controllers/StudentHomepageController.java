@@ -52,7 +52,9 @@ public class StudentHomepageController {
                     String type = taskFiles.get("type").getAsString();
                     String fileName = "jpa2021_"+name;
                     System.out.println(fileName);
-                    NetworkManager.getFile(fileName, name);
+                    if(!NetworkManager.getFile(User.username + "/" + fileName, name)){
+                        NetworkManager.getFile(fileName, name);
+                    }
                     if(type.equals("start")){
                         String startPath = "src/main/java/com/kxw959/programmingapplication/tasks/"+name;
                         String startName = name.replaceAll("[.]java", "");
