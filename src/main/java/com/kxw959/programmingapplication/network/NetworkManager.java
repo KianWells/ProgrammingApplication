@@ -205,26 +205,6 @@ public class NetworkManager {
 
     }
 
-
-    public static List<JsonObject> getStudentsInClass(String className) throws IOException {
-        className = className.replaceAll(" ", "%20");
-        HttpURLConnection con = setConnection(new URL(STUDENT+"class/"+className), "GET");
-        try{
-            assert con != null;
-            InputStream is = con.getInputStream();
-            JSONUtil jsonUtil = new JSONUtil();
-            List<JsonObject> details = jsonUtil.getStudents(is);
-            System.out.println(details);
-            con.disconnect();
-            return details;
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            con.disconnect();
-            return new ArrayList<>();
-        }
-    }
-
     public static JsonElement getJSONElementFromURL(URL url, String field) throws IOException {
         return Objects.requireNonNull(getJSONObjectFromURL(url)).get(field);
     }
@@ -353,6 +333,7 @@ public class NetworkManager {
             con.disconnect();
             return true;
         }catch (Exception e){
+            e.printStackTrace();
             return false;
         }
     }

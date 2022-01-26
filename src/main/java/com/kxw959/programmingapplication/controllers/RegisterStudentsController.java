@@ -97,7 +97,7 @@ public class RegisterStudentsController {
         }
         else{
             String fileName = selectedClass+" Login Details.pdf";
-            pdfUtil.makePDFFromListJSON(NetworkManager.getStudentsInClass(selectedClass), fileName);
+            pdfUtil.makePDFFromListJSON(NetworkManager.getClassData(selectedClass), fileName);
             errorMsg.setText("");
         }
     }
