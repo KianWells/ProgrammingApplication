@@ -44,8 +44,10 @@ public class CodeEditorController {
 
     @FXML
     void initialize(){
-        PDFUtil util = new PDFUtil();
-        util.loadPDFAsText(instructionArea, User.selectedTask.instructions.getValue());
+        if(User.selectedTask.instructions != null){
+            PDFUtil util = new PDFUtil();
+            util.loadPDFAsText(instructionArea, User.selectedTask.instructions.getValue());
+        }
 
         Jeliot jeliot = Jeliot.start(new String[0]);
 
@@ -103,37 +105,42 @@ public class CodeEditorController {
 
     @FXML
     public void onCLickTest(ActionEvent actionEvent) throws IOException {
-        outputThread.interrupt();
-        gui.getEditor().saveProgram();
-        File classDir = new File("classes/com/");
-        if(classDir.exists()){
-            System.out.println(classDir.delete());
-        }
-        try {
-            CompilerUtil compilerUtil = new CompilerUtil();
-            compilerUtil.setSourceDir(new File("src/main/java/com/kxw959/programmingapplication/tasks"));
-            compilerUtil.setClassesDir(new File("classes/"));
-
+        if(User.selectedTask.test != null){
+            outputThread.interrupt();
+            gui.getEditor().saveProgram();
+            File classDir = new File("classes/com/");
+            if(classDir.exists()){
+                System.out.println(classDir.delete());
+            }
             try {
-                compilerUtil.compile();
-                JUNITRunner runner = new JUNITRunner();
-                Pair<Integer, String> result = runner.runJunit(User.selectedTask.test.getKey(), compilerUtil.loadClassesFromCompiledDirectory());
-                output.setText(result.getValue());
-                if(result.getKey() > 0){
-                    if(result.getKey() > User.selectedTask.testsPassed){
-                        User.selectedTask.testsPassed = result.getKey();
-                        NetworkManager.increaseScore(User.username, User.selectedTask.testsPassed * 10, User.selectedTask.taskID);
+                CompilerUtil compilerUtil = new CompilerUtil();
+                compilerUtil.setSourceDir(new File("src/main/java/com/kxw959/programmingapplication/tasks"));
+                compilerUtil.setClassesDir(new File("classes/"));
+
+                try {
+                    compilerUtil.compile();
+                    JUNITRunner runner = new JUNITRunner();
+                    Pair<Integer, String> result = runner.runJunit(User.selectedTask.test.getKey(), compilerUtil.loadClassesFromCompiledDirectory());
+                    output.setText(result.getValue());
+                    if(result.getKey() > 0){
+                        if(result.getKey() > User.selectedTask.testsPassed){
+                            User.selectedTask.testsPassed = result.getKey();
+                            NetworkManager.increaseScore(User.username, User.selectedTask.testsPassed * 10, User.selectedTask.taskID);
+                        }
                     }
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        List<File> fileToUpload = new ArrayList<>();
-        fileToUpload.add(new File(User.selectedTask.start.getValue()));
-        NetworkManager.uploadFiles(fileToUpload, User.username);
+            List<File> fileToUpload = new ArrayList<>();
+            fileToUpload.add(new File(User.selectedTask.start.getValue()));
+            NetworkManager.uploadFiles(fileToUpload, User.username);
+        }
+        else{
+            System.out.println("Could not find a test for this");
+        }
     }
 }
