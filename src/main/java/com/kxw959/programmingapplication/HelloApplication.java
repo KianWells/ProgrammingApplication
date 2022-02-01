@@ -6,6 +6,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
@@ -23,6 +25,31 @@ public class HelloApplication extends Application {
 
         System.out.println(System.getProperty("java.class.path"));
         System.out.println(System.getProperty("java.class.path").contains("junit"));
+    }
+
+    @Override
+    public void stop() throws Exception {
+        super.stop();
+        //delete files in tasks folder
+        File tasks = new File("src/main/java/com/kxw959/programmingapplication/tasks");
+        if(tasks.isDirectory()){
+            File[] files = tasks.listFiles();
+            if(files != null && files.length != 0){
+                for(File f : files){
+                    if(!f.getName().equals("Empty.java")){
+                        f.delete();
+                    }
+                }
+            }
+        }
+        else System.out.println("Doesnt exist");
+
+        File classDir = new File("classes/com/");
+        if(classDir.exists()){
+            System.out.println(classDir.delete());
+        }
+
+        System.exit(0);
     }
 
     public static void main(String[] args) {
