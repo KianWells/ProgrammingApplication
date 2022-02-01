@@ -283,5 +283,11 @@ public class UploadTasksController {
         taskMap.put("start", files.get(2).getName());
 
         this.files = files;
+
+        for(File f : files){
+            CheckBox cb = new CheckBox();
+            cb.setText(f.getName());
+            taskList.getItems().add(cb);
+        }
     }
 }
