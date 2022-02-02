@@ -211,11 +211,6 @@ public class UploadTasksController {
         createPane.setVisible(false);
         uploadAll(saveAll());
 
-        for(File f : files){
-            CheckBox cb = new CheckBox(f.getName());
-            taskList.getItems().add(cb);
-        }
-
         filePane.setVisible(true);
     }
 

@@ -21,6 +21,7 @@ import javax.jws.soap.SOAPBinding;
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +44,17 @@ public class CodeEditorController {
     JTextArea outputConsole = new JTextArea();
 
     @FXML
-    void initialize(){
+    void initialize() throws IOException {
         if(User.selectedTask.instructions != null){
-            PDFUtil util = new PDFUtil();
-            util.loadPDFAsText(instructionArea, User.selectedTask.instructions.getValue());
+            String content = new String ( Files.readAllBytes( Paths.get(User.selectedTask.instructions.getValue()) ) );
+            instructionArea.setText(content);
+            /*try{
+                PDFUtil util = new PDFUtil();
+                util.loadPDFAsText(instructionArea, User.selectedTask.instructions.getValue());
+            }
+            catch (Exception e){
+
+            }*/
         }
 
         Jeliot jeliot = Jeliot.start(new String[0]);
@@ -108,7 +116,7 @@ public class CodeEditorController {
         if(User.selectedTask.test != null){
             outputThread.interrupt();
             gui.getEditor().saveProgram();
-            File classDir = new File("classes/com/");
+            File classDir = new File("classes/com");
             if(classDir.exists()){
                 System.out.println(classDir.delete());
             }

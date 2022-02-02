@@ -44,7 +44,7 @@ public class HelloApplication extends Application {
         }
         else System.out.println("Doesnt exist");
 
-        File classDir = new File("classes/com/");
+        File classDir = new File("classes/com");
         if(classDir.exists()){
             System.out.println(classDir.delete());
         }
