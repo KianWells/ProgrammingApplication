@@ -18,23 +18,23 @@
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kxw959.programmingapplication.controllers.UploadTasksController">
    <children>
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" StackPane.alignment="CENTER" fx:id="namePane">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="17.0" layoutY="37.0" text="Enter a name for the new task">
+               <font>
+                  <Font name="Arial" size="36.0" />
+               </font>
+            </Label>
+            <TextField fx:id="nameField" layoutX="183.0" layoutY="115.0" />
+            <Button layoutX="228.0" layoutY="166.0" mnemonicParsing="false" onAction="#onClickConfirmName" text="Confirm" />
+         </children>
+      </Pane>
       <Pane fx:id="createOrUploadPane" prefHeight="200.0" prefWidth="200.0" visible="false">
          <children>
             <Button layoutX="347.0" layoutY="227.0" mnemonicParsing="false" onAction="#onClickCreateTask" prefHeight="25.0" prefWidth="149.0" text="Create Task" />
             <Button layoutX="714.0" layoutY="227.0" mnemonicParsing="false" onAction="#onClickUploadTask" prefHeight="25.0" prefWidth="149.0" text="Upload Task" />
             <Label alignment="TOP_CENTER" layoutX="291.0" layoutY="294.0" prefHeight="213.0" prefWidth="261.0" text="Create a programming task using the code editor. Make a starting program from the template, add the instruction text, and select the expected outputs for the given inputs" textAlignment="CENTER" wrapText="true" />
             <Label alignment="TOP_CENTER" layoutX="658.0" layoutY="294.0" prefHeight="213.0" prefWidth="261.0" text="Upload a programming task by uploading a starting file (.java), a pdf or text instructions, and a testing file (either a junit test or expected outputs from given inputs)" textAlignment="CENTER" wrapText="true" />
-         </children>
-      </Pane>
-      <Pane fx:id="namePane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="745.0" prefWidth="1317.0" StackPane.alignment="CENTER">
-         <children>
-            <Label layoutX="34.0" layoutY="35.0" text="Enter a name for the new task">
-               <font>
-                  <Font name="Arial" size="36.0" />
-               </font>
-            </Label>
-            <TextField fx:id="nameField" layoutX="200.0" layoutY="116.0" />
-            <Button layoutX="245.0" layoutY="167.0" mnemonicParsing="false" onAction="#onClickConfirmName" text="Confirm" />
          </children>
       </Pane>
       <Pane fx:id="typePane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="359.0" prefWidth="548.0" visible="false" StackPane.alignment="CENTER">
@@ -83,7 +83,7 @@
             <Button layoutX="469.0" layoutY="320.0" mnemonicParsing="false" onAction="#onClickFinish" text="Continue" />
          </children>
       </Pane>
-      <SplitPane fx:id="createPane" dividerPositions="0.33, 0.66" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" visible="false">
+      <SplitPane fx:id="createPane" dividerPositions="0.33, 0.66" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" visible="false" StackPane.alignment="CENTER">
          <items>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>

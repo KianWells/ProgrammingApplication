@@ -62,7 +62,8 @@ public class StudentHomepageController {
                         task.start = new Pair<>(startName, startPath);
                     }
                     if(type.equals("instructions")){
-                        String instructionsName = name.replaceAll("[.]pdf", "");
+                        String instructionsName = name.replaceAll("[.]txt", "");
+                        instructionsName = instructionsName.replaceAll("[.]pdf", "");
                         String instructionsPath = "src/main/java/com/kxw959/programmingapplication/tasks/"+name;
                         task.instructions = new Pair<>(instructionsName, instructionsPath);
                     }
