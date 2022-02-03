@@ -46,15 +46,14 @@ public class CodeEditorController {
     @FXML
     void initialize() throws IOException {
         if(User.selectedTask.instructions != null){
-            String content = new String ( Files.readAllBytes( Paths.get(User.selectedTask.instructions.getValue()) ) );
-            instructionArea.setText(content);
-            /*try{
+            if(User.selectedTask.instructions.getValue().endsWith(".txt")){
+                String content = new String ( Files.readAllBytes( Paths.get(User.selectedTask.instructions.getValue()) ) );
+                instructionArea.setText(content);
+            }
+            else{
                 PDFUtil util = new PDFUtil();
                 util.loadPDFAsText(instructionArea, User.selectedTask.instructions.getValue());
             }
-            catch (Exception e){
-
-            }*/
         }
 
         Jeliot jeliot = Jeliot.start(new String[0]);
