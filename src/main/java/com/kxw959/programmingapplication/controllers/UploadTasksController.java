@@ -92,9 +92,9 @@ public class UploadTasksController {
             case 0:
                 fc.getExtensionFilters().add(new FileChooser.ExtensionFilter(".csv type", "*.csv"));
             case 1:
-                fc.getExtensionFilters().add(new FileChooser.ExtensionFilter(".java type and .pdf", "*.java", "*.pdf"));
+                fc.getExtensionFilters().add(new FileChooser.ExtensionFilter(".java type, .pdf and .txt", "*.java", "*.pdf", "*.txt"));
             case 2:
-                fc.getExtensionFilters().add(new FileChooser.ExtensionFilter(".java type, .pdf, .csv", "*.java", "*.pdf", "*.csv"));
+                fc.getExtensionFilters().add(new FileChooser.ExtensionFilter(".java type, .pdf, .csv, .txt", "*.java", "*.pdf", "*.csv", "*.txt"));
         }
         List<File> tempFiles = fc.showOpenMultipleDialog(SceneManager.stage);
         if(tempFiles != null && !tempFiles.isEmpty()){
@@ -278,6 +278,7 @@ public class UploadTasksController {
         taskMap.put("start", files.get(2).getName());
 
         this.files = files;
+        User.uploadFiles = files;
 
         for(File f : files){
             CheckBox cb = new CheckBox();

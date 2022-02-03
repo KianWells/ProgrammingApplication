@@ -2,6 +2,7 @@ package com.kxw959.programmingapplication;
 
 import com.itextpdf.text.DocumentException;
 import com.kxw959.programmingapplication.sceneManager.SceneManager;
+import com.kxw959.programmingapplication.user.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -47,6 +48,12 @@ public class HelloApplication extends Application {
         File classDir = new File("classes/com");
         if(classDir.exists()){
             System.out.println(classDir.delete());
+        }
+
+        if(User.uploadFiles != null && !User.uploadFiles.isEmpty()){
+            for(File f : User.uploadFiles){
+                f.delete();
+            }
         }
 
         System.exit(0);
