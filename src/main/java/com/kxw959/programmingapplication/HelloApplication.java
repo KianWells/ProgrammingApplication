@@ -24,9 +24,6 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
         stage.show();
         SceneManager.initialise(stage, scene);
-
-        System.out.println(System.getProperty("java.class.path"));
-        System.out.println(System.getProperty("java.class.path").contains("junit"));
     }
 
     @Override
@@ -39,6 +36,19 @@ public class HelloApplication extends Application {
             if(files != null && files.length != 0){
                 for(File f : files){
                     if(!f.getName().equals("Empty.java")){
+                        f.delete();
+                    }
+                }
+            }
+        }
+        else System.out.println("Doesnt exist");
+
+        File examples = new File("src/main/java/com/kxw959/programmingapplication/examples");
+        if(examples.isDirectory()){
+            File[] files = examples.listFiles();
+            if(files != null && files.length != 0){
+                for(File f : files){
+                    if(!f.getName().equals("Example.java") && !f.getName().equals("ExampleTest.java")){
                         f.delete();
                     }
                 }

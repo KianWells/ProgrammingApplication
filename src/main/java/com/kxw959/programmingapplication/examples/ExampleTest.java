@@ -4,15 +4,15 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class ExampleTest {
-    Example example = new Example();
+    Example testObject = new Example();
 
     @Test
     public void test1(){
-        Assert.assertEquals(example.task1(3).length, 3);
+        Assert.assertEquals(testObject.task1(), 5);
     }
 
     @Test
     public void test2(){
-        Assert.assertEquals(example.task2(5).length(), 5);
+        Assert.assertEquals(testObject.task2(5), "5");
     }
 }

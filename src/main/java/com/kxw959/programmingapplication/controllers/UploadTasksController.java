@@ -17,6 +17,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import jeliot.Jeliot;
 import jeliot.gui.JeliotWindow;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.text.CaseUtils;
 
 import javax.swing.*;
 import java.io.File;
@@ -221,7 +223,8 @@ public class UploadTasksController {
         jeliot1.getGUI().getFrame().dispose();
 
         JeliotWindow gui = jeliot1.getGUI();
-        gui.setProgram(new File("src/main/java/com/kxw959/programmingapplication/examples/Example.java"));
+        File[] example = createExamples();
+        gui.setProgram(example[0]);
 
         SwingNode codePane = new SwingNode();
         SwingUtilities.invokeLater(new Runnable() {
@@ -235,7 +238,7 @@ public class UploadTasksController {
         jeliot2 = Jeliot.start(new String[0]);
         jeliot2.getGUI().getFrame().dispose();
         JeliotWindow gui2 = jeliot2.getGUI();
-        gui2.setProgram(new File("src/main/java/com/kxw959/programmingapplication/examples/ExampleTest.java"));
+        gui2.setProgram(example[1]);
         SwingNode codePane2 = new SwingNode();
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -244,6 +247,42 @@ public class UploadTasksController {
             }
         });
         testArea.setCenter(codePane2);
+    }
+
+    private File[] createExamples() {
+        File exampleTask = new File("src/main/java/com/kxw959/programmingapplication/examples/Example.java");
+        File exampleTest = new File("src/main/java/com/kxw959/programmingapplication/examples/ExampleTest.java");
+
+        File[] files = new File[2];
+        try {
+            String taskContent = FileUtils.readFileToString(exampleTask, StandardCharsets.UTF_8);
+            String newName = taskName.replaceAll("[^A-Za-z]", " ");
+            newName = CaseUtils.toCamelCase(newName, true, ' ');
+            String newTaskName = newName +"Task";
+
+            String newTaskContent = taskContent.replaceAll("Example", newTaskName);
+
+            File newTaskFile = new File("src/main/java/com/kxw959/programmingapplication/examples/"+newTaskName+".java");
+            Files.write(Paths.get(newTaskFile.getPath()), newTaskContent.getBytes(StandardCharsets.UTF_8));
+
+            files[0] = newTaskFile;
+
+            String newTestName = newName + "Test";
+            String testContent = FileUtils.readFileToString(exampleTest, StandardCharsets.UTF_8);
+            String newTestContent = testContent.replaceAll("ExampleTest", newTestName);
+            newTestContent = newTestContent.replaceAll("Example", newTaskName);
+
+            File newTestFile = new File("src/main/java/com/kxw959/programmingapplication/examples/"+newTestName+".java");
+            Files.write(Paths.get(newTestFile.getPath()), newTestContent.getBytes(StandardCharsets.UTF_8));
+
+            files[1] = newTestFile;
+
+            return files;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     List<File> saveAll(){
