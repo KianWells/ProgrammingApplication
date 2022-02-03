@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.kxw959.programmingapplication.network.NetworkManager;
+import com.kxw959.programmingapplication.sceneManager.SceneManager;
 import com.kxw959.programmingapplication.user.StudentTableObject;
 import com.kxw959.programmingapplication.user.User;
 import com.kxw959.programmingapplication.utils.CopyUtil;
@@ -128,5 +129,6 @@ public class SeeProgressController {
 
     @FXML
     public void onClickBack(ActionEvent actionEvent) {
+        SceneManager.switchScene("teacher-homepage.fxml");
     }
 }

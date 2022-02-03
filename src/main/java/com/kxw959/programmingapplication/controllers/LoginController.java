@@ -3,6 +3,7 @@ package com.kxw959.programmingapplication.controllers;
 import com.kxw959.programmingapplication.user.User;
 import com.kxw959.programmingapplication.network.NetworkManager;
 import com.kxw959.programmingapplication.sceneManager.SceneManager;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputControl;
@@ -46,5 +47,9 @@ public class LoginController {
                 SceneManager.switchScene("teacher-homepage.fxml");
                 break;
         }
+    }
+
+    public void onClickBack(ActionEvent event) {
+        SceneManager.switchScene("main-menu.fxml");
     }
 }

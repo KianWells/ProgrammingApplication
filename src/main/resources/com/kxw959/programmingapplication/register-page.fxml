@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/1.8.0_311" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kxw959.programmingapplication.controllers.RegisterController">
+<AnchorPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kxw959.programmingapplication.controllers.RegisterController">
    <children>
       <GridPane alignment="TOP_CENTER" layoutX="87.0" layoutY="35.0" prefHeight="330.0" prefWidth="227.0" AnchorPane.leftAnchor="87.0" AnchorPane.rightAnchor="87.0">
         <columnConstraints>
@@ -57,5 +57,6 @@
             </VBox>
          </children>
       </GridPane>
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="353.0" mnemonicParsing="false" onAction="#onClickBack" text="Back" textAlignment="CENTER" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="345.0" AnchorPane.topAnchor="353.0" />
    </children>
 </AnchorPane>

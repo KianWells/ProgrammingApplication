@@ -286,4 +286,8 @@ public class UploadTasksController {
             taskList.getItems().add(cb);
         }
     }
+
+    public void onClickBack(ActionEvent event) {
+        SceneManager.switchScene("teacher-homepage.fxml");
+    }
 }

@@ -1,6 +1,7 @@
 package com.kxw959.programmingapplication.controllers;
 
 import com.kxw959.programmingapplication.network.NetworkManager;
+import com.kxw959.programmingapplication.sceneManager.SceneManager;
 import com.kxw959.programmingapplication.user.User;
 import com.kxw959.programmingapplication.utils.CompilerUtil;
 import com.kxw959.programmingapplication.utils.JUNITRunner;
@@ -149,5 +150,10 @@ public class CodeEditorController {
         else{
             System.out.println("Could not find a test for this");
         }
+    }
+
+    public void onClickBack(ActionEvent event) {
+        if(!User.isTeacher) SceneManager.switchScene("student-homepage.fxml");
+        else SceneManager.switchScene("see-progress.fxml");
     }
 }

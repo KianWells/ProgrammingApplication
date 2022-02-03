@@ -144,11 +144,6 @@ public class StudentHomepageController {
 
     @FXML
     void onCLickEditor(){
-        for(Task task: User.taskList){
-            if(task.taskID.equals(selectedTask)){
-                User.selectedTask = task;
-            }
-        }
-        SceneManager.switchScene("code-editor.fxml");
+        SceneManager.switchScene("main-menu.fxml");
     }
 }

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.text.Font?>
 
-<TilePane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="0.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/1.8.0_311" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kxw959.programmingapplication.controllers.TeacherHomepageController">
+<TilePane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="0.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kxw959.programmingapplication.controllers.TeacherHomepageController">
    <children>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0">
          <children>
@@ -23,6 +23,7 @@
                   <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onClickRegister" prefWidth="113.0" styleClass="homePageCard" text="Register Students" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
+            <Button layoutX="1094.0" layoutY="627.0" mnemonicParsing="false" onAction="#onClickLogOut" prefHeight="64.0" prefWidth="146.0" text="Log Out" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="1094.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="627.0" />
          </children>
       </AnchorPane>
    </children>
