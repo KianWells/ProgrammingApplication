@@ -6,18 +6,29 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.2378716744913928" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/1.8.0_311" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kxw959.programmingapplication.controllers.CodeEditorController">
+<SplitPane dividerPositions="0.2378716744913928" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kxw959.programmingapplication.controllers.CodeEditorController">
   <items>
       <TextArea fx:id="instructionArea" prefHeight="718.0" prefWidth="336.0" />
       <BorderPane fx:id="jeliotWindow" prefHeight="200.0" prefWidth="200.0">
          <top>
-            <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER_RIGHT">
+            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER_RIGHT">
                <children>
-                  <Button fx:id="testButton" alignment="CENTER_RIGHT" mnemonicParsing="false" text="Test Solution" onAction="#onCLickTest"/>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onClickBack" prefHeight="102.0" prefWidth="134.0" text="BACK" textAlignment="CENTER">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
+                  <Pane HBox.hgrow="ALWAYS" />
+                  <Button fx:id="testButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onCLickTest" prefHeight="102.0" prefWidth="134.0" text="Test Solution" textAlignment="CENTER">
+                     <font>
+                        <Font size="16.0" />
+                     </font></Button>
                </children>
                <BorderPane.margin>
-                  <Insets right="20.0" top="20.0" />
+                  <Insets bottom="10.0" left="20.0" right="20.0" top="20.0" />
                </BorderPane.margin>
             </HBox>
          </top></BorderPane>

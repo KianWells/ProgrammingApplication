@@ -7,6 +7,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,7 +48,7 @@ public class HelloApplication extends Application {
 
         File classDir = new File("classes/com");
         if(classDir.exists()){
-            System.out.println(classDir.delete());
+            FileUtils.deleteDirectory(classDir);
         }
 
         if(User.uploadFiles != null && !User.uploadFiles.isEmpty()){

@@ -1,6 +1,7 @@
 package com.kxw959.programmingapplication.controllers;
 
 import com.kxw959.programmingapplication.sceneManager.SceneManager;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 public class TeacherHomepageController {
@@ -19,4 +20,7 @@ public class TeacherHomepageController {
         SceneManager.switchScene("register-students.fxml");
     }
 
+    public void onClickLogOut(ActionEvent event) {
+        SceneManager.switchScene("main-menu.fxml");
+    }
 }
