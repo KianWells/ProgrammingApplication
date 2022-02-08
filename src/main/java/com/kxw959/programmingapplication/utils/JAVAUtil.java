@@ -77,7 +77,7 @@ public class JAVAUtil {
         return resultStringBuilder.toString();
     }
 
-    public File createJavaFile(String content) throws IOException {
+    public File createJavaFile(String content, String path) throws IOException {
         String[] words = content.split(" ");
         String fileName = "bad";
         for(int i=0; i<words.length; i++){
@@ -87,7 +87,7 @@ public class JAVAUtil {
             }
         }
 
-        fileName = fileName.replaceAll("\\{", "")+".java";
+        fileName = path + fileName.replaceAll("\\{", "")+".java";
         File file = new File(fileName);
         Files.write(Paths.get(fileName), content.getBytes(StandardCharsets.UTF_8));
 

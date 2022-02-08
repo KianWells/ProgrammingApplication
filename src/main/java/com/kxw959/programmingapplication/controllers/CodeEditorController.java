@@ -126,7 +126,7 @@ public class CodeEditorController {
                 compilerUtil.setClassesDir(new File("classes/"));
 
                 try {
-                    compilerUtil.compile();
+                    compilerUtil.compile(false);
                     JUNITRunner runner = new JUNITRunner();
                     Pair<Integer, String> result = runner.runJunit(User.selectedTask.test.getKey(), compilerUtil.loadClassesFromCompiledDirectory());
                     output.setText(result.getValue());

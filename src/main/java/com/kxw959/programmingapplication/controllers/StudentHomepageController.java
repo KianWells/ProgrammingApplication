@@ -8,6 +8,7 @@ import com.kxw959.programmingapplication.sceneManager.SceneManager;
 import com.kxw959.programmingapplication.user.Task;
 import com.kxw959.programmingapplication.user.User;
 import com.kxw959.programmingapplication.utils.JAVAUtil;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -18,8 +19,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 
+import javax.jws.soap.SOAPBinding;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 public class StudentHomepageController {
 
@@ -144,6 +147,15 @@ public class StudentHomepageController {
 
     @FXML
     void onCLickEditor(){
+        for(Task t : User.taskList){
+            if(Objects.equals(t.taskID, selectedTask)){
+                User.selectedTask = User.taskList.get(User.taskList.indexOf(t));
+            }
+        }
+        SceneManager.switchScene("code-editor.fxml");
+    }
+
+    public void onClickLogOut(ActionEvent event) {
         SceneManager.switchScene("main-menu.fxml");
     }
 }

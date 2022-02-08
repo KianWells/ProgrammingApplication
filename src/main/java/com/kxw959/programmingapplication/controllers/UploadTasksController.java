@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.kxw959.programmingapplication.network.NetworkManager;
 import com.kxw959.programmingapplication.sceneManager.SceneManager;
 import com.kxw959.programmingapplication.user.User;
+import com.kxw959.programmingapplication.utils.CompilerUtil;
 import com.kxw959.programmingapplication.utils.JAVAUtil;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -50,6 +51,7 @@ public class UploadTasksController {
     public BorderPane codeArea;
     public BorderPane testArea;
     public SplitPane createPane;
+    public TextArea errorConsole;
 
     private List<String> selectedFiles = new ArrayList<>();
     private List<File> files = new ArrayList<>();
@@ -210,10 +212,18 @@ public class UploadTasksController {
     }
 
     public void onClickUpload(ActionEvent actionEvent) {
-        createPane.setVisible(false);
-        uploadAll(saveAll());
-
-        filePane.setVisible(true);
+        List<File> files = saveAll();
+        CompilerUtil compilerUtil = new CompilerUtil();
+        compilerUtil.setSourceDir(new File("src/main/java/com/kxw959/programmingapplication/tasks/"));
+        compilerUtil.setClassesDir(new File("classes/"));
+        try{
+            compilerUtil.compile(true);
+            uploadAll(files);
+            createPane.setVisible(false);
+            filePane.setVisible(true);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     void startCreate(){
@@ -290,6 +300,8 @@ public class UploadTasksController {
         String test = jeliot2.getGUI().getProgram();
         String start = jeliot1.getGUI().getProgram();
 
+        String path = "src/main/java/com/kxw959/programmingapplication/tasks/";
+
         try {
             File instructionsFile = new File(taskName+"Instructions.txt");
             File testFile;
@@ -299,10 +311,12 @@ public class UploadTasksController {
 
             JAVAUtil util = new JAVAUtil();
 
-            testFile = util.createJavaFile(test);
-            startFile = util.createJavaFile(start);
+            testFile = util.createJavaFile(test, path);
+            startFile = util.createJavaFile(start, path);
 
-            return Arrays.asList(instructionsFile, testFile, startFile);
+            List<File> retFiles = Arrays.asList(instructionsFile, testFile, startFile);
+            User.uploadFiles = retFiles;
+            return retFiles;
 
         } catch (IOException e) {
             e.printStackTrace();

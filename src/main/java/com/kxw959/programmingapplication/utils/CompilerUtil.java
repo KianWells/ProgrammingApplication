@@ -17,7 +17,7 @@ public class CompilerUtil {
         return new URLClassLoader(new URL[]{classesDir.toURI().toURL()});
     }
 
-    public void compile() throws Exception {
+    public void compile(boolean teacher) throws Exception {
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<JavaFileObject>();
         StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostics, Locale.getDefault(), null);
@@ -25,14 +25,15 @@ public class CompilerUtil {
         if (javaObjects.size() == 0) {
             throw new Exception("There are no source files to compile in " + sourceDir.getAbsolutePath());
         }
+        if(!teacher){
+            javaObjects.removeIf(j -> !Objects.equals(j.getName(), User.selectedTask.start.getValue().replace("/", "\\"))
+                    && !Objects.equals(j.getName(), User.selectedTask.test.getValue().replace("/", "\\")));
 
-        javaObjects.removeIf(j -> !Objects.equals(j.getName(), User.selectedTask.start.getValue().replace("/", "\\"))
-        && !Objects.equals(j.getName(), User.selectedTask.test.getValue().replace("/", "\\")));
-
-        for(JavaFileObject j : javaObjects){
-            System.out.println(j.getName());
-            System.out.println(User.selectedTask.test.getValue().replace("/", "\\"));
-            System.out.println(User.selectedTask.start.getValue().replace("/", "\\"));
+            for(JavaFileObject j : javaObjects){
+                System.out.println(j.getName());
+                System.out.println(User.selectedTask.test.getValue().replace("/", "\\"));
+                System.out.println(User.selectedTask.start.getValue().replace("/", "\\"));
+            }
         }
 
         System.out.println(classesDir.getAbsolutePath());

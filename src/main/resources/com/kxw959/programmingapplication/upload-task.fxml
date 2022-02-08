@@ -16,9 +16,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kxw959.programmingapplication.controllers.UploadTasksController">
+<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kxw959.programmingapplication.controllers.UploadTasksController">
    <children>
-      <Pane fx:id="namePane" maxHeight="-Infinity" maxWidth="-Infinity" StackPane.alignment="CENTER">
+      <Pane fx:id="namePane" maxHeight="-Infinity" maxWidth="-Infinity" visible="true" StackPane.alignment="CENTER">
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" layoutX="17.0" layoutY="37.0" text="Enter a name for the new task">
                <font>
@@ -88,11 +88,11 @@
             <Button layoutX="14.0" layoutY="325.0" mnemonicParsing="false" onAction="#onClickBack" text="Back" />
          </children>
       </Pane>
-      <SplitPane fx:id="createPane" dividerPositions="0.33, 0.66" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" visible="false" StackPane.alignment="CENTER">
+      <SplitPane fx:id="createPane" dividerPositions="0.33, 0.66" maxHeight="1.7976931348623157E308" visible="false" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1283.0" StackPane.alignment="CENTER">
          <items>
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <VBox maxHeight="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <MenuBar fx:id="menuBar">
+                  <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
                      <menus>
                         <Menu fx:id="saveFiles" mnemonicParsing="false" onAction="#onClickSave" text="Save Files">
                            <items>
@@ -106,16 +106,19 @@
                         </Menu>
                      </menus>
                   </MenuBar>
-                  <TextArea fx:id="instructionArea" prefHeight="718.0" prefWidth="378.0" text="Enter Instructions:" wrapText="true">
+                  <TextArea fx:id="instructionArea" maxHeight="1.7976931348623157E308" prefHeight="2000.0" prefWidth="420.0" text="Enter Instructions:" wrapText="true" VBox.vgrow="ALWAYS">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </TextArea>
-                  <Button mnemonicParsing="false" onAction="#onClickBack" text="Back" />
+                  <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#onClickBack" text="Back" VBox.vgrow="NEVER" />
                </children>
             </VBox>
             <BorderPane fx:id="codeArea" prefHeight="718.0" prefWidth="844.0" />
-            <BorderPane fx:id="testArea" prefHeight="718.0" prefWidth="844.0" />
+            <BorderPane fx:id="testArea" prefHeight="718.0" prefWidth="844.0">
+               <bottom>
+                  <TextArea fx:id="errorConsole" prefHeight="80.0" prefWidth="433.0" BorderPane.alignment="BOTTOM_LEFT" />
+               </bottom></BorderPane>
          </items>
       </SplitPane>
    </children>
