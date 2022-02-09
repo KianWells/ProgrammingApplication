@@ -17,6 +17,8 @@ import javafx.scene.layout.HBox;
 import javafx.util.Pair;
 import jeliot.Jeliot;
 import jeliot.gui.JeliotWindow;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import javax.jws.soap.SOAPBinding;
 import javax.swing.*;
@@ -129,14 +131,18 @@ public class CodeEditorController {
                     compilerUtil.compile(false);
                     JUNITRunner runner = new JUNITRunner();
                     Pair<Integer, String> result = runner.runJunit(User.selectedTask.test.getKey(), compilerUtil.loadClassesFromCompiledDirectory());
-                    output.setText(result.getValue());
-                    if(result.getKey() > 0){
-                        if(result.getKey() > User.selectedTask.testsPassed){
-                            User.selectedTask.testsPassed = result.getKey();
-                            NetworkManager.increaseScore(User.username, User.selectedTask.testsPassed * 10, User.selectedTask.taskID);
-                        }
-                    }
+                    output.setText(result.getValue()+
+                            "\nTests Passed: "+
+                            result.getKey() +
+                            " out of " +
+                            User.selectedTask.totalTests);
+                    User.selectedTask.testsPassed = result.getKey();
+                    NetworkManager.increaseScore(User.username, User.selectedTask.testsPassed * 10, User.selectedTask.taskID);
+                    List<File> fileToUpload = new ArrayList<>();
+                    fileToUpload.add(new File(User.selectedTask.start.getValue()));
+                    NetworkManager.uploadFiles(fileToUpload, User.username);
                 }catch (Exception e){
+                    output.setText(e.getMessage());
                     e.printStackTrace();
                 }
             } catch (Exception e) {
@@ -153,7 +159,10 @@ public class CodeEditorController {
     }
 
     public void onClickBack(ActionEvent event) {
-        if(!User.isTeacher) SceneManager.switchScene("student-homepage.fxml");
+        if(!User.isTeacher) {
+            gui.getEditor().saveProgram();
+            SceneManager.switchScene("student-homepage.fxml");
+        }
         else SceneManager.switchScene("see-progress.fxml");
     }
 }

@@ -18,6 +18,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import jeliot.Jeliot;
 import jeliot.gui.JeliotWindow;
+import jeliot.gui.OutputConsole;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.text.CaseUtils;
 
@@ -60,6 +61,7 @@ public class UploadTasksController {
     private int taskType;
 
     Jeliot jeliot1,jeliot2;
+    private int totalTests;
 
     @FXML
     public void initialize(){
@@ -157,7 +159,7 @@ public class UploadTasksController {
         NetworkManager.uploadFiles(files);
         for(CheckBox cb: classList.getItems()){
             if(cb.isSelected()){
-                NetworkManager.addTaskToClass(cb.getText(), taskName, taskMap);
+                NetworkManager.addTaskToClass(cb.getText(), taskName, taskMap, totalTests);
             }
         }
         SceneManager.switchScene("teacher-homepage.fxml");
@@ -222,7 +224,7 @@ public class UploadTasksController {
             createPane.setVisible(false);
             filePane.setVisible(true);
         }catch (Exception e){
-            e.printStackTrace();
+            errorConsole.setText(e.getMessage());
         }
     }
 
@@ -312,6 +314,7 @@ public class UploadTasksController {
             JAVAUtil util = new JAVAUtil();
 
             testFile = util.createJavaFile(test, path);
+            findTests(testFile);
             startFile = util.createJavaFile(start, path);
 
             List<File> retFiles = Arrays.asList(instructionsFile, testFile, startFile);
@@ -337,6 +340,21 @@ public class UploadTasksController {
             CheckBox cb = new CheckBox();
             cb.setText(f.getName());
             taskList.getItems().add(cb);
+        }
+    }
+
+    private void findTests(File testFile){
+        //count all the @Test annotations (?)
+        try {
+            String content = FileUtils.readFileToString(testFile, StandardCharsets.UTF_8);
+            String find = "@Test";
+            int index = 0, count = 0, length = find.length();
+            while( (index = content.indexOf(find, index)) != -1 ) {
+                index += length; count++;
+            }
+            totalTests = count;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

@@ -277,7 +277,7 @@ public class NetworkManager {
 
     }
 
-    public static void addTaskToClass(String className, String taskName, Map<String, String> files) throws IOException {
+    public static void addTaskToClass(String className, String taskName, Map<String, String> files, int totalTests) throws IOException {
         className = className.replaceAll(" ","%20");
         HttpURLConnection con = setConnection(new URL(STUDENT+"class/"+className), "POST");
         JsonObject task = new JsonObject();
@@ -292,6 +292,7 @@ public class NetworkManager {
         task.add("fileNames", fileNames);
         task.addProperty("score", 0);
         task.addProperty("completed", false);
+        task.addProperty("totalTests", totalTests);
         assert con != null;
         postJSON(con, task);
         con.disconnect();
@@ -350,6 +351,9 @@ public class NetworkManager {
                 if(Objects.equals(task.get("taskID").getAsString(), taskName)){
                     int newScore = score;
                     task.addProperty("score", newScore);
+                    if(newScore / 10 == task.get("totalTests").getAsInt()){
+                        task.addProperty("completed", true);
+                    }
                     tasks.remove(t);
                     tasks.add(task);
                 }
