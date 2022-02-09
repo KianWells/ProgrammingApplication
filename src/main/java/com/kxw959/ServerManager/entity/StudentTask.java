@@ -23,5 +23,8 @@ public class StudentTask {
     int score;
 
     @DynamoDBAttribute
+    int totalTests;
+
+    @DynamoDBAttribute
     boolean completed;
 }
