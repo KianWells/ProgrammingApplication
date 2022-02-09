@@ -10,4 +10,6 @@ public class Task {
     public Pair<String, String> quiz;
     public int junitVersion = 4;
     public int testsPassed = 0;
+    public int totalTests = 0;
+    public boolean completed = false;
 }

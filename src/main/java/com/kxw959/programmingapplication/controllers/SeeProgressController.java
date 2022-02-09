@@ -95,7 +95,9 @@ public class SeeProgressController {
                 for(JsonElement t : j.get("tasks").getAsJsonArray()){
                     JsonObject task = (JsonObject) t;
                     String taskName = task.get("taskID").getAsString();
-                    String testsPassed = task.get("score").getAsString();
+                    int testsPassed = task.get("score").getAsInt()/10;
+                    int totalTests = task.get("totalTests").getAsInt();
+                    String value = testsPassed + " / " + totalTests;
                     JsonArray fileNames = task.getAsJsonArray("fileNames");
                     String fileName = "";
                     for(JsonElement e : fileNames){
@@ -104,7 +106,7 @@ public class SeeProgressController {
                             fileName = file.get("fileName").getAsString();
                         }
                     }
-                    objects.add(new StudentTableObject(taskName, testsPassed, fileName,j.get("username").getAsString()));
+                    objects.add(new StudentTableObject(taskName, value, fileName,j.get("username").getAsString()));
                 }
                 studentsInClass.add(new Pair<>(title, objects));
             }

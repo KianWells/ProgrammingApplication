@@ -4,7 +4,9 @@ import com.kxw959.programmingapplication.user.User;
 import org.codehaus.janino.Java;
 
 import javax.tools.*;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.PrintStream;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.*;
@@ -12,6 +14,7 @@ import java.util.*;
 public class CompilerUtil {
     private File classesDir;
     private File sourceDir;
+    private String error = "";
 
     public URLClassLoader loadClassesFromCompiledDirectory() throws Exception {
         return new URLClassLoader(new URL[]{classesDir.toURI().toURL()});
@@ -45,9 +48,10 @@ public class CompilerUtil {
 
         if (!compilerTask.call()) {
             for (Diagnostic<?> diagnostic : diagnostics.getDiagnostics()) {
-                System.err.format("Eror on line %d in %s", diagnostic.getLineNumber(), diagnostic);
+                System.err.format("Error on line %d in %s", diagnostic.getLineNumber(), diagnostic);
+                error += "Error on line "+diagnostic.getLineNumber()+" in "+diagnostic;
             }
-            throw new Exception("Could not compile project");
+            throw new Exception(error);
         }
     }
 

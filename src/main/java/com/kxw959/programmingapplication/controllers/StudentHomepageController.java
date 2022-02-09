@@ -17,9 +17,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.util.Pair;
 
 import javax.jws.soap.SOAPBinding;
+import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -47,7 +49,10 @@ public class StudentHomepageController {
                 Task task = new Task();
                 JsonObject obj = (JsonObject) j;
                 task.taskID = obj.get("taskID").getAsString();
-                addTask(obj.get("taskID").getAsString());
+                task.totalTests = obj.get("totalTests").getAsInt();
+                task.testsPassed = obj.get("score").getAsInt()/10;
+                task.completed = obj.get("completed").getAsBoolean();
+                addTask(task.taskID, task.completed);
                 JsonArray fileNames = obj.get("fileNames").getAsJsonArray();
                 for(JsonElement s: fileNames){
                     JsonObject taskFiles = (JsonObject) s;
@@ -87,7 +92,7 @@ public class StudentHomepageController {
         }
     }
 
-    private void addTask(String name){
+    private void addTask(String name, boolean completed){
         HBox hbox;
         if (numCards == 2){
             numCards = 1;
@@ -112,6 +117,9 @@ public class StudentHomepageController {
             selectedTask = taskBtn.getText();
             onCLickEditor();
         });
+        if(completed) {
+            taskBtn.setStyle("-fx-text-fill: green");
+        }
         hbox.getChildren().add(taskBtn);
     }
 
