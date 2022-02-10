@@ -6,7 +6,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.util.Pair;
-import sun.security.jgss.spnego.NegTokenInit;
 
 public class StudentTableObject {
 

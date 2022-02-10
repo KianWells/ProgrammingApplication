@@ -18,7 +18,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import jeliot.Jeliot;
 import jeliot.gui.JeliotWindow;
-import jeliot.gui.OutputConsole;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.text.CaseUtils;
 

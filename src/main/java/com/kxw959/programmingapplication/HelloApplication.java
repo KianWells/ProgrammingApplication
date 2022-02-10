@@ -11,6 +11,8 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.security.NoSuchAlgorithmException;
 
 public class HelloApplication extends Application {
@@ -24,6 +26,14 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
         stage.show();
         SceneManager.initialise(stage, scene);
+        ClassLoader cl = ClassLoader.getSystemClassLoader();
+
+        URL[] urls = ((URLClassLoader)cl).getURLs();
+
+        for(URL url: urls){
+            System.out.println(url.getFile());
+        }
+
     }
 
     @Override
