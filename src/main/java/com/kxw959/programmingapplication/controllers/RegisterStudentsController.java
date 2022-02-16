@@ -57,6 +57,8 @@ public class RegisterStudentsController {
                 classList.getItems().add(jsonArray.get(i).getAsString());
             }
             selectedClass = classList.getItems().get(0);
+            System.out.println(classList.getItems());
+            System.out.println(jsonArray);
         }
         catch(Exception e){
             e.printStackTrace();
@@ -83,7 +85,7 @@ public class RegisterStudentsController {
                     records.add(Arrays.asList(values));
                 }
             }
-            System.out.println(records);
+            System.out.println("ALL STUDENTS: "+records);
             for(List<String> person: records){
                 NetworkManager.registerStudent(person.get(0), person.get(1)==null ? selectedClass : person.get(1));
             }
@@ -92,13 +94,9 @@ public class RegisterStudentsController {
     @FXML
     public void onClickPDF(ActionEvent actionEvent) throws IOException {
         PDFUtil pdfUtil = new PDFUtil();
-        if(Objects.equals(selectedClass, "")){
-            errorMsg.setText("Select a Class");
-        }
-        else{
+        if(!Objects.equals(selectedClass, "")){
             String fileName = selectedClass+" Login Details.pdf";
             pdfUtil.makePDFFromListJSON(NetworkManager.getClassData(selectedClass), fileName);
-            errorMsg.setText("");
         }
     }
     @FXML

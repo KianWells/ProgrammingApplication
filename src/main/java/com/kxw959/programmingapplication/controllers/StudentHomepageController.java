@@ -13,15 +13,16 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.util.Pair;
 
-import javax.jws.soap.SOAPBinding;
-import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -35,9 +36,19 @@ public class StudentHomepageController {
     public VBox leaderboard;
     int numCards = 2;
     String selectedTask = "";
+    Image badge;
+    ImageView iv;
 
     @FXML
     void initialize(){
+        badge = new Image("com/kxw959/programmingapplication/badge.png");
+        System.out.println(badge.getHeight());
+        iv = new ImageView(badge);
+        iv.setFitWidth(60);
+        iv.setFitHeight(60);
+        iv.setPickOnBounds(true);
+        iv.setPreserveRatio(true);
+        iv.setCache(true);
         JAVAUtil javaUtil = new JAVAUtil();
         try {
             JsonObject student = NetworkManager.getJSONObjectFromURL(User.url);
@@ -90,6 +101,7 @@ public class StudentHomepageController {
             javaUtil.updateImports(task.test.getValue(), "import com.kxw959.programmingapplication.tasks."+task.start.getKey(), task.start.getKey());
             task.junitVersion = javaUtil.changePackageName(task.test.getValue(), "package com.kxw959.programmingapplication.tasks;");
         }
+        //taskList.getChildren().add(iv);
     }
 
     private void addTask(String name, boolean completed){
@@ -119,6 +131,8 @@ public class StudentHomepageController {
         });
         if(completed) {
             taskBtn.setStyle("-fx-text-fill: green");
+            taskBtn.setGraphic(iv);
+            taskBtn.setContentDisplay(ContentDisplay.BOTTOM);
         }
         hbox.getChildren().add(taskBtn);
     }
@@ -131,8 +145,12 @@ public class StudentHomepageController {
             for(JsonObject s : students){
                 if(i<10){
                     GridPane gp = (GridPane) leaderboard.getChildren().get(i);
-                    gp.add(new Label(s.get("name").getAsString()), 1, 0);
-                    gp.add(new Label(Integer.toString(addUpScores(s))), 2, 0);
+                    Label name = new Label(s.get("name").getAsString());
+                    name.setFont(Font.font(30));
+                    Label score = new Label(Integer.toString(addUpScores(s)));
+                    score.setFont(Font.font(30));
+                    gp.add(name, 1, 0);
+                    gp.add(score, 2, 0);
                 }
                 i++;
             }
