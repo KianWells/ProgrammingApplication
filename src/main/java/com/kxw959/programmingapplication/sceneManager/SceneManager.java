@@ -17,7 +17,7 @@ import java.io.IOException;
 
 public class SceneManager {
     public static Stage stage;
-    static Scene currentScene;
+    public static Scene currentScene;
     static double sceneWidth;
     static double sceneHeight;
 

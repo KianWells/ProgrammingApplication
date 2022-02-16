@@ -127,15 +127,19 @@ public class NetworkManager {
         user.addProperty("className", className);
         user.addProperty("name", name);
 
-        JsonObject student = getClassData(className).get(0);
-        JsonArray tasks = student.get("tasks").getAsJsonArray();
-        for(int i=0; i<tasks.size(); i++){
-            JsonObject j = (JsonObject) tasks.get(i);
-            j.addProperty("score", 0);
-            j.addProperty("completed", false);
-            tasks.set(i, j);
+        try{
+            JsonObject student = getClassData(className).get(0);
+            JsonArray tasks = student.get("tasks").getAsJsonArray();
+            for(int i=0; i<tasks.size(); i++){
+                JsonObject j = (JsonObject) tasks.get(i);
+                j.addProperty("score", 0);
+                j.addProperty("completed", false);
+                tasks.set(i, j);
+            }
+            user.add("tasks", tasks);
+        }catch (Exception e){
+
         }
-        user.add("tasks", tasks);
         assert con != null;
         postJSON(con, user);
         con.disconnect();

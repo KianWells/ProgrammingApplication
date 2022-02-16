@@ -35,7 +35,7 @@ public class PDFUtil {
             e.printStackTrace();
         }
         document.open();
-        PdfPTable table = new PdfPTable(jsonList.get(0).size());
+        PdfPTable table = new PdfPTable(3);
         String[] headers = new String[] {"Name", "Username", "Password"};
         for(String headerString : headers){
             PdfPCell header = new PdfPCell();
