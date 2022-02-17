@@ -137,6 +137,9 @@ public class CodeEditorController {
                             " out of " +
                             User.selectedTask.totalTests);
                     User.selectedTask.testsPassed = result.getKey();
+                    if(result.getKey() < User.selectedTask.totalTests){
+                        User.selectedTask.completed = false;
+                    }
                     NetworkManager.increaseScore(User.username, User.selectedTask.testsPassed * 10, User.selectedTask.taskID);
                     List<File> fileToUpload = new ArrayList<>();
                     fileToUpload.add(new File(User.selectedTask.start.getValue()));

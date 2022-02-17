@@ -1,6 +1,5 @@
 package com.kxw959.programmingapplication;
 
-import com.itextpdf.text.DocumentException;
 import com.kxw959.programmingapplication.sceneManager.SceneManager;
 import com.kxw959.programmingapplication.user.User;
 import javafx.application.Application;
@@ -17,7 +16,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class HelloApplication extends Application {
     @Override
-    public void start(Stage stage) throws IOException, NoSuchAlgorithmException, DocumentException {
+    public void start(Stage stage) throws IOException {
 
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("main-menu.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 400, 400);

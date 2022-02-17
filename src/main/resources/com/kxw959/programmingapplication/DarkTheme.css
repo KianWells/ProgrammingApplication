@@ -47,7 +47,9 @@
     -fx-font-size: 30;
     -fx-font-weight: bold;
 }
-
+#leaderboard{
+    -fx-background-color: dodgerblue;
+}
 .taskBox{
     -fx-border-width: 3;
     -fx-border-color: black;
