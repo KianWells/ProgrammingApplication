@@ -304,7 +304,7 @@ public class UploadTasksController {
         String path = "src/main/java/com/kxw959/programmingapplication/tasks/";
 
         try {
-            File instructionsFile = new File(taskName+"Instructions.txt");
+            File instructionsFile = new File(taskName.replaceAll(" ", "")+"Instructions.txt");
             File testFile;
             File startFile;
 

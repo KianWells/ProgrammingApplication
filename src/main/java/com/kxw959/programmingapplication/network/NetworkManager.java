@@ -365,6 +365,9 @@ public class NetworkManager {
                     if(newScore / 10 == task.get("totalTests").getAsInt()){
                         task.addProperty("completed", true);
                     }
+                    else {
+                        task.addProperty("completed", false);
+                    }
                     tasks.remove(t);
                     tasks.add(task);
                 }
