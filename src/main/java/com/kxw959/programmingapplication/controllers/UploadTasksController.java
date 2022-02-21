@@ -212,6 +212,14 @@ public class UploadTasksController {
         saveAll();
     }
 
+
+    public void unsafeUpload(){
+        List<File> files = saveAll();
+        uploadAll(files);
+        createPane.setVisible(false);
+        filePane.setVisible(true);
+    }
+
     public void onClickUpload(ActionEvent actionEvent) {
         List<File> files = saveAll();
         CompilerUtil compilerUtil = new CompilerUtil();

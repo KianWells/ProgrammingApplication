@@ -37,18 +37,11 @@ public class StudentHomepageController {
     int numCards = 2;
     String selectedTask = "";
     Image badge;
-    ImageView iv;
 
     @FXML
     void initialize(){
         badge = new Image("com/kxw959/programmingapplication/badge.png");
         System.out.println(badge.getHeight());
-        iv = new ImageView(badge);
-        iv.setFitWidth(60);
-        iv.setFitHeight(60);
-        iv.setPickOnBounds(true);
-        iv.setPreserveRatio(true);
-        iv.setCache(true);
         JAVAUtil javaUtil = new JAVAUtil();
         try {
             JsonObject student = NetworkManager.getJSONObjectFromURL(User.url);
@@ -136,6 +129,12 @@ public class StudentHomepageController {
         });
         if(completed) {
             taskBtn.setStyle("-fx-text-fill: green");
+            ImageView iv = new ImageView(badge);
+            iv.setFitWidth(60);
+            iv.setFitHeight(60);
+            iv.setPickOnBounds(true);
+            iv.setPreserveRatio(true);
+            iv.setCache(true);
             taskBtn.setGraphic(iv);
             taskBtn.setContentDisplay(ContentDisplay.BOTTOM);
         }

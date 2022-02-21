@@ -357,8 +357,8 @@ public class NetworkManager {
             //get the task list
             JsonArray tasks = (JsonArray) student.get("tasks");
             //get the task with the taskName
-            for(JsonElement t : tasks){
-                JsonObject task = (JsonObject) t;
+            for(int i=0; i<tasks.size(); i++){
+                JsonObject task = (JsonObject) tasks.get(i);
                 if(Objects.equals(task.get("taskID").getAsString(), taskName)){
                     int newScore = score;
                     task.addProperty("score", newScore);
@@ -368,9 +368,8 @@ public class NetworkManager {
                     else {
                         task.addProperty("completed", false);
                     }
-                    tasks.remove(t);
-                    tasks.add(task);
                 }
+                tasks.set(i, task);
             }
             student.add("tasks", tasks);
             //update the score
