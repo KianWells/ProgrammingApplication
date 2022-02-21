@@ -13,7 +13,7 @@ public class MainMenuController {
 
     @FXML
     void onClickRegister(){
-        SceneManager.switchScene("register-page.fxml");
+        SceneManager.switchScene("quiz-page.fxml");
     }
 
     @FXML
