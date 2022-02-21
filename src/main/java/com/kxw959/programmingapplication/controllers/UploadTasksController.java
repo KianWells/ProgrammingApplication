@@ -2,9 +2,11 @@ package com.kxw959.programmingapplication.controllers;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.kxw959.programmingapplication.HelloApplication;
 import com.kxw959.programmingapplication.network.NetworkManager;
 import com.kxw959.programmingapplication.sceneManager.SceneManager;
 import com.kxw959.programmingapplication.user.User;
+import com.kxw959.programmingapplication.utils.CSVUtil;
 import com.kxw959.programmingapplication.utils.CompilerUtil;
 import com.kxw959.programmingapplication.utils.JAVAUtil;
 import javafx.beans.value.ChangeListener;
@@ -12,9 +14,12 @@ import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import jeliot.Jeliot;
 import jeliot.gui.JeliotWindow;
@@ -22,6 +27,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.text.CaseUtils;
 
 import javax.swing.*;
+import javax.xml.soap.Text;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -52,12 +58,26 @@ public class UploadTasksController {
     public BorderPane testArea;
     public SplitPane createPane;
     public TextArea errorConsole;
+    public TabPane quizPane;
+    public Tab tab1;
+    public TextArea questionText;
+    public Label questionLabel;
+    public RadioButton answer3;
+    public TextArea answer3Text;
+    public RadioButton answer2;
+    public TextArea answer2Text;
+    public RadioButton answer1;
+    public TextArea answer1Text;
+    public RadioButton answer4;
+    public TextArea answer4Text;
+    public Tab tabFinish;
 
     private List<String> selectedFiles = new ArrayList<>();
     private List<File> files = new ArrayList<>();
     private Map<String, String> taskMap = new HashMap<>();
     private String taskName;
     private int taskType;
+    private int questionNum = 1;
 
     Jeliot jeliot1,jeliot2;
     private int totalTests;
@@ -80,12 +100,6 @@ public class UploadTasksController {
 
     public void onClickConfirmProgrammingTask(ActionEvent actionEvent) {
         taskType = 1;
-        typePane.setVisible(false);
-        createOrUploadPane.setVisible(true);
-    }
-
-    public void onClickConfirmBoth(ActionEvent actionEvent) {
-        taskType = 2;
         typePane.setVisible(false);
         createOrUploadPane.setVisible(true);
     }
@@ -198,7 +212,8 @@ public class UploadTasksController {
     }
 
     public void onClickCreateTask(ActionEvent actionEvent) {
-        createPane.setVisible(true);
+        if(taskType == 1) createPane.setVisible(true);
+        else quizPane.setVisible(true);
         createOrUploadPane.setVisible(false);
         startCreate();
     }
@@ -367,5 +382,55 @@ public class UploadTasksController {
 
     public void onClickBack(ActionEvent event) {
         SceneManager.switchScene("teacher-homepage.fxml");
+    }
+
+    public void onClickNewQuestion(ActionEvent event) {
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("tab.fxml"));
+        try {
+            Tab newTab = fxmlLoader.load();
+            questionNum++;
+            newTab.setText("Question "+questionNum);
+            quizPane.getTabs().add(newTab);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void onClickUploadQuiz(ActionEvent event) throws IOException {
+        String[][] questions = new String[questionNum][6];
+        int j=0;
+        boolean first = true;
+        for(Tab tab : quizPane.getTabs()){
+            if(!first) {
+                VBox vb = (VBox) tab.getContent();
+                Node foundNode;
+
+                //find question text
+                foundNode = vb.lookup("#questionText");
+                if(foundNode!=null){
+                    TextArea question = (TextArea) foundNode;
+                    questions[j][0] = question.getText();
+                }
+
+                for(int i = 1; i<5; i++){
+                    foundNode = vb.lookup("#answer"+i);
+                    if(foundNode!=null){
+                        RadioButton rb = (RadioButton) foundNode;
+                        if(rb.isSelected()) questions[j][5] = ""+i+"";
+                    }
+                    foundNode = vb.lookup("#answer"+i+"Text");
+                    if(foundNode!=null){
+                        TextArea ta = (TextArea) foundNode;
+                        questions[j][i] = ta.getText();
+                    }
+                }
+                j++;
+            }
+            first = false;
+        }
+        String fileName = "src/main/java/com/kxw959/programmingapplication/tasks/"+taskName.replaceAll(" ", "")+"quiz.csv";
+        CSVUtil csvu = new CSVUtil();
+        System.out.println(Arrays.deepToString(questions));
+        csvu.addTextToCSV(questions, fileName);
     }
 }
