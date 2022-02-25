@@ -12,15 +12,15 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kxw959.programmingapplication.controllers.MainMenuController">
    <center>
-      <ImageView fx:id="appImageMenu" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+      <ImageView fx:id="appImageMenu" fitHeight="95.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER_LEFT">
          <image>
-            <Image url="@gold-badge-5392868.jpg" />
+            <Image url="@javaImg.png" />
          </image></ImageView>
    </center>
    <top>
       <BorderPane fx:id="topBarMenu" prefHeight="62.0" prefWidth="400.0" BorderPane.alignment="CENTER">
          <center>
-            <Label fx:id="titleMenu" text="Application Name" BorderPane.alignment="CENTER">
+            <Label fx:id="titleMenu" text="Java Code Visualisation" BorderPane.alignment="CENTER">
                <font>
                   <Font size="24.0" />
                </font>

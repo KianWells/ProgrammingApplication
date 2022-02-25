@@ -428,9 +428,15 @@ public class UploadTasksController {
             }
             first = false;
         }
-        String fileName = "src/main/java/com/kxw959/programmingapplication/tasks/"+taskName.replaceAll(" ", "")+"quiz.csv";
+        String fileName = "src/main/java/com/kxw959/programmingapplication/tasks/"+taskName.replaceAll(" ", "")+"Quiz.csv";
         CSVUtil csvu = new CSVUtil();
         System.out.println(Arrays.deepToString(questions));
         csvu.addTextToCSV(questions, fileName);
+        File quizFile = new File(fileName);
+        taskMap.put("quiz", taskName.replaceAll(" ", "")+"Quiz.csv");
+        files.add(quizFile);
+        User.uploadFiles = files;
+        quizPane.setVisible(false);
+        classPane.setVisible(true);
     }
 }
