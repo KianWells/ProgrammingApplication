@@ -1,11 +1,12 @@
 package com.kxw959.programmingapplication.utils;
 
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
+import org.apache.commons.csv.CSVRecord;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,6 +18,18 @@ public class CSVUtil {
                 printer.printRecord(Arrays.asList(questions[i]));
             }
             printer.close(true);
+        }
+    }
+
+    public List<String[]> getTextFromCSV(String path) throws IOException {
+        Reader in = new FileReader(path);
+        try(CSVReader reader = new CSVReader(in)){
+            List<String[]> r = reader.readAll();
+            r.forEach(x -> System.out.println(Arrays.toString(x)));
+            return r;
+        } catch (CsvException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

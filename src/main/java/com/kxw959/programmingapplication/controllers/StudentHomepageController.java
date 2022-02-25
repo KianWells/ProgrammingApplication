@@ -8,6 +8,7 @@ import com.kxw959.programmingapplication.network.NetworkManager;
 import com.kxw959.programmingapplication.sceneManager.SceneManager;
 import com.kxw959.programmingapplication.user.Task;
 import com.kxw959.programmingapplication.user.User;
+import com.kxw959.programmingapplication.utils.CSVUtil;
 import com.kxw959.programmingapplication.utils.JAVAUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -51,13 +52,13 @@ public class StudentHomepageController {
                 JsonArray tasks = (JsonArray) student.get("tasks");
                 System.out.println(tasks);
                 for(JsonElement j : tasks){
+                    boolean isQuiz = false;
                     Task task = new Task();
                     JsonObject obj = (JsonObject) j;
                     task.taskID = obj.get("taskID").getAsString();
                     task.totalTests = obj.get("totalTests").getAsInt();
                     task.testsPassed = obj.get("score").getAsInt()/10;
                     task.completed = obj.get("completed").getAsBoolean();
-                    addTask(task.taskID, task.completed);
                     JsonArray fileNames = obj.get("fileNames").getAsJsonArray();
                     for(JsonElement s: fileNames){
                         JsonObject taskFiles = (JsonObject) s;
@@ -85,8 +86,15 @@ public class StudentHomepageController {
                             String testPath = "src/main/java/com/kxw959/programmingapplication/tasks/"+name;
                             task.test = new Pair<>(testName, testPath);
                         }
+                        if(type.equals("quiz")){
+                            isQuiz = true;
+                            String quizPath = "src/main/java/com/kxw959/programmingapplication/tasks/"+name;
+                            String quizName = name.replaceAll("[.]csv", "");
+                            task.quiz = new Pair<>(quizName, quizPath);
+                        }
                     }
                     User.taskList.add(task);
+                    addTask(task.taskID, task.completed, isQuiz);
                 }
             }
 
@@ -95,14 +103,16 @@ public class StudentHomepageController {
         }
         if(User.taskList!=null){
             for(Task task : User.taskList){
-                javaUtil.updateImports(task.test.getValue(), "import com.kxw959.programmingapplication.tasks."+task.start.getKey(), task.start.getKey());
-                task.junitVersion = javaUtil.changePackageName(task.test.getValue(), "package com.kxw959.programmingapplication.tasks;");
+                if(task.quiz==null){
+                    javaUtil.updateImports(task.test.getValue(), "import com.kxw959.programmingapplication.tasks."+task.start.getKey(), task.start.getKey());
+                    task.junitVersion = javaUtil.changePackageName(task.test.getValue(), "package com.kxw959.programmingapplication.tasks;");
+                }
             }
         }
         //taskList.getChildren().add(iv);
     }
 
-    private void addTask(String name, boolean completed){
+    private void addTask(String name, boolean completed, boolean isQuiz){
         HBox hbox;
         if (numCards == 2){
             numCards = 1;
@@ -123,10 +133,22 @@ public class StudentHomepageController {
         Button taskBtn = new Button(name);
         taskBtn.setMaxSize(30000000, 3000000);
         taskBtn.setPrefWidth(300);
-        taskBtn.setOnAction(event -> {
-            selectedTask = taskBtn.getText();
-            onCLickEditor();
-        });
+        if(isQuiz) {
+            taskBtn.setOnAction(event -> {
+                selectedTask = taskBtn.getText();
+                try {
+                    onClickQuiz();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+        else{
+            taskBtn.setOnAction(event -> {
+                selectedTask = taskBtn.getText();
+                onCLickEditor();
+            });
+        }
         if(completed) {
             taskBtn.setStyle("-fx-text-fill: green");
             ImageView iv = new ImageView(badge);
@@ -195,5 +217,17 @@ public class StudentHomepageController {
 
     public void onClickLogOut(ActionEvent event) {
         SceneManager.switchScene("main-menu.fxml");
+    }
+
+    @FXML
+    private void onClickQuiz() throws IOException {
+        CSVUtil csvUtil = new CSVUtil();
+        for(Task t : User.taskList){
+            if(Objects.equals(t.taskID, selectedTask)){
+                User.selectedTask = User.taskList.get(User.taskList.indexOf(t));
+            }
+        }
+        User.questions = csvUtil.getTextFromCSV(User.selectedTask.quiz.getValue());
+        SceneManager.switchScene("quiz-page.fxml");
     }
 }

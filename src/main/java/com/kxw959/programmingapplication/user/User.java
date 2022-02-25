@@ -12,4 +12,5 @@ public class User {
     public static List<Task> taskList = new ArrayList<>();
     public static Task selectedTask;
     public static List<File> uploadFiles;
+    public static List<String[]> questions;
 }
