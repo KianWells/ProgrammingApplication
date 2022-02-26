@@ -46,7 +46,7 @@ public class QuizTab extends Tab {
                  if (toggleGroup.getSelectedToggle() != null) {
                      for(int i=0; i<toggleGroup.getToggles().size(); i++){
                          if(toggleGroup.getToggles().get(i).isSelected()){
-                             selected = i;
+                             selected = i+1;
                          }
                      }
                      if(selected==answer){

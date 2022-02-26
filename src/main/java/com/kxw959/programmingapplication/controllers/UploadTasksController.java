@@ -428,6 +428,7 @@ public class UploadTasksController {
             }
             first = false;
         }
+        totalTests = quizPane.getTabs().size()-1;
         String fileName = "src/main/java/com/kxw959/programmingapplication/tasks/"+taskName.replaceAll(" ", "")+"Quiz.csv";
         CSVUtil csvu = new CSVUtil();
         System.out.println(Arrays.deepToString(questions));
@@ -438,5 +439,6 @@ public class UploadTasksController {
         User.uploadFiles = files;
         quizPane.setVisible(false);
         classPane.setVisible(true);
+        initClasses();
     }
 }
