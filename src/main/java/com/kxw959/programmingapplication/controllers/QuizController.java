@@ -1,6 +1,7 @@
 package com.kxw959.programmingapplication.controllers;
 
 import com.kxw959.programmingapplication.HelloApplication;
+import com.kxw959.programmingapplication.network.NetworkManager;
 import com.kxw959.programmingapplication.sceneManager.SceneManager;
 import com.kxw959.programmingapplication.user.QuizTab;
 import com.kxw959.programmingapplication.user.User;
@@ -17,6 +18,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import sun.nio.ch.Net;
 
 import java.io.IOException;
 import java.util.List;
@@ -61,13 +63,20 @@ public class QuizController {
     }
 
     public void onClickFinish(ActionEvent e){
-        finalScore = 0;
-        for(int i=0; i<quizPane.getTabs().size()-1; i++){
-            QuizTab qt = (QuizTab) quizPane.getTabs().get(i);
-            if(qt.completed){
-                finalScore++;
+        if(((Button) e.getSource()).getText().equals("Finish Quiz")){
+            finalScore = 0;
+            for(int i=0; i<quizPane.getTabs().size()-1; i++){
+                QuizTab qt = (QuizTab) quizPane.getTabs().get(i);
+                if(qt.completed){
+                    finalScore++;
+                }
             }
+            label.setText("Your final score is "+ finalScore+"/"+totalQuestions);
+            ((Button) e.getSource()).setText("Exit Quiz");
         }
-        label.setText("Your final score is "+ finalScore+"/"+totalQuestions);
+        else{
+            NetworkManager.increaseScore(User.username, finalScore*10, User.selectedTask.taskID);
+            SceneManager.switchScene("student-homepage.fxml");
+        }
     }
 }
