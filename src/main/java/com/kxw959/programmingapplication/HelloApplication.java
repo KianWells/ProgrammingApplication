@@ -33,6 +33,10 @@ public class HelloApplication extends Application {
             System.out.println(url.getFile());
         }
 
+        String path = System.getProperty("user.dir")+"/com/kxw959/programmingapplication/tasks/Empty.java";
+        File file =  new File(path);
+        System.out.println(file.getAbsolutePath());
+        System.out.println(file.exists());
     }
 
     @Override

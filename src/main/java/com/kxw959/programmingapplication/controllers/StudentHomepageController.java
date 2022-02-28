@@ -25,8 +25,7 @@ import javafx.scene.text.Font;
 import javafx.util.Pair;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class StudentHomepageController {
 
@@ -37,11 +36,14 @@ public class StudentHomepageController {
     public VBox leaderboard;
     int numCards = 2;
     String selectedTask = "";
-    Image badge;
+    Image badge, first, second, third;
 
     @FXML
     void initialize(){
         badge = new Image("com/kxw959/programmingapplication/badge.png");
+        first =  new Image("com/kxw959/programmingapplication/1st.png");
+        second =  new Image("com/kxw959/programmingapplication/2nd.png");
+        third =  new Image("com/kxw959/programmingapplication/3rd.png");
         System.out.println(badge.getHeight());
         JAVAUtil javaUtil = new JAVAUtil();
         try {
@@ -166,22 +168,56 @@ public class StudentHomepageController {
     private void initLeaderboard(String className){
         try {
             List<JsonObject> students = NetworkManager.getClassData(className);
+            List<Pair<String, Integer>> orderedScore = new ArrayList<>();
             System.out.println(students);
             for(JsonObject s : students){
+                String name  = s.get("name").getAsString();
+                Integer score = addUpScores(s);
+                orderedScore.add(new Pair<>(name, score));
+            }
+            orderedScore.sort(Collections.reverseOrder(Comparator.comparing(Pair::getValue)));
+            int place =  1;
+            for(Pair <String, Integer> p : orderedScore){
                 GridPane gp = new GridPane();
                 ColumnConstraints column1 = new ColumnConstraints(100,100,Double.MAX_VALUE);
                 column1.setHgrow(Priority.ALWAYS);
                 column1.setHalignment(HPos.LEFT);
                 ColumnConstraints column2 = new ColumnConstraints(100);
                 column2.setHalignment(HPos.LEFT);
-                gp.getColumnConstraints().addAll(column1, column2); // first column gets any extra width
-                Label name = new Label(s.get("name").getAsString());
+                ColumnConstraints column3 = new ColumnConstraints(100);
+                column3.setHalignment(HPos.LEFT);
+                gp.getColumnConstraints().addAll(column1, column2, column3); // first column gets any extra width
+                Label name = new Label(p.getKey());
                 name.setFont(Font.font(30));
-                Label score = new Label(Integer.toString(addUpScores(s)));
+                Label score = new Label(Integer.toString(p.getValue()));
                 score.setFont(Font.font(30));
                 gp.add(name, 0, 0);
                 gp.add(score, 1, 0);
+                if(place  < 4){
+                    Image image;
+                    switch (place){
+                        case 1:
+                            image = first;
+                            break;
+                        case 2:
+                            image = second;
+                            break;
+                        case 3:
+                            image = third;
+                            break;
+                        default:
+                            throw new IllegalStateException("Unexpected value: " + place);
+                    }
+                    ImageView iv  = new ImageView(image);
+                    iv.setFitWidth(40);
+                    iv.setFitHeight(40);
+                    iv.setPickOnBounds(true);
+                    iv.setPreserveRatio(true);
+                    iv.setCache(true);
+                    gp.add(iv, 2,  0);
+                }
                 leaderboard.getChildren().add(gp);
+                place++;
             }
         } catch (IOException e) {
             e.printStackTrace();
