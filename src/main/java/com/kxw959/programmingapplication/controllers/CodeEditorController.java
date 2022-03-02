@@ -124,8 +124,8 @@ public class CodeEditorController {
             }
             try {
                 CompilerUtil compilerUtil = new CompilerUtil();
-                compilerUtil.setSourceDir(new File("src/main/java/com/kxw959/programmingapplication/tasks"));
-                compilerUtil.setClassesDir(new File("classes/"));
+                compilerUtil.setSourceDir(new File("task"));
+                compilerUtil.setClassesDir(new File("classes"));
 
                 try {
                     compilerUtil.compile(false);

@@ -33,26 +33,20 @@ public class HelloApplication extends Application {
             System.out.println(url.getFile());
         }
 
-        String path = System.getProperty("user.dir")+"/com/kxw959/programmingapplication/tasks/Empty.java";
-        File file =  new File(path);
-        System.out.println(file.getAbsolutePath());
-        System.out.println(file.exists());
+        File file  = new File(System.getProperty("user.dir")+"/task");
+        boolean isCreated = file.mkdir();
+
+        File file2  = new File(System.getProperty("user.dir")+"/classes");
+        boolean isCreated2 = file2.mkdir();
     }
 
     @Override
     public void stop() throws Exception {
         super.stop();
         //delete files in tasks folder
-        File tasks = new File("src/main/java/com/kxw959/programmingapplication/tasks");
-        if(tasks.isDirectory()){
-            File[] files = tasks.listFiles();
-            if(files != null && files.length != 0){
-                for(File f : files){
-                    if(!f.getName().equals("Empty.java")){
-                        f.delete();
-                    }
-                }
-            }
+        File tasks = new File("task");
+        if(tasks.exists()){
+            FileUtils.deleteDirectory(tasks);
         }
         else System.out.println("Doesnt exist");
 
@@ -69,7 +63,7 @@ public class HelloApplication extends Application {
         }
         else System.out.println("Doesnt exist");
 
-        File classDir = new File("classes/com");
+        File classDir = new File("classes");
         if(classDir.exists()){
             FileUtils.deleteDirectory(classDir);
         }

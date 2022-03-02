@@ -63,6 +63,8 @@ public class SeeProgressController {
             student1.setItems(student.getValue());
             student1.getColumns().addAll(nameCol, testsPassedCol, seeCodeCol);
             TitledPane newStudent = new TitledPane();
+            newStudent.setMaxHeight(Double.MAX_VALUE);
+            newStudent.setMinHeight(300);
             newStudent.setText(student.getKey());
             newStudent.setContent(student1);
 

@@ -238,7 +238,7 @@ public class UploadTasksController {
     public void onClickUpload(ActionEvent actionEvent) {
         List<File> files = saveAll();
         CompilerUtil compilerUtil = new CompilerUtil();
-        compilerUtil.setSourceDir(new File("src/main/java/com/kxw959/programmingapplication/tasks/"));
+        compilerUtil.setSourceDir(new File("task/"));
         compilerUtil.setClassesDir(new File("classes/"));
         try{
             compilerUtil.compile(true);
@@ -324,7 +324,7 @@ public class UploadTasksController {
         String test = jeliot2.getGUI().getProgram();
         String start = jeliot1.getGUI().getProgram();
 
-        String path = "src/main/java/com/kxw959/programmingapplication/tasks/";
+        String path = "task/";
 
         try {
             File instructionsFile = new File(taskName.replaceAll(" ", "")+"Instructions.txt");
@@ -429,7 +429,7 @@ public class UploadTasksController {
             first = false;
         }
         totalTests = quizPane.getTabs().size()-1;
-        String fileName = "src/main/java/com/kxw959/programmingapplication/tasks/"+taskName.replaceAll(" ", "")+"Quiz.csv";
+        String fileName = "task/"+taskName.replaceAll(" ", "")+"Quiz.csv";
         CSVUtil csvu = new CSVUtil();
         System.out.println(Arrays.deepToString(questions));
         csvu.addTextToCSV(questions, fileName);

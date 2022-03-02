@@ -72,7 +72,7 @@ public class StudentHomepageController {
                             NetworkManager.getFile(fileName, name);
                         }
                         if(type.equals("start")){
-                            String startPath = "src/main/java/com/kxw959/programmingapplication/tasks/"+name;
+                            String startPath = "task/"+name;
                             String startName = name.replaceAll("[.]java", "");
                             javaUtil.changePackageName(startPath, "package com.kxw959.programmingapplication.tasks;");
                             task.start = new Pair<>(startName, startPath);
@@ -80,17 +80,17 @@ public class StudentHomepageController {
                         if(type.equals("instructions")){
                             String instructionsName = name.replaceAll("[.]txt", "");
                             instructionsName = instructionsName.replaceAll("[.]pdf", "");
-                            String instructionsPath = "src/main/java/com/kxw959/programmingapplication/tasks/"+name;
+                            String instructionsPath = "task/"+name;
                             task.instructions = new Pair<>(instructionsName, instructionsPath);
                         }
                         if(type.equals("test")){
                             String testName = name.replaceAll("[.]java", "");
-                            String testPath = "src/main/java/com/kxw959/programmingapplication/tasks/"+name;
+                            String testPath = "task/"+name;
                             task.test = new Pair<>(testName, testPath);
                         }
                         if(type.equals("quiz")){
                             isQuiz = true;
-                            String quizPath = "src/main/java/com/kxw959/programmingapplication/tasks/"+name;
+                            String quizPath = "task/"+name;
                             String quizName = name.replaceAll("[.]csv", "");
                             task.quiz = new Pair<>(quizName, quizPath);
                         }

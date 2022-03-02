@@ -22,7 +22,7 @@ public class StudentTableObject {
             public void handle(ActionEvent event) {
                 if(NetworkManager.getFile(username+"/jpa2021_"+fileName, fileName)){
                     User.selectedTask = new Task();
-                    User.selectedTask.start = new Pair<>(fileName.replaceAll("[.]java", ""), "src/main/java/com/kxw959/programmingapplication/tasks/"+fileName);
+                    User.selectedTask.start = new Pair<>(fileName.replaceAll("[.]java", ""), "task/"+fileName);
                     SceneManager.switchScene("code-editor.fxml");
                 }
                 else{

@@ -22,6 +22,9 @@ public class CompilerUtil {
 
     public void compile(boolean teacher) throws Exception {
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        if(compiler == null){
+            System.out.println("The compiler wasn't created :(");
+        }
         DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<JavaFileObject>();
         StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostics, Locale.getDefault(), null);
         List<JavaFileObject> javaObjects = scanRecursivelyForJavaObjects(sourceDir, fileManager);

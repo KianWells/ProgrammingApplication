@@ -341,7 +341,7 @@ public class NetworkManager {
             HttpURLConnection con = setConnection(fileURL, "GET");
             InputStream is = con.getInputStream();
             byte[] bytes = IOUtils.toByteArray(is);
-            writeByte(bytes, "src/main/java/com/kxw959/programmingapplication/tasks/"+fileName);
+            writeByte(bytes, "task/"+fileName);
             con.disconnect();
             return true;
         }catch (Exception e){
