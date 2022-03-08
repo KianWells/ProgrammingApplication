@@ -7,13 +7,15 @@ import com.kxw959.ServerManager.repository.TeacherDetailsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 public class TeacherController {
     @Autowired
     TeacherDetailsRepo teacherDetailsRepo;
 
     @PostMapping("/teacher")
-    public Teacher saveStudent(@RequestBody Teacher teacher){
+    public Teacher saveStudent(@RequestBody Teacher teacher) throws IOException {
         return teacherDetailsRepo.save(teacher);
     }
 

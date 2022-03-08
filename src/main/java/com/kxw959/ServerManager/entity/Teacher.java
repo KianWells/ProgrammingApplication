@@ -24,8 +24,11 @@ public class Teacher {
     private boolean teacher = true;
 
     @DynamoDBAttribute
-    private String email;
+    private String oauth;
 
     @DynamoDBAttribute
-    private List<String> classes;
+    private String id;
+
+    @DynamoDBAttribute
+    private List<CourseObject> courses;
 }

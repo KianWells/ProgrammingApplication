@@ -7,6 +7,7 @@ import com.kxw959.ServerManager.repository.StudentDetailsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -30,7 +31,7 @@ public class StudentController {
     }
 
     @PutMapping("/student/{username}")
-    public String updateStudent(@PathVariable("username") String username, @RequestBody Student student){
+    public String updateStudent(@PathVariable("username") String username, @RequestBody Student student) throws IOException {
         return studentDetailsRepo.update(username, student);
     }
 
@@ -40,7 +41,7 @@ public class StudentController {
     }
 
     @PostMapping("student/class/{className}")
-    public String uploadTask(@PathVariable("className") String className, @RequestBody StudentTask task){
+    public String uploadTask(@PathVariable("className") String className, @RequestBody StudentTask task) throws IOException {
         return studentDetailsRepo.addTask(className, task);
     }
 }
