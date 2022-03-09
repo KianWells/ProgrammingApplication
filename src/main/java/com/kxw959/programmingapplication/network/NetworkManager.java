@@ -66,7 +66,7 @@ public class NetworkManager {
         }
     }
 
-    public static int registerTeacher(String email, String username, String password) throws IOException {
+    public static int registerTeacher(String oauth, String username, String password) throws IOException {
         if(testExists(new URL(USER+username))){
             return -1;
         }
@@ -75,7 +75,7 @@ public class NetworkManager {
         JsonObject user = new JsonObject();
         user.addProperty("username", username);
         user.addProperty("password", password);
-        user.addProperty("email", email);
+        user.addProperty("oauth", oauth);
         System.out.println(user.toString());
         assert con != null;
         postJSON(con, user);

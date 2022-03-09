@@ -15,7 +15,7 @@ public class RegisterController {
     @FXML
     Label responseText;
     @FXML
-    TextInputControl email;
+    TextInputControl oauth;
 
     @FXML
     TextInputControl username;
@@ -25,7 +25,7 @@ public class RegisterController {
 
     @FXML
     void onClickRegister() throws IOException {
-        if(NetworkManager.registerTeacher(email.getText(), username.getText(), password.getText()) == 1){
+        if(NetworkManager.registerTeacher(oauth.getText(), username.getText(), password.getText()) == 1){
             User.username = username.getText();
             User.url = new URL(NetworkManager.TEACHER+username.getText());
             User.isTeacher = true;
