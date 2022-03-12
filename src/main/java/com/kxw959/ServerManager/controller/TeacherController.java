@@ -33,4 +33,9 @@ public class TeacherController {
     public String updateTeacher(@PathVariable("username") String username, @RequestBody Teacher teacher){
         return teacherDetailsRepo.update(username, teacher);
     }
+
+    @PostMapping("teacher/{className}")
+    public String addClass(@PathVariable("className") String className, @RequestBody Teacher teacher) throws IOException {
+        return teacherDetailsRepo.addAssignmentGroup(teacher, className);
+    }
 }

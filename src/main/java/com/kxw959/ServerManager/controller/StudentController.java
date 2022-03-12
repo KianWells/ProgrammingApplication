@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.List;
 
 @RestController
 public class StudentController {
@@ -22,7 +21,7 @@ public class StudentController {
 
     @GetMapping("/student/{username}")
     public Student getStudentByUsername(@PathVariable("username") String username){
-        return studentDetailsRepo.getStudentByUsername(username);
+        return studentDetailsRepo.getStudentByID(username);
     }
 
     @DeleteMapping("/student/{username}")

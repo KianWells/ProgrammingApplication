@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @DynamoDBTable(tableName = "LoginTable")
 public class Student {
-    @DynamoDBHashKey
+    @DynamoDBAttribute
     private String username;
 
     @DynamoDBAttribute
@@ -23,11 +23,23 @@ public class Student {
     @DynamoDBAttribute
     private String name;
 
+    @DynamoDBHashKey
+    private String id;
+
     @DynamoDBAttribute
     private boolean teacher = false;
 
     @DynamoDBAttribute
+    private String courseName;
+
+    @DynamoDBAttribute
+    private String courseID;
+
+    @DynamoDBAttribute
     private String className;
+
+    @DynamoDBAttribute
+    private String teacherID;
 
     @DynamoDBAttribute
     private List<StudentTask> tasks;

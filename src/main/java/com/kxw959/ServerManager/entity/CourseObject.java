@@ -13,5 +13,8 @@ public class CourseObject {
     String courseID;
 
     @DynamoDBAttribute
-    List<GroupObject> groups;
+    String courseName;
+
+    @DynamoDBAttribute
+    List<StudentPair> students;
 }

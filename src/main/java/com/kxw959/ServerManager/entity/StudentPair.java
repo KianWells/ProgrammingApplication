@@ -2,16 +2,18 @@ package com.kxw959.ServerManager.entity;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.List;
+import lombok.NoArgsConstructor;
 
 @Data
 @DynamoDBDocument
-public class GroupObject {
+@AllArgsConstructor
+@NoArgsConstructor
+public class StudentPair {
     @DynamoDBAttribute
-    String groupID;
+    String studentID;
 
     @DynamoDBAttribute
-    List<String> studentIDs;
+    String studentName;
 }

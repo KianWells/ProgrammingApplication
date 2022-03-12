@@ -27,4 +27,7 @@ public class StudentTask {
 
     @DynamoDBAttribute
     boolean completed;
+
+    @DynamoDBAttribute
+    String taskCanvasID;
 }

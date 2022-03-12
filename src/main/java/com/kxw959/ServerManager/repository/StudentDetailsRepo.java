@@ -9,17 +9,17 @@ import com.kxw959.ServerManager.config.CanvasConfig;
 import com.kxw959.ServerManager.entity.Student;
 import com.kxw959.ServerManager.entity.StudentTask;
 import com.kxw959.ServerManager.entity.Students;
-import com.kxw959.ServerManager.entity.User;
+import com.kxw959.ServerManager.entity.Teacher;
 import edu.ksu.canvas.CanvasApiFactory;
-import edu.ksu.canvas.impl.AssignmentImpl;
-import edu.ksu.canvas.interfaces.AssignmentReader;
-import edu.ksu.canvas.interfaces.AssignmentWriter;
-import edu.ksu.canvas.interfaces.SubmissionWriter;
+import edu.ksu.canvas.interfaces.*;
 import edu.ksu.canvas.model.assignment.Assignment;
 import edu.ksu.canvas.model.assignment.AssignmentGroup;
+import edu.ksu.canvas.model.assignment.AssignmentOverride;
+import edu.ksu.canvas.oauth.NonRefreshableOauthToken;
+import edu.ksu.canvas.requestOptions.ListAssignmentGroupOptions;
 import edu.ksu.canvas.requestOptions.ListCourseAssignmentsOptions;
+import edu.ksu.canvas.requestOptions.ListUserAssignmentOptions;
 import edu.ksu.canvas.requestOptions.MultipleSubmissionsOptions;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -38,43 +38,44 @@ public class StudentDetailsRepo {
         return student;
     }
 
-    public Student getStudentByUsername(String username){
-        return dynamoDBMapper.load(Student.class, username);
+    public Student getStudentByID(String id){
+        return dynamoDBMapper.load(Student.class, id);
     }
 
     public String delete(String username){
-        dynamoDBMapper.delete(getStudentByUsername(username));
+        dynamoDBMapper.delete(getStudentByID(username));
         return "Student deleted";
     }
 
     public String update(String username, Student student) throws IOException {
         dynamoDBMapper.save(student,
                 new DynamoDBSaveExpression()
-                        .withExpectedEntry("username",
+                        .withExpectedEntry("id",
                                 new ExpectedAttributeValue(
                                         new AttributeValue().withS(username)
                                 )));
 
+        Teacher teacher = dynamoDBMapper.load(Teacher.class, student.getTeacherID());
         //update task score
         CanvasApiFactory factory = canvas.getApiFactory();
-        AssignmentReader assignmentReader = factory.getReader(AssignmentReader.class, canvas.getOauthToken());
-        ListCourseAssignmentsOptions listCourseAssignmentsOptions = new ListCourseAssignmentsOptions(canvas.getCourseID());
+        AssignmentReader assignmentReader = factory.getReader(AssignmentReader.class, new NonRefreshableOauthToken(teacher.getOauth()));
+        ListCourseAssignmentsOptions listCourseAssignmentsOptions = new ListCourseAssignmentsOptions(teacher.getCourse().getCourseID());
         List<Assignment> assignments = assignmentReader.listCourseAssignments(listCourseAssignmentsOptions);
         for(StudentTask t : student.getTasks()){
             for(Assignment a : assignments){
                 if(a.getName().equals(t.getTaskID())){
-                    gradeAssignment(t.getScore()/10,  a.getId());
+                    gradeAssignment(t.getScore()/10,  a.getId(), teacher);
                 }
             }
         }
         return username;
     }
 
-    private void gradeAssignment(int grade, Long id) throws IOException {
+    private void gradeAssignment(int grade, Long id, Teacher teacher) throws IOException {
         CanvasApiFactory factory = canvas.getApiFactory();
-        SubmissionWriter submissionWriter = factory.getWriter(SubmissionWriter.class, canvas.getOauthToken());
+        SubmissionWriter submissionWriter = factory.getWriter(SubmissionWriter.class, new NonRefreshableOauthToken(teacher.getOauth()));
         Map<String, MultipleSubmissionsOptions.StudentSubmissionOption> studentSubmissionOptionMap = new HashMap<>();
-        MultipleSubmissionsOptions multipleSubmissionsOptions = new MultipleSubmissionsOptions(canvas.getCourseID(), id, new HashMap<>());
+        MultipleSubmissionsOptions multipleSubmissionsOptions = new MultipleSubmissionsOptions(teacher.getCourse().getCourseID(), id, new HashMap<>());
         MultipleSubmissionsOptions.StudentSubmissionOption studentSubmissionOption =
                 multipleSubmissionsOptions.createStudentSubmissionOption(null, ""+grade+"",
                         null,
@@ -101,6 +102,7 @@ public class StudentDetailsRepo {
     }
 
     public String addTask(String className, StudentTask task) throws IOException {
+        System.out.println(className);
         List<Student> students = getUsersByClass(className).getListOfStudents();
         for (Student student : students) {
             List<StudentTask> tasks = new ArrayList<>();
@@ -109,19 +111,29 @@ public class StudentDetailsRepo {
             }
             tasks.add(task);
             student.setTasks(tasks);
-            update(student.getUsername(), student);
+            update(student.getId(), student);
         }
         //create new canvas task
+        CanvasApiFactory factory = canvas.getApiFactory();
         Assignment assignment = new Assignment();
         assignment.setName(task.getTaskID());
         List<String> subType = new ArrayList<>();
         subType.add("none");
         assignment.setSubmissionTypes(subType);
         assignment.setPointsPossible((double) task.getTotalTests());
+        assignment.setPublished(true);
+        Teacher teacher = dynamoDBMapper.load(Teacher.class, students.get(0).getTeacherID());
+        AssignmentGroupReader reader = factory.getReader(AssignmentGroupReader.class, new NonRefreshableOauthToken(teacher.getOauth()));
+        ListAssignmentGroupOptions options = new ListAssignmentGroupOptions(students.get(0).getCourseID());
+        List<AssignmentGroup> group = reader.listAssignmentGroup(options);
+        for(AssignmentGroup ag: group){
+            if(ag.getName().equals(className)){
+                assignment.setAssignmentGroupId(ag.getId());
+            }
+        }
 
-        CanvasApiFactory factory = canvas.getApiFactory();
-        AssignmentWriter assignmentWriter = factory.getWriter(AssignmentWriter.class, canvas.getOauthToken());
-        assignmentWriter.createAssignment(canvas.getCourseID(), assignment);
+        AssignmentWriter assignmentWriter = factory.getWriter(AssignmentWriter.class, new NonRefreshableOauthToken(teacher.getOauth()));
+        assignmentWriter.createAssignment(students.get(0).getCourseID(), assignment);
         return "Tasks Added";
     }
 }
