@@ -44,7 +44,7 @@ public class LoginController {
                 User.isTeacher = true;
                 User.username = usernameField.getText();
                 User.url = new URL(NetworkManager.TEACHER+usernameField.getText());
-                SceneManager.switchScene("teacher-home page.fxml");
+                SceneManager.switchScene("teacher-homepage.fxml");
                 break;
         }
     }

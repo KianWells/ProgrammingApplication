@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
 
-<TilePane alignment="CENTER" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/1.8.0_311" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kxw959.programmingapplication.controllers.RegisterStudentsController">
+<TilePane alignment="CENTER" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kxw959.programmingapplication.controllers.RegisterStudentsController">
    <children>
       <HBox alignment="CENTER" prefHeight="720.0" prefWidth="1280.0" TilePane.alignment="CENTER">
          <children>
@@ -27,13 +27,13 @@
                         </TextField>
                      </children>
                   </VBox>
-                  <Button fx:id="registerIndividual" mnemonicParsing="false" onAction="#onClickIndividual" prefHeight="25.0" prefWidth="189.0" text="Register Individual Student">
+                  <Button fx:id="registerIndividual" mnemonicParsing="false" onAction="#onClickIndividual" prefHeight="25.0" prefWidth="227.0" text="Change Student to Selected Class">
                      <VBox.margin>
                         <Insets bottom="40.0" />
                      </VBox.margin>
                   </Button>
-                  <Label prefHeight="60.0" prefWidth="278.0" text="Multiple students can be registered at once by uploading a .csv file containing all of the students' names seperated by commas." wrapText="true" />
-                  <Button fx:id="registerCSV" mnemonicParsing="false" onAction="#onClickCSV" prefHeight="25.0" prefWidth="189.0" text="Register Students by .csv">
+                  <Label prefHeight="60.0" prefWidth="278.0" text="Multiple students can have their classes changed at once by uploading a .csv file containing all of the students' names seperated by commas." wrapText="true" />
+                  <Button fx:id="registerCSV" mnemonicParsing="false" onAction="#onClickCSV" prefHeight="25.0" prefWidth="224.0" text="Change Multiple Student Classes">
                      <VBox.margin>
                         <Insets bottom="40.0" />
                      </VBox.margin>

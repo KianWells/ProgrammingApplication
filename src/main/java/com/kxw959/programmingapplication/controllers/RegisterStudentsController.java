@@ -51,7 +51,7 @@ public class RegisterStudentsController {
     @FXML
     public void initialize() throws IOException {
         try {
-            JsonElement jsonElement = NetworkManager.getJSONElementFromURL(new URL(NetworkManager.TEACHER+User.username), "classes");
+            JsonElement jsonElement = NetworkManager.getJSONElementFromURL(new URL(NetworkManager.TEACHER+User.username), "classNames");
             JsonArray jsonArray = jsonElement.getAsJsonArray();
             for (int i = 0; i<jsonArray.size(); i++){
                 classList.getItems().add(jsonArray.get(i).getAsString());

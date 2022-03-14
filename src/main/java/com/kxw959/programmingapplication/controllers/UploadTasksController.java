@@ -155,7 +155,7 @@ public class UploadTasksController {
 
     private void initClasses(){
         try {
-            JsonElement jsonElement = NetworkManager.getJSONElementFromURL(new URL(NetworkManager.TEACHER+User.username), "classes");
+            JsonElement jsonElement = NetworkManager.getJSONElementFromURL(new URL(NetworkManager.TEACHER+User.username), "classNames");
             JsonArray jsonArray = jsonElement.getAsJsonArray();
             for (int i = 0; i<jsonArray.size(); i++){
                 CheckBox cb = new CheckBox();

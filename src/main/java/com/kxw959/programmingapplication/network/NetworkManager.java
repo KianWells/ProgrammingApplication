@@ -66,7 +66,7 @@ public class NetworkManager {
         }
     }
 
-    public static int registerTeacher(String oauth, String username, String password) throws IOException {
+    public static int registerTeacher(String oauth, String username, String password, String courseName) throws IOException {
         if(testExists(new URL(USER+username))){
             return -1;
         }
@@ -76,6 +76,7 @@ public class NetworkManager {
         user.addProperty("username", username);
         user.addProperty("password", password);
         user.addProperty("oauth", oauth);
+        user.addProperty("courseName", courseName);
         System.out.println(user.toString());
         assert con != null;
         postJSON(con, user);
@@ -101,34 +102,13 @@ public class NetworkManager {
         return true;
     }
 
-    public static int registerStudent(String name, String className) throws IOException, NoSuchAlgorithmException {
-        String username = name.toLowerCase(Locale.ROOT).replaceAll("\\s", "");
-
-        int counter = 1;
-        String oldUsername = username;
-        while(true){
-            if(testExists(new URL(USER+username))) {
-                username = oldUsername+counter;
-                counter++;
-            }
-            else{
-                break;
-            }
-        }
-        String password = RandomStringUtils.randomAlphanumeric(8);
-        System.out.println(username);
-        System.out.println(password);
-
-        HttpURLConnection con = setConnection(new URL(STUDENT), "POST");
-
-        JsonObject user = new JsonObject();
-        user.addProperty("username", username);
-        user.addProperty("password", password);
-        user.addProperty("className", className);
-        user.addProperty("name", name);
+    public static int registerStudent(String username, String className) throws IOException, NoSuchAlgorithmException {
+        JsonObject student = getJSONObjectFromURL(new URL(STUDENT+username));
+        assert student != null;
+        student.addProperty("className", className);
 
         try{
-            JsonObject student = getClassData(className).get(0);
+            JsonObject classStudent = getClassData(className).get(0);
             JsonArray tasks = student.get("tasks").getAsJsonArray();
             for(int i=0; i<tasks.size(); i++){
                 JsonObject j = (JsonObject) tasks.get(i);
@@ -136,13 +116,27 @@ public class NetworkManager {
                 j.addProperty("completed", false);
                 tasks.set(i, j);
             }
-            user.add("tasks", tasks);
+            student.add("tasks", tasks);
         }catch (Exception e){
 
         }
-        assert con != null;
-        postJSON(con, user);
-        con.disconnect();
+        URL url = new URL(STUDENT+username);
+        HttpURLConnection http = (HttpURLConnection)url.openConnection();
+        http.setRequestMethod("PUT");
+        http.setDoOutput(true);
+        http.setRequestProperty("Accept", "application/json");
+        http.setRequestProperty("Content-Type", "application/json");
+
+        String data = student.toString();
+
+        byte[] out = data.getBytes(StandardCharsets.UTF_8);
+
+        OutputStream stream = http.getOutputStream();
+        stream.write(out);
+
+        http.getResponseCode();
+        http.getResponseMessage();
+        http.disconnect();
         System.out.println("DONE");
         return 1;
     }
@@ -229,7 +223,7 @@ public class NetworkManager {
         System.out.println(originalTeacher);
         JsonArray newClasses = new JsonArray();
         try{
-            JsonArray arr = originalTeacher.get("classes").getAsJsonArray();
+            JsonArray arr = originalTeacher.get("classNames").getAsJsonArray();
             for(int i=0; i<arr.size();i++){
                 newClasses.add(arr.get(i).getAsString());
             }
@@ -238,7 +232,7 @@ public class NetworkManager {
         }
         newClasses.add(className);
         JsonObject newTeacher = originalTeacher;
-        newTeacher.add("classes", newClasses);
+        newTeacher.add("classNames", newClasses);
         System.out.println(newTeacher);
         HttpURLConnection http = (HttpURLConnection)url.openConnection();
         http.setRequestMethod("PUT");
@@ -256,6 +250,10 @@ public class NetworkManager {
         http.getResponseCode();
         http.getResponseMessage();
         http.disconnect();
+
+        URL classURL = new URL(TEACHER+className.replaceAll(" ", "%20"));
+        HttpURLConnection con = setConnection(classURL, "POST");
+        postJSON(con, newTeacher);
     }
 
     public static void uploadFiles(List<File> files, String username) throws IOException {

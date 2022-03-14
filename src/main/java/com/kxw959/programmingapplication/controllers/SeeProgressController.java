@@ -79,7 +79,7 @@ public class SeeProgressController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        JsonArray classesJSON = teacher.getAsJsonArray("classes");
+        JsonArray classesJSON = teacher.getAsJsonArray("classNames");
         List<String> classes = new ArrayList<>();
         for(JsonElement j : classesJSON){
             classes.add(j.getAsString());

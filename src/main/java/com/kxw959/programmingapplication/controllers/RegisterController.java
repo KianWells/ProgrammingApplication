@@ -6,12 +6,14 @@ import com.kxw959.programmingapplication.user.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 
 import java.io.IOException;
 import java.net.URL;
 
 public class RegisterController {
+    public TextField courseName;
     @FXML
     Label responseText;
     @FXML
@@ -25,7 +27,7 @@ public class RegisterController {
 
     @FXML
     void onClickRegister() throws IOException {
-        if(NetworkManager.registerTeacher(oauth.getText(), username.getText(), password.getText()) == 1){
+        if(NetworkManager.registerTeacher(oauth.getText(), username.getText(), password.getText(), courseName.getText()) == 1){
             User.username = username.getText();
             User.url = new URL(NetworkManager.TEACHER+username.getText());
             User.isTeacher = true;
