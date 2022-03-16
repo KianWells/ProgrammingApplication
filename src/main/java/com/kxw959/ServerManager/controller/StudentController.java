@@ -21,7 +21,7 @@ public class StudentController {
 
     @GetMapping("/student/{username}")
     public Student getStudentByUsername(@PathVariable("username") String username){
-        return studentDetailsRepo.getStudentByID(username);
+        return studentDetailsRepo.getStudentByUsername(username);
     }
 
     @DeleteMapping("/student/{username}")

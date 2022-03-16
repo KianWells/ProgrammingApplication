@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @DynamoDBTable(tableName = "LoginTable")
 public class User {
 
-    @DynamoDBHashKey
+    @DynamoDBAttribute
     private String username;
 
     @DynamoDBAttribute
@@ -21,4 +21,7 @@ public class User {
 
     @DynamoDBAttribute
     private boolean teacher;
+
+    @DynamoDBHashKey
+    private String id;
 }

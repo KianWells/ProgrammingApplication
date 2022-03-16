@@ -14,11 +14,9 @@ import edu.ksu.canvas.CanvasApiFactory;
 import edu.ksu.canvas.interfaces.*;
 import edu.ksu.canvas.model.assignment.Assignment;
 import edu.ksu.canvas.model.assignment.AssignmentGroup;
-import edu.ksu.canvas.model.assignment.AssignmentOverride;
 import edu.ksu.canvas.oauth.NonRefreshableOauthToken;
 import edu.ksu.canvas.requestOptions.ListAssignmentGroupOptions;
 import edu.ksu.canvas.requestOptions.ListCourseAssignmentsOptions;
-import edu.ksu.canvas.requestOptions.ListUserAssignmentOptions;
 import edu.ksu.canvas.requestOptions.MultipleSubmissionsOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -38,12 +36,19 @@ public class StudentDetailsRepo {
         return student;
     }
 
-    public Student getStudentByID(String id){
-        return dynamoDBMapper.load(Student.class, id);
+    public Student getStudentByUsername(String username){
+        Map<String, AttributeValue> eav = new HashMap<>();
+        eav.put(":username", new AttributeValue().withS(username));
+
+        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression()
+                .withFilterExpression("username = :username")
+                .withExpressionAttributeValues(eav);
+        List<Student> ls = dynamoDBMapper.scan(Student.class, scanExpression);
+        return dynamoDBMapper.load(Student.class, ls.get(0).getId());
     }
 
     public String delete(String username){
-        dynamoDBMapper.delete(getStudentByID(username));
+        dynamoDBMapper.delete(getStudentByUsername(username));
         return "Student deleted";
     }
 
@@ -52,7 +57,7 @@ public class StudentDetailsRepo {
                 new DynamoDBSaveExpression()
                         .withExpectedEntry("id",
                                 new ExpectedAttributeValue(
-                                        new AttributeValue().withS(username)
+                                        new AttributeValue().withS(student.getId())
                                 )));
 
         Teacher teacher = dynamoDBMapper.load(Teacher.class, student.getTeacherID());
@@ -64,14 +69,14 @@ public class StudentDetailsRepo {
         for(StudentTask t : student.getTasks()){
             for(Assignment a : assignments){
                 if(a.getName().equals(t.getTaskID())){
-                    gradeAssignment(t.getScore()/10,  a.getId(), teacher);
+                    gradeAssignment(t.getScore()/10,  a.getId(), teacher, student.getId());
                 }
             }
         }
         return username;
     }
 
-    private void gradeAssignment(int grade, Long id, Teacher teacher) throws IOException {
+    private void gradeAssignment(int grade, Long id, Teacher teacher, String  studentID) throws IOException {
         CanvasApiFactory factory = canvas.getApiFactory();
         SubmissionWriter submissionWriter = factory.getWriter(SubmissionWriter.class, new NonRefreshableOauthToken(teacher.getOauth()));
         Map<String, MultipleSubmissionsOptions.StudentSubmissionOption> studentSubmissionOptionMap = new HashMap<>();
@@ -83,7 +88,7 @@ public class StudentDetailsRepo {
                         null,
                         null);
         multipleSubmissionsOptions.setAssignmentId(id);
-        studentSubmissionOptionMap.put("student id", studentSubmissionOption);
+        studentSubmissionOptionMap.put(studentID, studentSubmissionOption);
         multipleSubmissionsOptions.setStudentSubmissionOptionMap(studentSubmissionOptionMap);
         submissionWriter.gradeMultipleSubmissionsByCourse(multipleSubmissionsOptions);
     }

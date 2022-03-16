@@ -2,6 +2,7 @@ package com.kxw959.ServerManager.repository;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.google.gson.JsonArray;
@@ -28,10 +29,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 
 @Repository
 public class TeacherDetailsRepo {
@@ -63,7 +61,7 @@ public class TeacherDetailsRepo {
                 course.setStudents(idsInCourse);
                 teacher.setCourse(course);
                 teacher.setClassNames(new ArrayList<String>());
-                addAssignmentGroup(teacher, "Class A");
+                addAssignmentGroup(teacher, "Group A");
                 for(StudentPair pair: idsInCourse){
                     Student student;
                     student = new Student();
@@ -85,7 +83,19 @@ public class TeacherDetailsRepo {
     }
 
     public Teacher getTeacherByUsername(String username){
-        return dynamoDBMapper.load(Teacher.class, username);
+        Map<String, AttributeValue> eav = new HashMap<>();
+        eav.put(":username", new AttributeValue().withS(username));
+
+        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression()
+                .withFilterExpression("username = :username")
+                .withExpressionAttributeValues(eav);
+        List<Teacher> ls = dynamoDBMapper.scan(Teacher.class, scanExpression);
+        if(ls.isEmpty()){
+            Teacher ok = new Teacher();
+            ok.setId("OK");
+            return ok;
+        }
+        return dynamoDBMapper.load(Teacher.class, ls.get(0).getId());
     }
 
     public String delete(String username){
