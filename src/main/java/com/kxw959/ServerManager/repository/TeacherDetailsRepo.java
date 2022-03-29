@@ -66,9 +66,15 @@ public class TeacherDetailsRepo {
                     Student student;
                     student = new Student();
                     student.setName(pair.getStudentName());
+                    String[] splitName = student.getName().split(" ");
                     student.setId(pair.getStudentID());
                     student.setPassword(RandomStringUtils.randomAlphanumeric(6));
-                    student.setUsername(student.getName().replaceAll(" ", "").toLowerCase(Locale.ROOT)+RandomStringUtils.randomAlphanumeric(3));
+                    if(splitName.length < 3){
+                        student.setUsername(splitName[0].toLowerCase(Locale.ROOT).charAt(0)+"x"+splitName[1].toLowerCase(Locale.ROOT).charAt(0)+RandomStringUtils.randomNumeric(3));
+                    }
+                    else{
+                        student.setUsername(splitName[0].toLowerCase(Locale.ROOT).charAt(0)+splitName[1].toLowerCase(Locale.ROOT).charAt(0)+splitName[2].toLowerCase(Locale.ROOT).charAt(0)+RandomStringUtils.randomNumeric(3));
+                    }
                     student.setTasks(new ArrayList<>());
                     student.setCourseName(course.getCourseName());
                     student.setCourseID(course.getCourseID());
