@@ -92,25 +92,27 @@ public class SeeProgressController {
         try {
             List<JsonObject> students = NetworkManager.getClassData(m.getText());
             for(JsonObject j : students){
-                String title = j.get("username").getAsString() + " - " + addUpScores(j) + " pts";
-                ObservableList<StudentTableObject> objects = FXCollections.observableArrayList();
-                for(JsonElement t : j.get("tasks").getAsJsonArray()){
-                    JsonObject task = (JsonObject) t;
-                    String taskName = task.get("taskID").getAsString();
-                    int testsPassed = task.get("score").getAsInt()/10;
-                    int totalTests = task.get("totalTests").getAsInt();
-                    String value = testsPassed + " / " + totalTests;
-                    JsonArray fileNames = task.getAsJsonArray("fileNames");
-                    String fileName = "";
-                    for(JsonElement e : fileNames){
-                        JsonObject file = (JsonObject) e;
-                        if(file.get("type").getAsString().equals("start")){
-                            fileName = file.get("fileName").getAsString();
+                if(!j.get("teacher").getAsBoolean()) {
+                    String title = j.get("name").getAsString() + " - " + j.get("username").getAsString() + " - " + addUpScores(j) + " pts";
+                    ObservableList<StudentTableObject> objects = FXCollections.observableArrayList();
+                    for (JsonElement t : j.get("tasks").getAsJsonArray()) {
+                        JsonObject task = (JsonObject) t;
+                        String taskName = task.get("taskID").getAsString();
+                        int testsPassed = task.get("score").getAsInt() / 10;
+                        int totalTests = task.get("totalTests").getAsInt();
+                        String value = testsPassed + " / " + totalTests;
+                        JsonArray fileNames = task.getAsJsonArray("fileNames");
+                        String fileName = "";
+                        for (JsonElement e : fileNames) {
+                            JsonObject file = (JsonObject) e;
+                            if (file.get("type").getAsString().equals("start")) {
+                                fileName = file.get("fileName").getAsString();
+                            }
                         }
+                        objects.add(new StudentTableObject(taskName, value, fileName, j.get("username").getAsString()));
                     }
-                    objects.add(new StudentTableObject(taskName, value, fileName,j.get("username").getAsString()));
+                    studentsInClass.add(new Pair<>(title, objects));
                 }
-                studentsInClass.add(new Pair<>(title, objects));
             }
             addStudents();
             studentsInClass.clear();

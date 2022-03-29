@@ -6,63 +6,55 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kxw959.programmingapplication.controllers.RegisterController">
    <children>
-      <GridPane alignment="TOP_CENTER" layoutX="87.0" prefHeight="396.0" prefWidth="226.0" AnchorPane.leftAnchor="87.0" AnchorPane.rightAnchor="87.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" />
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints minHeight="10.0" percentHeight="20.0" vgrow="SOMETIMES" />
-            <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="174.0" minHeight="10.0" percentHeight="25.0" prefHeight="155.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="164.0" minHeight="0.0" percentHeight="25.0" prefHeight="164.0" vgrow="SOMETIMES" />
-            <RowConstraints percentHeight="15.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="48.0" minHeight="10.0" percentHeight="15.0" prefHeight="18.0" valignment="CENTER" vgrow="SOMETIMES" />
-        </rowConstraints>
+      <VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="400.0" spacing="10.0">
          <children>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onClickRegister" text="Register" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="5" GridPane.valignment="CENTER">
-               <GridPane.margin>
-                  <Insets />
-               </GridPane.margin></Button>
-            <VBox alignment="CENTER" spacing="10.0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
-               <children>
-                  <Label text="Password" />
-                  <PasswordField fx:id="password" alignment="CENTER" />
-               </children>
-            </VBox>
-            <VBox alignment="CENTER" spacing="10.0" GridPane.rowIndex="2">
-               <children>
-                  <Label text="Username" />
-                  <TextField fx:id="username" alignment="BOTTOM_CENTER" />
-               </children>
-            </VBox>
-            <Label alignment="CENTER" text="Register" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <Label text="Register">
                <font>
-                  <Font size="33.0" />
+                  <Font size="34.0" />
                </font>
             </Label>
-            <Label fx:id="responseText" alignment="CENTER" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
-            <VBox alignment="CENTER" spacing="10.0" GridPane.rowIndex="1">
+            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Label text="OAUTH TOKEN" />
+                  <Label text="OAUTH Token" />
                   <PasswordField fx:id="oauth" />
                </children>
             </VBox>
-            <VBox alignment="CENTER" spacing="10.0" GridPane.rowIndex="4">
+            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Label text="Course Name" />
-                  <TextField fx:id="courseName" alignment="BOTTOM_CENTER" />
+                  <Label text="Username" />
+                  <TextField fx:id="username" />
                </children>
             </VBox>
+            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label text="Password" />
+                  <PasswordField fx:id="password" />
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label text="Course Name" />
+                  <TextField fx:id="courseName" />
+               </children>
+            </VBox>
+            <BorderPane prefHeight="200.0" prefWidth="360.0">
+               <left>
+                  <Button mnemonicParsing="false" onAction="#onClickBack" text="Back" BorderPane.alignment="CENTER" />
+               </left>
+               <right>
+                  <Button mnemonicParsing="false" onAction="#onClickRegister" text="Register" BorderPane.alignment="CENTER" />
+               </right>
+            </BorderPane>
          </children>
-      </GridPane>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="396.0" mnemonicParsing="false" onAction="#onClickBack" prefHeight="25.0" prefWidth="72.0" text="Back" textAlignment="CENTER" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="314.0" AnchorPane.topAnchor="396.0" />
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </VBox>
    </children>
 </AnchorPane>

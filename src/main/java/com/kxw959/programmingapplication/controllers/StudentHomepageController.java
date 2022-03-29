@@ -171,9 +171,11 @@ public class StudentHomepageController {
             List<Pair<String, Integer>> orderedScore = new ArrayList<>();
             System.out.println(students);
             for(JsonObject s : students){
-                String name  = s.get("name").getAsString();
-                Integer score = addUpScores(s);
-                orderedScore.add(new Pair<>(name, score));
+                if(!s.get("teacher").getAsBoolean()){
+                    String name  = s.get("name").getAsString();
+                    Integer score = addUpScores(s);
+                    orderedScore.add(new Pair<>(name, score));
+                }
             }
             orderedScore.sort(Collections.reverseOrder(Comparator.comparing(Pair::getValue)));
             int place =  1;

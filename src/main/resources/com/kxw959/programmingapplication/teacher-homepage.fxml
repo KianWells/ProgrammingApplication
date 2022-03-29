@@ -20,7 +20,7 @@
                <children>
                   <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onClickTask" prefWidth="113.0" styleClass="homePageCard" text="Upload Tasks" HBox.hgrow="ALWAYS" />
                   <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onClickProgress" prefWidth="113.0" styleClass="homePageCard" text="See Progress" HBox.hgrow="ALWAYS" />
-                  <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onClickRegister" prefWidth="113.0" styleClass="homePageCard" text="Register Students" HBox.hgrow="ALWAYS" />
+                  <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onClickRegister" prefWidth="113.0" styleClass="homePageCard" text="Manage Students" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
             <Button layoutX="1094.0" layoutY="627.0" mnemonicParsing="false" onAction="#onClickLogOut" prefHeight="64.0" prefWidth="146.0" text="Log Out" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="1094.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="627.0" />

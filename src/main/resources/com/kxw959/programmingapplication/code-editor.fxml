@@ -27,7 +27,7 @@
                   <Pane HBox.hgrow="ALWAYS" />
                   <Button fx:id="testButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onCLickTest" prefHeight="102.0" prefWidth="134.0" text="Save and Test Solution" textAlignment="CENTER" wrapText="true">
                      <font>
-                        <Font size="16.0" />
+                        <Font size="13.0" />
                      </font></Button>
                </children>
                <BorderPane.margin>

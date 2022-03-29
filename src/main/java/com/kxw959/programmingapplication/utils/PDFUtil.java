@@ -44,9 +44,11 @@ public class PDFUtil {
             table.addCell(header);
         }
         for(JsonObject student : jsonList){
-            table.addCell(student.get("name").getAsString());
-            table.addCell(student.get("username").getAsString());
-            table.addCell(student.get("password").getAsString());
+            if(!student.get("teacher").getAsBoolean()){
+                table.addCell(student.get("name").getAsString());
+                table.addCell(student.get("username").getAsString());
+                table.addCell(student.get("password").getAsString());
+            }
         }
         try{
             document.add(table);
