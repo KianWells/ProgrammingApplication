@@ -19,8 +19,8 @@ public class S3Config {
                 .withCredentials(
                         new AWSStaticCredentialsProvider(
                                 new BasicAWSCredentials(
-                                        "AKIAZMVRBYW7KODJRMGM",
-                                        "Ftd2PkPpvcoyYc6RlBu2IO6cnKzeEChFWYOtAmtr"
+                                        "******",
+                                        "******"
                                 )
                         )
                 )
